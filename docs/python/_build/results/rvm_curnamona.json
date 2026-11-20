@@ -1,0 +1,799 @@
+{
+ "method": "rvm",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_k",
+   "kind": "continuous",
+   "description": "SA_RAD_K (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16922,
+   "min": 0.0,
+   "max": 8.675689697265625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "RBF, tuned γ, 1:1 non-deposits (default)",
+   "cfg": {
+    "label": "RBF, tuned γ, 1:1 non-deposits (default)",
+    "neg_ratio": 1.0
+   },
+   "mean_test_auc": 0.8492485198117503,
+   "sd_test_auc": 0.09950197992400908,
+   "mean_train_auc": 0.9024496864097785,
+   "seconds": 2.3333339350564137,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8859369465108041,
+     "train_auc": 0.8992266367554164,
+     "seconds": 2.397686004638672
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9462156098712953,
+     "train_auc": 0.8907452230552768,
+     "seconds": 2.321756362915039
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.7712244656984296,
+     "train_auc": 0.8823031662632583,
+     "seconds": 2.720470905303955
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8067068130830086,
+     "train_auc": 0.8900072810280024,
+     "seconds": 2.6133124828338623
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6806588735387885,
+     "train_auc": 0.9433260523053308,
+     "seconds": 2.469806671142578
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9380682489077813,
+     "train_auc": 0.90539583210343,
+     "seconds": 2.134091854095459
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9159286810721454,
+     "train_auc": 0.9061436133577346,
+     "seconds": 1.676213264465332
+    }
+   ]
+  },
+  {
+   "label": "RBF, tuned γ, 1:3 non-deposits",
+   "cfg": {
+    "label": "RBF, tuned γ, 1:3 non-deposits",
+    "neg_ratio": 3.0
+   },
+   "mean_test_auc": 0.8698952482161834,
+   "sd_test_auc": 0.12224412998847387,
+   "mean_train_auc": 0.9058470309429634,
+   "seconds": 3.1092442103794644,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9566064470421537,
+     "train_auc": 0.8982131963712932,
+     "seconds": 3.6255977153778076
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9393671035541387,
+     "train_auc": 0.8879213648975737,
+     "seconds": 3.822037935256958
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9485181249262015,
+     "train_auc": 0.8826475392093197,
+     "seconds": 2.806452989578247
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8668673987483765,
+     "train_auc": 0.9142904933388433,
+     "seconds": 2.679594039916992
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6046168378793246,
+     "train_auc": 0.9445953125922427,
+     "seconds": 2.8541738986968994
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.876844963986303,
+     "train_auc": 0.9069799476553122,
+     "seconds": 2.7603161334991455
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.896445861376786,
+     "train_auc": 0.9062813625361592,
+     "seconds": 3.2165367603302
+    }
+   ]
+  },
+  {
+   "label": "RBF, tuned γ, 1:5 non-deposits",
+   "cfg": {
+    "label": "RBF, tuned γ, 1:5 non-deposits",
+    "neg_ratio": 5.0
+   },
+   "mean_test_auc": 0.8705531096604424,
+   "sd_test_auc": 0.1272093041424899,
+   "mean_train_auc": 0.9023512941394752,
+   "seconds": 2.8110144478934154,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9567835635848388,
+     "train_auc": 0.8947694669106795,
+     "seconds": 3.3629610538482666
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9342307238162711,
+     "train_auc": 0.8893382135899404,
+     "seconds": 2.5512311458587646
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9687684496398631,
+     "train_auc": 0.8924769270126138,
+     "seconds": 2.4187068939208984
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8611996693824536,
+     "train_auc": 0.9126079855166579,
+     "seconds": 2.468674898147583
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6017239343488016,
+     "train_auc": 0.9348052816970699,
+     "seconds": 2.999357223510742
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8459086078639745,
+     "train_auc": 0.8997677942420843,
+     "seconds": 2.9575369358062744
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9252568189868934,
+     "train_auc": 0.8926933900072811,
+     "seconds": 2.918632984161377
+    }
+   ]
+  },
+  {
+   "label": "linear (relevance determination), 1:1",
+   "cfg": {
+    "label": "linear (relevance determination), 1:1",
+    "neg_ratio": 1.0,
+    "kernel": "linear"
+   },
+   "mean_test_auc": 0.854562016092303,
+   "sd_test_auc": 0.10417637808846024,
+   "mean_train_auc": 0.9078528276532882,
+   "seconds": 0.8554738249097552,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8593694651080411,
+     "train_auc": 0.8944349331916485,
+     "seconds": 0.7548649311065674
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9783917817924194,
+     "train_auc": 0.9084066355747094,
+     "seconds": 0.6485123634338379
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.8776715078521667,
+     "train_auc": 0.9107090146998051,
+     "seconds": 0.8867747783660889
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8287873420710827,
+     "train_auc": 0.9029163468917881,
+     "seconds": 0.6885886192321777
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6707993859959853,
+     "train_auc": 0.9526536395300785,
+     "seconds": 0.8080389499664307
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9644586137678592,
+     "train_auc": 0.8935985988940709,
+     "seconds": 1.5647871494293213
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8024560160585665,
+     "train_auc": 0.8922506247909164,
+     "seconds": 0.6367499828338623
+    }
+   ]
+  },
+  {
+   "label": "linear (relevance determination), 1:3",
+   "cfg": {
+    "label": "linear (relevance determination), 1:3",
+    "neg_ratio": 3.0,
+    "kernel": "linear"
+   },
+   "mean_test_auc": 0.8705615437815225,
+   "sd_test_auc": 0.10658945141841011,
+   "mean_train_auc": 0.9168304195165285,
+   "seconds": 0.8424508571624756,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9490494745542567,
+     "train_auc": 0.8952220713540745,
+     "seconds": 0.8832941055297852
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.974200023615539,
+     "train_auc": 0.9093610405966508,
+     "seconds": 0.7043099403381348
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9474554256700909,
+     "train_auc": 0.9066257354822205,
+     "seconds": 0.6754641532897949
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8369937418821585,
+     "train_auc": 0.9251431607532913,
+     "seconds": 0.7040016651153564
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6657220451056796,
+     "train_auc": 0.9443985280516363,
+     "seconds": 1.2620837688446045
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8923131420474673,
+     "train_auc": 0.9238837396934096,
+     "seconds": 0.7011520862579346
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8281969535954659,
+     "train_auc": 0.9131786606844167,
+     "seconds": 0.9668502807617188
+    }
+   ]
+  },
+  {
+   "label": "RBF, γ = 1/p (not tuned), 1:3",
+   "cfg": {
+    "label": "RBF, γ = 1/p (not tuned), 1:3",
+    "neg_ratio": 3.0,
+    "tune": false
+   },
+   "mean_test_auc": 0.8210279506772599,
+   "sd_test_auc": 0.1094232858776293,
+   "mean_train_auc": 0.9097546096778638,
+   "seconds": 1.2227161271231515,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8839296256937065,
+     "train_auc": 0.8916602711690971,
+     "seconds": 1.0471861362457275
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9437950171212658,
+     "train_auc": 0.9035362181946986,
+     "seconds": 1.5711123943328857
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.8083008619671744,
+     "train_auc": 0.9077277289096168,
+     "seconds": 1.3538587093353271
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.7767150785216672,
+     "train_auc": 0.9066552531633115,
+     "seconds": 1.3446581363677979
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6046168378793246,
+     "train_auc": 0.9445953125922427,
+     "seconds": 0.9415769577026367
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8651552721690873,
+     "train_auc": 0.9233917783418935,
+     "seconds": 1.1175634860992432
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8646829613885937,
+     "train_auc": 0.8907157053741859,
+     "seconds": 1.1830570697784424
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "RBF, tuned γ, 1:3 non-deposits",
+  "neg_ratio": 3.0
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 4.559650421142578,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9090717406339086,
+    "auc_lo": 0.8330901812248563,
+    "auc_hi": 0.9850533000429609,
+    "sr_auc": 0.9093116384942883,
+    "pa_prediction": 85.71428571428572,
+    "pa_area": 14.285714285714281,
+    "tpr_at": {
+     "0.05": 0.42857142857142855,
+     "0.1": 0.5714285714285714,
+     "0.2": 0.8571428571428571,
+     "0.3": 0.8571428571428571
+    }
+   }
+  },
+  "messages": [
+   "non-deposit samples are at least 2,814 map units apart (auto: ½·√(area / n))",
+   "3 random non-deposit samples: one RVM each, scores averaged; tuning, importance and relevance vectors refer to sample 1"
+  ],
+  "tables": {
+   "relevance": [
+    {
+     "row": 103,
+     "col": 182,
+     "cls": "deposit",
+     "weight": 12.894970013200066,
+     "alpha": 0.005268688118815308,
+     "rad_th": 114.57223510742188,
+     "rad_u": 375.3955078125,
+     "rad_k": 3.997664213180542,
+     "geochem_nb_log_idw": 1.5074814558029175,
+     "aster_silica_index": 37.84171676635742
+    },
+    {
+     "row": 124,
+     "col": 139,
+     "cls": "non-deposit",
+     "weight": -14.514496760637464,
+     "alpha": 0.004222318013210558,
+     "rad_th": 23.69603157043457,
+     "rad_u": 153.62583923339844,
+     "rad_k": 2.055349826812744,
+     "geochem_nb_log_idw": 0.8678131103515625,
+     "aster_silica_index": 50.835296630859375
+    }
+   ],
+   "tuning": [
+    {
+     "gamma": 0.003125,
+     "gamma_factor": 0.015625,
+     "log2_gamma": -8.321928094887362,
+     "cv_auc": 0.5782312925170068,
+     "selected": false
+    },
+    {
+     "gamma": 0.0125,
+     "gamma_factor": 0.0625,
+     "log2_gamma": -6.321928094887363,
+     "cv_auc": 0.8027210884353742,
+     "selected": true
+    },
+    {
+     "gamma": 0.05,
+     "gamma_factor": 0.25,
+     "log2_gamma": -4.321928094887363,
+     "cv_auc": 0.7891156462585034,
+     "selected": false
+    },
+    {
+     "gamma": 0.2,
+     "gamma_factor": 1.0,
+     "log2_gamma": -2.321928094887362,
+     "cv_auc": 0.8027210884353742,
+     "selected": false
+    },
+    {
+     "gamma": 0.8,
+     "gamma_factor": 4.0,
+     "log2_gamma": -0.3219280948873623,
+     "cv_auc": 0.7687074829931972,
+     "selected": false
+    },
+    {
+     "gamma": 3.2,
+     "gamma_factor": 16.0,
+     "log2_gamma": 1.6780719051126378,
+     "cv_auc": 0.40816326530612246,
+     "selected": false
+    }
+   ],
+   "importance": [
+    {
+     "rank": 1,
+     "layer": "geochem_nb_log_idw",
+     "columns": 1,
+     "permutation_auc_drop": 0.14557823129251704,
+     "permutation_sd": 0.006937441515092196
+    },
+    {
+     "rank": 2,
+     "layer": "rad_k",
+     "columns": 1,
+     "permutation_auc_drop": 0.1401360544217687,
+     "permutation_sd": 0.029053274155187225
+    },
+    {
+     "rank": 3,
+     "layer": "rad_th",
+     "columns": 1,
+     "permutation_auc_drop": 0.09523809523809526,
+     "permutation_sd": 0.052869004701293715
+    },
+    {
+     "rank": 4,
+     "layer": "rad_u",
+     "columns": 1,
+     "permutation_auc_drop": 0.07210884353741495,
+     "permutation_sd": 0.055532875189002844
+    },
+    {
+     "rank": 5,
+     "layer": "aster_silica_index",
+     "columns": 1,
+     "permutation_auc_drop": -0.004081632653061229,
+     "permutation_sd": 0.006937441515092232
+    }
+   ],
+   "sample_validation": [
+    {
+     "item": "Samples (deposits / non-deposits)",
+     "value": "7 / 21"
+    },
+    {
+     "item": "Training confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "19 / 2"
+    },
+    {
+     "item": "Training confusion: true deposit → predicted non-deposit / deposit",
+     "value": "3 / 4"
+    },
+    {
+     "item": "Training accuracy",
+     "value": "0.8214"
+    },
+    {
+     "item": "Training AUC",
+     "value": "0.9116"
+    },
+    {
+     "item": "Cross-validation",
+     "value": "5-fold (stratified)"
+    },
+    {
+     "item": "CV confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "19 / 2"
+    },
+    {
+     "item": "CV confusion: true deposit → predicted non-deposit / deposit",
+     "value": "6 / 1"
+    },
+    {
+     "item": "Cross-validated accuracy (mean of folds)",
+     "value": "0.7162"
+    },
+    {
+     "item": "Cross-validated AUC",
+     "value": "0.8027"
+    }
+   ],
+   "summary": [
+    {
+     "item": "Training deposits (cells)",
+     "value": "7"
+    },
+    {
+     "item": "Non-deposit samples per draw",
+     "value": "21"
+    },
+    {
+     "item": "Random draws (repeats)",
+     "value": "3"
+    },
+    {
+     "item": "Basis",
+     "value": "rbf"
+    },
+    {
+     "item": "γ (kernel width)",
+     "value": "0.0125 = 0.0625 × γ0 (tuned)"
+    },
+    {
+     "item": "Relevance vectors (sample 1)",
+     "value": "2 of 28 samples (1 deposits)"
+    },
+    {
+     "item": "Bias retained",
+     "value": "yes"
+    },
+    {
+     "item": "Iterations / converged",
+     "value": "23 / yes"
+    },
+    {
+     "item": "Log evidence (Laplace, sample 1)",
+     "value": "-14.186"
+    },
+    {
+     "item": "Evidence columns",
+     "value": "rad_th, rad_u, rad_k, geochem_nb_log_idw, aster_silica_index"
+    },
+    {
+     "item": "Study area (cells)",
+     "value": "16,945"
+    },
+    {
+     "item": "Min. distance of non-deposits from deposits",
+     "value": "800"
+    },
+    {
+     "item": "Min. spacing between non-deposits",
+     "value": "2,814"
+    },
+    {
+     "item": "Training AUC (samples)",
+     "value": "0.9116"
+    },
+    {
+     "item": "Cross-validated AUC (samples)",
+     "value": "0.8027"
+    },
+    {
+     "item": "Mean score in the study area",
+     "value": "0.1702"
+    }
+   ],
+   "repeats": [
+    {
+     "repeat": 1,
+     "seed": 42,
+     "deposits": 7,
+     "non_deposits": 21,
+     "relevance_vectors": 2,
+     "rv_deposits": 1,
+     "iterations": 23,
+     "converged": true,
+     "training_auc": 0.9115646258503401,
+     "cv_auc": 0.8027210884353742
+    },
+    {
+     "repeat": 2,
+     "seed": 1042,
+     "deposits": 7,
+     "non_deposits": 21,
+     "relevance_vectors": 2,
+     "rv_deposits": 1,
+     "iterations": 42,
+     "converged": true,
+     "training_auc": 0.9183673469387755,
+     "cv_auc": 0.8095238095238095
+    },
+    {
+     "repeat": 3,
+     "seed": 2042,
+     "deposits": 7,
+     "non_deposits": 21,
+     "relevance_vectors": 3,
+     "rv_deposits": 2,
+     "iterations": 26,
+     "converged": true,
+     "training_auc": 0.9047619047619048,
+     "cv_auc": 0.782312925170068
+    }
+   ],
+   "stats": {
+    "cv_auc": 0.8027210884353742,
+    "training_auc": 0.9115646258503401,
+    "relevance_vectors": 2,
+    "gamma": 0.0125,
+    "gamma0": 0.2,
+    "iterations": 23,
+    "log_evidence": -14.186175296695207,
+    "spacing": 2814.0802438892215,
+    "samples": 28
+   },
+   "params": {
+    "kernel": "rbf",
+    "gamma": 0.0125,
+    "tune": true,
+    "max_iter": 2000,
+    "neg_ratio": 3.0,
+    "min_distance": 800.0,
+    "min_spacing": 2814.0802438892215,
+    "repeats": 3,
+    "cv_folds": 5,
+    "missing": "exclude",
+    "seed": 42
+   }
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "rvm_curnamona_map.png",
+  "curves": "rvm_curnamona_curves.png"
+ },
+ "runtime_s": 85.50966691970825
+}

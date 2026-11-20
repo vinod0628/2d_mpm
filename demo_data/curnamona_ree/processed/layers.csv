@@ -1,0 +1,54 @@
+name,file,group,kind,description
+study_mask,rasters/study_mask.tif,mask,categorical,Study area (Clip_frame)
+grav_1vd,rasters/grav_1vd.tif,geophysics,continuous,"SA_GRAV_1VD_ONSHORE (reprojected to MGA54, 200 m, bilinear)"
+grav,rasters/grav.tif,geophysics,continuous,"SA_GRAV_ONSHORE (reprojected to MGA54, 200 m, bilinear)"
+grav_uc1000_residual,rasters/grav_uc1000_residual.tif,geophysics,continuous,"SA_GRAV_UC1000_RESIDUAL_ONSHORE (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi,rasters/mag_tmi.tif,geophysics,continuous,"SA_TMI (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp,rasters/mag_tmi_vrtp.tif,geophysics,continuous,"SA_TMI_VRTP (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_1vd,rasters/mag_tmi_vrtp_1vd.tif,geophysics,continuous,"SA_TMI_VRTP_1VD (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_agc,rasters/mag_tmi_vrtp_agc.tif,geophysics,continuous,"SA_TMI_VRTP_AGC (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_as,rasters/mag_tmi_vrtp_as.tif,geophysics,continuous,"SA_TMI_VRTP_AS (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_bige,rasters/mag_tmi_vrtp_bige.tif,geophysics,continuous,"SA_TMI_VRTP_BigE (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_bigt,rasters/mag_tmi_vrtp_bigt.tif,geophysics,continuous,"SA_TMI_VRTP_BigT (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_cauchy_3rd,rasters/mag_tmi_vrtp_cauchy_3rd.tif,geophysics,continuous,"SA_TMI_VRTP_CAUCHY_3rd (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_pseudograv,rasters/mag_tmi_vrtp_pseudograv.tif,geophysics,continuous,"SA_TMI_VRTP_PseudoGrav (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_tilt,rasters/mag_tmi_vrtp_tilt.tif,geophysics,continuous,"SA_TMI_VRTP_Tilt (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_tz,rasters/mag_tmi_vrtp_tz.tif,geophysics,continuous,"SA_TMI_VRTP_TZ (reprojected to MGA54, 200 m, bilinear)"
+mag_tmi_vrtp_tzz,rasters/mag_tmi_vrtp_tzz.tif,geophysics,continuous,"SA_TMI_VRTP_Tzz (reprojected to MGA54, 200 m, bilinear)"
+rad_dose,rasters/rad_dose.tif,geophysics,continuous,"SA_RAD_DOSE (reprojected to MGA54, 200 m, bilinear)"
+rad_k,rasters/rad_k.tif,geophysics,continuous,"SA_RAD_K (reprojected to MGA54, 200 m, bilinear)"
+rad_th,rasters/rad_th.tif,geophysics,continuous,"SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)"
+rad_u,rasters/rad_u.tif,geophysics,continuous,"SA_RAD_U (reprojected to MGA54, 200 m, bilinear)"
+aster_aloh_group_composition,rasters/aster_aloh_group_composition.tif,remote sensing,continuous,"AlOH_Group_Composition (reprojected to MGA54, 200 m, bilinear)"
+aster_aloh_group_content,rasters/aster_aloh_group_content.tif,remote sensing,continuous,"AlOH_Group_Content (reprojected to MGA54, 200 m, bilinear)"
+aster_feoh_group_content,rasters/aster_feoh_group_content.tif,remote sensing,continuous,"FeOH_Group_Content (reprojected to MGA54, 200 m, bilinear)"
+aster_ferric_oxide_composition,rasters/aster_ferric_oxide_composition.tif,remote sensing,continuous,"Ferric_Oxide_Composition (reprojected to MGA54, 200 m, bilinear)"
+aster_ferric_oxide_content,rasters/aster_ferric_oxide_content.tif,remote sensing,continuous,"Ferric_Oxide_Content (reprojected to MGA54, 200 m, bilinear)"
+aster_ferrous_iron_content_in_mgoh,rasters/aster_ferrous_iron_content_in_mgoh.tif,remote sensing,continuous,"Ferrous_Iron_Content_in_MgOH (reprojected to MGA54, 200 m, bilinear)"
+aster_ferrous_iron_index,rasters/aster_ferrous_iron_index.tif,remote sensing,continuous,"Ferrous_Iron_Index (reprojected to MGA54, 200 m, bilinear)"
+aster_green_vegetation,rasters/aster_green_vegetation.tif,remote sensing,continuous,"Green_Vegetation (reprojected to MGA54, 200 m, bilinear)"
+aster_gypsum_index,rasters/aster_gypsum_index.tif,remote sensing,continuous,"Gypsum_Index (reprojected to MGA54, 200 m, bilinear)"
+aster_kaolin_group_index,rasters/aster_kaolin_group_index.tif,remote sensing,continuous,"Kaolin_Group_Index (reprojected to MGA54, 200 m, bilinear)"
+aster_mgoh_group_composition,rasters/aster_mgoh_group_composition.tif,remote sensing,continuous,"MgOH_Group_Composition (reprojected to MGA54, 200 m, bilinear)"
+aster_mgoh_group_content,rasters/aster_mgoh_group_content.tif,remote sensing,continuous,"MgOH_Group_Content (reprojected to MGA54, 200 m, bilinear)"
+aster_opaque_index,rasters/aster_opaque_index.tif,remote sensing,continuous,"Opaque_Index (reprojected to MGA54, 200 m, bilinear)"
+aster_quartz_index,rasters/aster_quartz_index.tif,remote sensing,continuous,"Quartz_Index (reprojected to MGA54, 200 m, bilinear)"
+aster_silica_index,rasters/aster_silica_index.tif,remote sensing,continuous,"Silica_Index (reprojected to MGA54, 200 m, bilinear)"
+dem,rasters/dem.tif,topography,continuous,"DEM_9s (reprojected to MGA54, 200 m, bilinear)"
+dist_faults,rasters/dist_faults.tif,structure,continuous,Distance to Archean-Early Mesoproterozoic faults (m)
+dist_faults_class,rasters/dist_faults_class.tif,structure,categorical,"Distance to faults, 8 classes (use cumulative ASCENDING in WofE)"
+dist_granite,rasters/dist_granite.tif,geology,continuous,"Distance to felsic granite (m, 0 inside)"
+dist_mesoproterozoic,rasters/dist_mesoproterozoic.tif,geology,continuous,"Distance to Mesoproterozoic units (m, 0 inside)"
+geology_units,rasters/geology_units.tif,geology,categorical,Simplified units from the vector geology
+geochem_la_log_idw,rasters/geochem_la_log_idw.tif,geochemistry,continuous,"log10 La (ppm), surface samples, IDW (p=2, k=12, r<=6 km)"
+geochem_y_log_idw,rasters/geochem_y_log_idw.tif,geochemistry,continuous,"log10 Y (ppm), surface samples, IDW (p=2, k=12, r<=6 km)"
+geochem_th_log_idw,rasters/geochem_th_log_idw.tif,geochemistry,continuous,"log10 Th (ppm), surface samples, IDW (p=2, k=12, r<=6 km)"
+geochem_u3o8_log_idw,rasters/geochem_u3o8_log_idw.tif,geochemistry,continuous,"log10 U3O8 (ppm), surface samples, IDW (p=2, k=12, r<=6 km)"
+geochem_nb_log_idw,rasters/geochem_nb_log_idw.tif,geochemistry,continuous,"log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)"
+geochem_la_q8,rasters/geochem_la_q8.tif,geochemistry,categorical,"log10 La IDW, 8 quantile classes (use cumulative DESCENDING in WofE)"
+deposits,vectors/deposits.gpkg,deposits,vector,7 REE occurrences
+faults,vectors/faults.gpkg,structure,vector,Archean-Early Mesoproterozoic faults
+felsic_granite,vectors/felsic_granite.gpkg,geology,vector,Felsic granite polygons
+mesoproterozoic,vectors/mesoproterozoic.gpkg,geology,vector,Mesoproterozoic units
+geochem_samples,vectors/geochem_samples.gpkg,geochemistry,vector,Surface geochemical samples (615 x 27 elements)
+study_area,vectors/study_area.gpkg,mask,vector,Clip frame

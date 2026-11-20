@@ -1,0 +1,458 @@
+{
+  "format": "mpm-project",
+  "version": 1,
+  "name": "curnamona_ree",
+  "crs": "PROJCS[\"GDA94 / MGA zone 54\",GEOGCS[\"GDA94\",DATUM[\"Geocentric_Datum_of_Australia_1994\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6283\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4283\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",141],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",10000000],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"28354\"]]",
+  "layers": [
+    {
+      "name": "deposits",
+      "path": "vectors/deposits.gpkg",
+      "type": "vector",
+      "visible": true,
+      "categorical": false,
+      "style": {
+        "color": "#ffd54f",
+        "edgecolor": "#000000",
+        "markersize": 60,
+        "marker": "*"
+      }
+    },
+    {
+      "name": "faults",
+      "path": "vectors/faults.gpkg",
+      "type": "vector",
+      "visible": true,
+      "categorical": false,
+      "style": {
+        "color": "#ff7043",
+        "linewidth": 0.8
+      }
+    },
+    {
+      "name": "felsic_granite",
+      "path": "vectors/felsic_granite.gpkg",
+      "type": "vector",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "facecolor": "none",
+        "edgecolor": "#f48fb1",
+        "linewidth": 0.8
+      }
+    },
+    {
+      "name": "mesoproterozoic",
+      "path": "vectors/mesoproterozoic.gpkg",
+      "type": "vector",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "facecolor": "none",
+        "edgecolor": "#90caf9",
+        "linewidth": 0.6
+      }
+    },
+    {
+      "name": "geochem_samples",
+      "path": "vectors/geochem_samples.gpkg",
+      "type": "vector",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "color": "#80cbc4",
+        "markersize": 6
+      }
+    },
+    {
+      "name": "study_area",
+      "path": "vectors/study_area.gpkg",
+      "type": "vector",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "facecolor": "none",
+        "edgecolor": "#9e9e9e"
+      }
+    },
+    {
+      "name": "study_mask",
+      "path": "rasters/study_mask.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": true,
+      "style": {}
+    },
+    {
+      "name": "grav_1vd",
+      "path": "rasters/grav_1vd.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "grav",
+      "path": "rasters/grav.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "grav_uc1000_residual",
+      "path": "rasters/grav_uc1000_residual.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi",
+      "path": "rasters/mag_tmi.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp",
+      "path": "rasters/mag_tmi_vrtp.tif",
+      "type": "raster",
+      "visible": true,
+      "categorical": false,
+      "style": {
+        "cmap": "turbo"
+      }
+    },
+    {
+      "name": "mag_tmi_vrtp_1vd",
+      "path": "rasters/mag_tmi_vrtp_1vd.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_agc",
+      "path": "rasters/mag_tmi_vrtp_agc.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_as",
+      "path": "rasters/mag_tmi_vrtp_as.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_bige",
+      "path": "rasters/mag_tmi_vrtp_bige.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_bigt",
+      "path": "rasters/mag_tmi_vrtp_bigt.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_cauchy_3rd",
+      "path": "rasters/mag_tmi_vrtp_cauchy_3rd.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_pseudograv",
+      "path": "rasters/mag_tmi_vrtp_pseudograv.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_tilt",
+      "path": "rasters/mag_tmi_vrtp_tilt.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_tz",
+      "path": "rasters/mag_tmi_vrtp_tz.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "mag_tmi_vrtp_tzz",
+      "path": "rasters/mag_tmi_vrtp_tzz.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "rad_dose",
+      "path": "rasters/rad_dose.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "rad_k",
+      "path": "rasters/rad_k.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "rad_th",
+      "path": "rasters/rad_th.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "cmap": "viridis"
+      }
+    },
+    {
+      "name": "rad_u",
+      "path": "rasters/rad_u.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_aloh_group_composition",
+      "path": "rasters/aster_aloh_group_composition.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_aloh_group_content",
+      "path": "rasters/aster_aloh_group_content.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_feoh_group_content",
+      "path": "rasters/aster_feoh_group_content.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_ferric_oxide_composition",
+      "path": "rasters/aster_ferric_oxide_composition.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_ferric_oxide_content",
+      "path": "rasters/aster_ferric_oxide_content.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_ferrous_iron_content_in_mgoh",
+      "path": "rasters/aster_ferrous_iron_content_in_mgoh.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_ferrous_iron_index",
+      "path": "rasters/aster_ferrous_iron_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_green_vegetation",
+      "path": "rasters/aster_green_vegetation.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_gypsum_index",
+      "path": "rasters/aster_gypsum_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_kaolin_group_index",
+      "path": "rasters/aster_kaolin_group_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_mgoh_group_composition",
+      "path": "rasters/aster_mgoh_group_composition.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_mgoh_group_content",
+      "path": "rasters/aster_mgoh_group_content.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_opaque_index",
+      "path": "rasters/aster_opaque_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_quartz_index",
+      "path": "rasters/aster_quartz_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "aster_silica_index",
+      "path": "rasters/aster_silica_index.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "dem",
+      "path": "rasters/dem.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "dist_faults",
+      "path": "rasters/dist_faults.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "dist_faults_class",
+      "path": "rasters/dist_faults_class.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": true,
+      "style": {}
+    },
+    {
+      "name": "dist_granite",
+      "path": "rasters/dist_granite.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "dist_mesoproterozoic",
+      "path": "rasters/dist_mesoproterozoic.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geology_units",
+      "path": "rasters/geology_units.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": true,
+      "style": {}
+    },
+    {
+      "name": "geochem_la_log_idw",
+      "path": "rasters/geochem_la_log_idw.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geochem_y_log_idw",
+      "path": "rasters/geochem_y_log_idw.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geochem_th_log_idw",
+      "path": "rasters/geochem_th_log_idw.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geochem_u3o8_log_idw",
+      "path": "rasters/geochem_u3o8_log_idw.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geochem_nb_log_idw",
+      "path": "rasters/geochem_nb_log_idw.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": false,
+      "style": {}
+    },
+    {
+      "name": "geochem_la_q8",
+      "path": "rasters/geochem_la_q8.tif",
+      "type": "raster",
+      "visible": false,
+      "categorical": true,
+      "style": {}
+    }
+  ]
+}

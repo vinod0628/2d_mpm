@@ -1,0 +1,1349 @@
+{
+ "method": "wofe",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th@q8",
+   "kind": "descending",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear) — reclassified into 8 quantile classes",
+   "n_values": 8,
+   "min": 1.0,
+   "max": 8.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "rad_u@q8",
+   "kind": "descending",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear) — reclassified into 8 quantile classes",
+   "n_values": 8,
+   "min": 1.0,
+   "max": 8.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "geochem_nb_log_idw@q8",
+   "kind": "descending",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km) — reclassified into 8 quantile classes",
+   "n_values": 8,
+   "min": 1.0,
+   "max": 8.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "aster_silica_index@q8",
+   "kind": "ascending",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear) — reclassified into 8 quantile classes",
+   "n_values": 8,
+   "min": 1.0,
+   "max": 8.0,
+   "dtype": "uint8"
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "max C, Stud(C) ≥ 1.0",
+   "cfg": {
+    "label": "max C, Stud(C) ≥ 1.0",
+    "criterion": "max_contrast",
+    "min_stud": 1.0,
+    "zero_deposit": "zero"
+   },
+   "mean_test_auc": 0.8830187406170403,
+   "sd_test_auc": 0.1223639431211199,
+   "mean_train_auc": 0.9315224938785952,
+   "seconds": 0.21355938911437988,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.16701841354370117
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15868210792541504
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15741991996765137
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.16475796699523926
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6761424017003188,
+     "train_auc": 0.9660940236535018,
+     "seconds": 0.1487588882446289
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.3377265930175781
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.7793718266619436,
+     "train_auc": 0.9369207155085897,
+     "seconds": 0.3605518341064453
+    }
+   ]
+  },
+  {
+   "label": "max C, Stud(C) ≥ 1.5",
+   "cfg": {
+    "label": "max C, Stud(C) ≥ 1.5",
+    "criterion": "max_contrast",
+    "min_stud": 1.5,
+    "zero_deposit": "zero"
+   },
+   "mean_test_auc": 0.8830187406170403,
+   "sd_test_auc": 0.1223639431211199,
+   "mean_train_auc": 0.9315224938785952,
+   "seconds": 0.1819141592298235,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.2709662914276123
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.21031498908996582
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.16092181205749512
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.1584949493408203
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6761424017003188,
+     "train_auc": 0.9660940236535018,
+     "seconds": 0.15996098518371582
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15612220764160156
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.7793718266619436,
+     "train_auc": 0.9369207155085897,
+     "seconds": 0.1566178798675537
+    }
+   ]
+  },
+  {
+   "label": "max C, Stud(C) ≥ 1.96 (default)",
+   "cfg": {
+    "label": "max C, Stud(C) ≥ 1.96 (default)",
+    "criterion": "max_contrast",
+    "min_stud": 1.96,
+    "zero_deposit": "zero"
+   },
+   "mean_test_auc": 0.8966609314643321,
+   "sd_test_auc": 0.1030549278917437,
+   "mean_train_auc": 0.9280850896353584,
+   "seconds": 0.1564932210104806,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.18423056602478027
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.13558554649353027
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15189528465270996
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15551996231079102
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.7225469358838116,
+     "train_auc": 0.9559792982663283,
+     "seconds": 0.15773916244506836
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.16245555877685547
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.1480264663696289
+    }
+   ]
+  },
+  {
+   "label": "max C, Stud(C) ≥ 2.5",
+   "cfg": {
+    "label": "max C, Stud(C) ≥ 2.5",
+    "criterion": "max_contrast",
+    "min_stud": 2.5,
+    "zero_deposit": "zero"
+   },
+   "mean_test_auc": 0.8764316920533711,
+   "sd_test_auc": 0.17002430876937896,
+   "mean_train_auc": 0.9081852529665271,
+   "seconds": 0.16675162315368652,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9022907072853937,
+     "train_auc": 0.9165387567152724,
+     "seconds": 0.1691741943359375
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9904061872712244,
+     "train_auc": 0.8858256095401146,
+     "seconds": 0.16612625122070312
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9246664305112764,
+     "train_auc": 0.8968160261329869,
+     "seconds": 0.16428589820861816
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9246664305112764,
+     "train_auc": 0.8968160261329869,
+     "seconds": 0.1655874252319336
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5002951942378084,
+     "train_auc": 0.9589359859889406,
+     "seconds": 0.1676478385925293
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9904061872712244,
+     "train_auc": 0.8858256095401146,
+     "seconds": 0.17268729209899902
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9022907072853937,
+     "train_auc": 0.9165387567152724,
+     "seconds": 0.16175246238708496
+    }
+   ]
+  },
+  {
+   "label": "max Stud(C)",
+   "cfg": {
+    "label": "max Stud(C)",
+    "criterion": "max_studentized",
+    "min_stud": 1.96,
+    "zero_deposit": "zero"
+   },
+   "mean_test_auc": 0.8764316920533711,
+   "sd_test_auc": 0.17002430876937896,
+   "mean_train_auc": 0.9081852529665271,
+   "seconds": 0.1575280257633754,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9022907072853937,
+     "train_auc": 0.9165387567152724,
+     "seconds": 0.15865373611450195
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9904061872712244,
+     "train_auc": 0.8858256095401146,
+     "seconds": 0.15238690376281738
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9246664305112764,
+     "train_auc": 0.8968160261329869,
+     "seconds": 0.15065860748291016
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9246664305112764,
+     "train_auc": 0.8968160261329869,
+     "seconds": 0.1599287986755371
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5002951942378084,
+     "train_auc": 0.9589359859889406,
+     "seconds": 0.15464043617248535
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9904061872712244,
+     "train_auc": 0.8858256095401146,
+     "seconds": 0.16497254371643066
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9022907072853937,
+     "train_auc": 0.9165387567152724,
+     "seconds": 0.1614551544189453
+    }
+   ]
+  },
+  {
+   "label": "max C, Stud(C) ≥ 1.96, Haldane 0.5",
+   "cfg": {
+    "label": "max C, Stud(C) ≥ 1.96, Haldane 0.5",
+    "criterion": "max_contrast",
+    "min_stud": 1.96,
+    "zero_deposit": "haldane"
+   },
+   "mean_test_auc": 0.8966609314643321,
+   "sd_test_auc": 0.1030549278917437,
+   "mean_train_auc": 0.9280850896353584,
+   "seconds": 0.16971216882978166,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.15716171264648438
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.14435291290283203
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15852618217468262
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.15580368041992188
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.7225469358838116,
+     "train_auc": 0.9559792982663283,
+     "seconds": 0.16365838050842285
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9742885818868816,
+     "train_auc": 0.9236672766987426,
+     "seconds": 0.16334939002990723
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8284626284094935,
+     "train_auc": 0.9229736111931046,
+     "seconds": 0.2451329231262207
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "max C, Stud(C) ≥ 1.96 (default)",
+  "criterion": "max_contrast",
+  "min_stud": 1.96,
+  "zero_deposit": "zero"
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 0.1855909824371338,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9300937874264124,
+    "auc_lo": 0.8680757189627123,
+    "auc_hi": 0.9921118558901122,
+    "sr_auc": 0.9299161151625005,
+    "pa_prediction": 85.71428571428572,
+    "pa_area": 14.285714285714281,
+    "tpr_at": {
+     "0.05": 0.5714285714285714,
+     "0.1": 0.5714285714285714,
+     "0.2": 0.8571428571428571,
+     "0.3": 1.0
+    }
+   }
+  },
+  "messages": [
+   "only 7 training deposits: weights have large variances",
+   "CI ratio < 0.85: conditional independence is likely violated (posterior probabilities are inflated)"
+  ],
+  "tables": {
+   "prior": 0.010327530244910002,
+   "n_area": 677.8000000000001,
+   "ci": {
+    "Observed deposits N(D)": 7.0,
+    "Predicted deposits T": 18.363458799537177,
+    "CI ratio N(D)/T": 0.3811918046820474,
+    "s(T)": 10.522983843614366,
+    "Agterberg-Cheng z": 1.0798704025790968,
+    "Agterberg-Cheng p (one-tailed, T > N(D))": 0.14009994742734633,
+    "Probability of conditional dependence (%)": 85.99000525726537,
+    "Overall CI (%)": 28.019989485469267,
+    "Unique conditions": 16.0
+   },
+   "pairwise": [
+    {
+     "layer_1": "rad_th@q8",
+     "layer_2": "rad_u@q8",
+     "chi2": null,
+     "dof": 0,
+     "p_value": null,
+     "min_expected": null,
+     "n": 7,
+     "note": "single class among deposits"
+    },
+    {
+     "layer_1": "rad_th@q8",
+     "layer_2": "geochem_nb_log_idw@q8",
+     "chi2": null,
+     "dof": 0,
+     "p_value": null,
+     "min_expected": null,
+     "n": 7,
+     "note": "single class among deposits"
+    },
+    {
+     "layer_1": "rad_th@q8",
+     "layer_2": "aster_silica_index@q8",
+     "chi2": null,
+     "dof": 0,
+     "p_value": null,
+     "min_expected": null,
+     "n": 7,
+     "note": "single class among deposits"
+    },
+    {
+     "layer_1": "rad_u@q8",
+     "layer_2": "geochem_nb_log_idw@q8",
+     "chi2": 0.4666666666666667,
+     "dof": 1,
+     "p_value": 0.4945246678838707,
+     "min_expected": 0.2857142857142857,
+     "n": 7,
+     "note": "low expected counts"
+    },
+    {
+     "layer_1": "rad_u@q8",
+     "layer_2": "aster_silica_index@q8",
+     "chi2": 1.5555555555555556,
+     "dof": 1,
+     "p_value": 0.2123171607729613,
+     "min_expected": 0.42857142857142855,
+     "n": 7,
+     "note": "low expected counts"
+    },
+    {
+     "layer_1": "geochem_nb_log_idw@q8",
+     "layer_2": "aster_silica_index@q8",
+     "chi2": 3.7333333333333334,
+     "dof": 1,
+     "p_value": 0.0533368528291399,
+     "min_expected": 0.8571428571428571,
+     "n": 7,
+     "note": "low expected counts"
+    }
+   ],
+   "layers": [
+    {
+     "name": "rad_th@q8",
+     "type": "descending",
+     "threshold": 6.0,
+     "contrast": 3.1779054673979483,
+     "studentized": 2.1676848006833254,
+     "table": [
+      {
+       "cls": 8,
+       "label": "102.5 - 380",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 4,
+       "cum_area": 84.72,
+       "cum_deposits": 4,
+       "W+": 1.5578688659682776,
+       "s(W+)": 0.512238717268405,
+       "W-": -0.7190849513663241,
+       "s(W-)": 0.5788160491898189,
+       "C": 2.2769538173346016,
+       "s(C)": 0.7729272425451775,
+       "Stud(C)": 2.945883767580509,
+       "selected": false,
+       "gen_class": 2,
+       "weight": 0.9984351297562749,
+       "s_weight": 0.3832794085089066
+      },
+      {
+       "cls": 7,
+       "label": "74 - 102.5",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 169.44,
+       "cum_deposits": 4,
+       "W+": 0.8402466506935666,
+       "s(W+)": 0.5060083867165308,
+       "W-": -0.5640978770285948,
+       "s(W-)": 0.5790614136103486,
+       "C": 1.4043445277221616,
+       "s(C)": 0.7689971444419552,
+       "Stud(C)": 1.8262025260721408,
+       "selected": false,
+       "gen_class": 2,
+       "weight": 0.9984351297562749,
+       "s_weight": 0.3832794085089066
+      },
+      {
+       "cls": 6,
+       "label": "50.47 - 74",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 3,
+       "cum_area": 254.16,
+       "cum_deposits": 7,
+       "W+": 0.9984351297562749,
+       "s(W+)": 0.3832794085089066,
+       "W-": -2.1794703376416735,
+       "s(W-)": 1.4150478771969879,
+       "C": 3.1779054673979483,
+       "s(C)": 1.4660366979535808,
+       "Stud(C)": 2.1676848006833254,
+       "selected": true,
+       "gen_class": 2,
+       "weight": 0.9984351297562749,
+       "s_weight": 0.3832794085089066
+      },
+      {
+       "cls": 5,
+       "label": "39.93 - 50.47",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 338.88,
+       "cum_deposits": 7,
+       "W+": 0.7036975721529691,
+       "s(W+)": 0.3819296795689977,
+       "W-": -1.9563503909964681,
+       "s(W-)": 1.4152563544468109,
+       "C": 2.660047963149437,
+       "s(C)": 1.4658856807192553,
+       "Stud(C)": 1.8146353417165868,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      },
+      {
+       "cls": 4,
+       "label": "28.36 - 39.93",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 423.6,
+       "cum_deposits": 7,
+       "W+": 0.4763445011221821,
+       "s(W+)": 0.38112665469446333,
+       "W-": -1.6687076584215585,
+       "s(W-)": 1.4156037264385979,
+       "C": 2.1450521595437406,
+       "s(C)": 1.4660120863162889,
+       "Stud(C)": 1.463188591394021,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      },
+      {
+       "cls": 3,
+       "label": "18.81 - 28.36",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 508.32000000000005,
+       "cum_deposits": 7,
+       "W+": 0.291226410205732,
+       "s(W+)": 0.38059411025348283,
+       "W-": -1.263321225424563,
+       "s(W-)": 1.416298132889853,
+       "C": 1.554547635630295,
+       "s(C)": 1.466544332090552,
+       "Stud(C)": 1.0600072576151138,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      },
+      {
+       "cls": 2,
+       "label": "14.75 - 18.81",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 593.0400000000001,
+       "cum_deposits": 7,
+       "W+": 0.13508298331594135,
+       "s(W+)": 0.3802150852124865,
+       "W-": -0.5704100330663018,
+       "s(W-)": 1.418378658163252,
+       "C": 0.7054930163822432,
+       "s(C)": 1.4684554909687,
+       "Stud(C)": 0.48043200541056147,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      },
+      {
+       "cls": 1,
+       "label": "0 - 14.75",
+       "cells": 2119,
+       "area": 84.76,
+       "deposits": 0,
+       "cum_area": 677.8000000000001,
+       "cum_deposits": 7,
+       "W+": -2.2204460492503136e-16,
+       "s(W+)": 0.3799314413968047,
+       "W-": null,
+       "s(W-)": null,
+       "C": null,
+       "s(C)": null,
+       "Stud(C)": null,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      }
+     ],
+     "gen": [
+      {
+       "gen_class": 2,
+       "label": "pattern: class ≥ 6 (50.47 - 74)",
+       "area": 254.16,
+       "deposits": 7,
+       "weight": 0.9984351297562749,
+       "s_weight": 0.3832794085089066
+      },
+      {
+       "gen_class": 1,
+       "label": "outside pattern",
+       "area": 423.64,
+       "deposits": 0,
+       "weight": -2.1794703376416735,
+       "s_weight": 1.4150478771969879
+      }
+     ]
+    },
+    {
+     "name": "rad_u@q8",
+     "type": "descending",
+     "threshold": 8.0,
+     "contrast": 3.809503977373268,
+     "studentized": 3.5053602436441635,
+     "table": [
+      {
+       "cls": 8,
+       "label": "332.3 - 1618",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 6,
+       "cum_area": 84.72,
+       "cum_deposits": 6,
+       "W+": 1.9884230973777974,
+       "s(W+)": 0.42352085981588555,
+       "W-": -1.8210808799954705,
+       "s(W-)": 1.0008441242027766,
+       "C": 3.809503977373268,
+       "s(C)": 1.0867653286935546,
+       "Stud(C)": 3.5053602436441635,
+       "selected": true,
+       "gen_class": 2,
+       "weight": 1.9884230973777974,
+       "s_weight": 0.42352085981588555
+      },
+      {
+       "cls": 7,
+       "label": "244.4 - 332.3",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 169.44,
+       "cum_deposits": 6,
+       "W+": 1.2578743996124289,
+       "s(W+)": 0.41567429547866414,
+       "W-": -1.6666599298962967,
+       "s(W-)": 1.0009850084143743,
+       "C": 2.9245343295087256,
+       "s(C)": 1.0838616641398517,
+       "Stud(C)": 2.698254238772827,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 6,
+       "label": "181.7 - 244.4",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 254.16,
+       "cum_deposits": 6,
+       "W+": 0.8402466506935666,
+       "s(W+)": 0.4131541176748019,
+       "W-": -1.48395987196232,
+       "s(W-)": 1.0011823409743386,
+       "C": 2.324206522655887,
+       "s(C)": 1.0830800546730148,
+       "Stud(C)": 2.1459231130958014,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 5,
+       "label": "139.5 - 181.7",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 338.88,
+       "cum_deposits": 7,
+       "W+": 0.7036975721529691,
+       "s(W+)": 0.3819296795689977,
+       "W-": -1.9563503909964681,
+       "s(W-)": 1.4152563544468109,
+       "C": 2.660047963149437,
+       "s(C)": 1.4658856807192553,
+       "Stud(C)": 1.8146353417165868,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 4,
+       "label": "115.7 - 139.5",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 423.6,
+       "cum_deposits": 7,
+       "W+": 0.4763445011221821,
+       "s(W+)": 0.38112665469446333,
+       "W-": -1.6687076584215585,
+       "s(W-)": 1.4156037264385979,
+       "C": 2.1450521595437406,
+       "s(C)": 1.4660120863162889,
+       "Stud(C)": 1.463188591394021,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 3,
+       "label": "98.16 - 115.7",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 508.32000000000005,
+       "cum_deposits": 7,
+       "W+": 0.291226410205732,
+       "s(W+)": 0.38059411025348283,
+       "W-": -1.263321225424563,
+       "s(W-)": 1.416298132889853,
+       "C": 1.554547635630295,
+       "s(C)": 1.466544332090552,
+       "Stud(C)": 1.0600072576151138,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 2,
+       "label": "83.34 - 98.16",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 593.0400000000001,
+       "cum_deposits": 7,
+       "W+": 0.13508298331594135,
+       "s(W+)": 0.3802150852124865,
+       "W-": -0.5704100330663018,
+       "s(W-)": 1.418378658163252,
+       "C": 0.7054930163822432,
+       "s(C)": 1.4684554909687,
+       "Stud(C)": 0.48043200541056147,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      },
+      {
+       "cls": 1,
+       "label": "0 - 83.34",
+       "cells": 2119,
+       "area": 84.76,
+       "deposits": 0,
+       "cum_area": 677.8000000000001,
+       "cum_deposits": 7,
+       "W+": -2.2204460492503136e-16,
+       "s(W+)": 0.3799314413968047,
+       "W-": null,
+       "s(W-)": null,
+       "C": null,
+       "s(C)": null,
+       "Stud(C)": null,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      }
+     ],
+     "gen": [
+      {
+       "gen_class": 2,
+       "label": "pattern: class ≥ 8 (332.3 - 1618)",
+       "area": 84.72,
+       "deposits": 6,
+       "weight": 1.9884230973777974,
+       "s_weight": 0.42352085981588555
+      },
+      {
+       "gen_class": 1,
+       "label": "outside pattern",
+       "area": 593.0799999999999,
+       "deposits": 1,
+       "weight": -1.8210808799954705,
+       "s_weight": 1.0008441242027766
+      }
+     ]
+    },
+    {
+     "name": "geochem_nb_log_idw@q8",
+     "type": "descending",
+     "threshold": 6.0,
+     "contrast": 1.4423473408751986,
+     "studentized": 1.7161255990014,
+     "table": [
+      {
+       "cls": 8,
+       "label": "1.328 - 1.643",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 2,
+       "cum_area": 84.72,
+       "cum_deposits": 2,
+       "W+": 0.8402466506935666,
+       "s(W+)": 0.7156039231690478,
+       "W-": -0.20486419973799128,
+       "s(W-)": 0.4491107312439934,
+       "C": 1.0451108504315578,
+       "s(C)": 0.8448605942837237,
+       "Stud(C)": 1.2370216548182214,
+       "selected": false,
+       "gen_class": 2,
+       "weight": 0.653903532941896,
+       "s_weight": 0.4516785198685496
+      },
+      {
+       "cls": 7,
+       "label": "1.204 - 1.328",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 169.44,
+       "cum_deposits": 3,
+       "W+": 0.5465382854471095,
+       "s(W+)": 0.5825302605410697,
+       "W-": -0.27443505679139457,
+       "s(W-)": 0.5019787951319796,
+       "C": 0.820973342238504,
+       "s(C)": 0.7689760823381964,
+       "Stud(C)": 1.0676188259876713,
+       "selected": false,
+       "gen_class": 2,
+       "weight": 0.653903532941896,
+       "s_weight": 0.4516785198685496
+      },
+      {
+       "cls": 6,
+       "label": "1.136 - 1.204",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 2,
+       "cum_area": 254.16,
+       "cum_deposits": 5,
+       "W+": 0.653903532941896,
+       "s(W+)": 0.4516785198685496,
+       "W-": -0.7884438079333027,
+       "s(W-)": 0.708781836315217,
+       "C": 1.4423473408751986,
+       "s(C)": 0.8404672371966767,
+       "Stud(C)": 1.7161255990014,
+       "selected": true,
+       "gen_class": 2,
+       "weight": 0.653903532941896,
+       "s_weight": 0.4516785198685496
+      },
+      {
+       "cls": 5,
+       "label": "1.092 - 1.136",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 338.88,
+       "cum_deposits": 6,
+       "W+": 0.5465382854471095,
+       "s(W+)": 0.41191109747495674,
+       "W-": -1.2602483001841014,
+       "s(W-)": 1.0014785471007506,
+       "C": 1.8067865856312109,
+       "s(C)": 1.0828804331624309,
+       "Stud(C)": 1.6685005382862939,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      },
+      {
+       "cls": 4,
+       "label": "1.038 - 1.092",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 423.6,
+       "cum_deposits": 6,
+       "W+": 0.3197963135533664,
+       "s(W+)": 0.41117064910082324,
+       "W-": -0.9716188093762804,
+       "s(W-)": 1.0019727776129495,
+       "C": 1.2914151229296469,
+       "s(C)": 1.083056208033268,
+       "Stud(C)": 1.1923805185279717,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      },
+      {
+       "cls": 3,
+       "label": "0.9696 - 1.038",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 508.32000000000005,
+       "cum_deposits": 7,
+       "W+": 0.291226410205732,
+       "s(W+)": 0.38059411025348283,
+       "W-": -1.263321225424563,
+       "s(W-)": 1.416298132889853,
+       "C": 1.554547635630295,
+       "s(C)": 1.466544332090552,
+       "Stud(C)": 1.0600072576151138,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      },
+      {
+       "cls": 2,
+       "label": "0.87 - 0.9696",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 593.0400000000001,
+       "cum_deposits": 7,
+       "W+": 0.13508298331594135,
+       "s(W+)": 0.3802150852124865,
+       "W-": -0.5704100330663018,
+       "s(W-)": 1.418378658163252,
+       "C": 0.7054930163822432,
+       "s(C)": 1.4684554909687,
+       "Stud(C)": 0.48043200541056147,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      },
+      {
+       "cls": 1,
+       "label": "-1.026 - 0.87",
+       "cells": 2119,
+       "area": 84.76,
+       "deposits": 0,
+       "cum_area": 677.8000000000001,
+       "cum_deposits": 7,
+       "W+": -2.2204460492503136e-16,
+       "s(W+)": 0.3799314413968047,
+       "W-": null,
+       "s(W-)": null,
+       "C": null,
+       "s(C)": null,
+       "Stud(C)": null,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      }
+     ],
+     "gen": [
+      {
+       "gen_class": 2,
+       "label": "pattern: class ≥ 6 (1.136 - 1.204)",
+       "area": 254.16,
+       "deposits": 5,
+       "weight": 0.653903532941896,
+       "s_weight": 0.4516785198685496
+      },
+      {
+       "gen_class": 1,
+       "label": "outside pattern",
+       "area": 423.64,
+       "deposits": 2,
+       "weight": -0.7884438079333027,
+       "s_weight": 0.708781836315217
+      }
+     ]
+    },
+    {
+     "name": "aster_silica_index@q8",
+     "type": "ascending",
+     "threshold": 2.0,
+     "contrast": 1.4040236228204064,
+     "studentized": 1.8257872366665542,
+     "table": [
+      {
+       "cls": 1,
+       "label": "0 - 31.05",
+       "cells": 2119,
+       "area": 84.76,
+       "deposits": 2,
+       "cum_area": 84.76,
+       "cum_deposits": 2,
+       "W+": 0.8397632085763432,
+       "s(W+)": 0.7155998406566346,
+       "W-": -0.20479617946792467,
+       "s(W-)": 0.44911086001948675,
+       "C": 1.0445593880442678,
+       "s(C)": 0.8448572048193966,
+       "Stud(C)": 1.2363738890852698,
+       "selected": false,
+       "gen_class": 2,
+       "weight": 0.84000490042042,
+       "s_weight": 0.5060069429835868
+      },
+      {
+       "cls": 2,
+       "label": "31.05 - 40.98",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 2,
+       "cum_area": 169.48000000000002,
+       "cum_deposits": 4,
+       "W+": 0.84000490042042,
+       "s(W+)": 0.5060069429835868,
+       "W-": -0.5640187223999865,
+       "s(W-)": 0.5790615488605646,
+       "C": 1.4040236228204064,
+       "s(C)": 0.7689962962956264,
+       "Stud(C)": 1.8257872366665542,
+       "selected": true,
+       "gen_class": 2,
+       "weight": 0.84000490042042,
+       "s_weight": 0.5060069429835868
+      },
+      {
+       "cls": 3,
+       "label": "40.98 - 49.4",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 254.20000000000002,
+       "cum_deposits": 5,
+       "W+": 0.6537430064145426,
+       "s(W+)": 0.45167780672897,
+       "W-": -0.7883489357734665,
+       "s(W-)": 0.7087819950510444,
+       "C": 1.4420919421880092,
+       "s(C)": 0.840466987810962,
+       "Stud(C)": 1.715822231095607,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      },
+      {
+       "cls": 4,
+       "label": "49.4 - 56.61",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 338.92,
+       "cum_deposits": 6,
+       "W+": 0.546418129243901,
+       "s(W+)": 0.41191065934883697,
+       "W-": -1.2601299219655555,
+       "s(W-)": 1.0014787220096573,
+       "C": 1.8065480512094565,
+       "s(C)": 1.0828804282668008,
+       "Stud(C)": 1.6682802681187234,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      },
+      {
+       "cls": 5,
+       "label": "56.61 - 64.08",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 423.64,
+       "cum_deposits": 6,
+       "W+": 0.31970053269988585,
+       "s(W+)": 0.41117037020278446,
+       "W-": -0.9714608190133641,
+       "s(W-)": 1.0019730890105183,
+       "C": 1.2911613517132499,
+       "s(C)": 1.0830563902373573,
+       "Stud(C)": 1.1921460076795127,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      },
+      {
+       "cls": 6,
+       "label": "64.08 - 75.53",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 1,
+       "cum_area": 508.36,
+       "cum_deposits": 7,
+       "W+": 0.2911466240326335,
+       "s(W+)": 0.380593901177889,
+       "W-": -1.263085181519301,
+       "s(W-)": 1.416298624635857,
+       "C": 1.5542318055519344,
+       "s(C)": 1.466544752729771,
+       "Stud(C)": 1.0597915969894174,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      },
+      {
+       "cls": 7,
+       "label": "75.53 - 101.2",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 593.08,
+       "cum_deposits": 7,
+       "W+": 0.1350147309185494,
+       "s(W+)": 0.38021493206263557,
+       "W-": -0.5699380009593549,
+       "s(W-)": 1.4183806217975627,
+       "C": 0.7049527318779043,
+       "s(C)": 1.468457347986054,
+       "Stud(C)": 0.48006347126440285,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      },
+      {
+       "cls": 8,
+       "label": "101.2 - 238.6",
+       "cells": 2118,
+       "area": 84.72,
+       "deposits": 0,
+       "cum_area": 677.8000000000001,
+       "cum_deposits": 7,
+       "W+": -2.2204460492503136e-16,
+       "s(W+)": 0.3799314413968047,
+       "W-": null,
+       "s(W-)": null,
+       "C": null,
+       "s(C)": null,
+       "Stud(C)": null,
+       "selected": false,
+       "gen_class": 1,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      }
+     ],
+     "gen": [
+      {
+       "gen_class": 2,
+       "label": "pattern: class ≤ 2 (31.05 - 40.98)",
+       "area": 169.48000000000002,
+       "deposits": 4,
+       "weight": 0.84000490042042,
+       "s_weight": 0.5060069429835868
+      },
+      {
+       "gen_class": 1,
+       "label": "outside pattern",
+       "area": 508.31999999999994,
+       "deposits": 3,
+       "weight": -0.5640187223999865,
+       "s_weight": 0.5790615488605646
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "wofe_curnamona_map.png",
+  "curves": "wofe_curnamona_curves.png"
+ },
+ "runtime_s": 10.251384973526001
+}

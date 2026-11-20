@@ -1,0 +1,481 @@
+{
+ "method": "random_forest",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "split",
+ "search": [
+  {
+   "label": "1:1 non-deposits, √p, leaf 1",
+   "cfg": {
+    "label": "1:1 non-deposits, √p, leaf 1",
+    "neg_ratio": 1.0
+   },
+   "mean_test_auc": 0.8816681107208882,
+   "sd_test_auc": 0.037646615185003555,
+   "mean_train_auc": 0.9713174374797069,
+   "seconds": 22.949411153793335
+  },
+  {
+   "label": "1:3 non-deposits, √p, leaf 1",
+   "cfg": {
+    "label": "1:3 non-deposits, √p, leaf 1",
+    "neg_ratio": 3.0
+   },
+   "mean_test_auc": 0.8929577044723344,
+   "sd_test_auc": 0.013053750448348398,
+   "mean_train_auc": 0.9884103845550509,
+   "seconds": 22.015572834014893
+  },
+  {
+   "label": "1:5 non-deposits, √p, leaf 1",
+   "cfg": {
+    "label": "1:5 non-deposits, √p, leaf 1",
+    "neg_ratio": 5.0
+   },
+   "mean_test_auc": 0.8869684945111171,
+   "sd_test_auc": 0.017158990005332577,
+   "mean_train_auc": 0.9944249909637322,
+   "seconds": 22.230604505538942
+  },
+  {
+   "label": "1:10 non-deposits, √p, leaf 1",
+   "cfg": {
+    "label": "1:10 non-deposits, √p, leaf 1",
+    "neg_ratio": 10.0
+   },
+   "mean_test_auc": 0.8846576680756041,
+   "sd_test_auc": 0.013456235211514822,
+   "mean_train_auc": 0.998146735291828,
+   "seconds": 25.958039617538454
+  },
+  {
+   "label": "1:5 non-deposits, √p, leaf 5",
+   "cfg": {
+    "label": "1:5 non-deposits, √p, leaf 5",
+    "neg_ratio": 5.0,
+    "min_samples_leaf": 5
+   },
+   "mean_test_auc": 0.8979932224627885,
+   "sd_test_auc": 0.006950474158991108,
+   "mean_train_auc": 0.950254931058274,
+   "seconds": 25.19230537414551
+  },
+  {
+   "label": "1:5 non-deposits, all p (bagging), leaf 1",
+   "cfg": {
+    "label": "1:5 non-deposits, all p (bagging), leaf 1",
+    "neg_ratio": 5.0,
+    "max_features": "all"
+   },
+   "mean_test_auc": 0.8781181930483886,
+   "sd_test_auc": 0.02300360964839756,
+   "mean_train_auc": 0.9919488728471224,
+   "seconds": 26.56412801742554
+  }
+ ],
+ "selected": {
+  "label": "1:5 non-deposits, √p, leaf 5",
+  "neg_ratio": 5.0,
+  "min_samples_leaf": 5
+ },
+ "robust": [
+  {
+   "seed": 0,
+   "train_auc": 0.9578268663722049,
+   "test_auc": 0.8605850487220613,
+   "test_sr": 0.8612084114771771,
+   "test_pa": 77.63290898170257,
+   "seconds": 24.653363943099976
+  },
+  {
+   "seed": 1,
+   "train_auc": 0.9456034049771155,
+   "test_auc": 0.9165229996813234,
+   "test_sr": 0.9170147656997341,
+   "test_pa": 85.4541431900646,
+   "seconds": 31.363020420074463
+  },
+  {
+   "seed": 2,
+   "train_auc": 0.9515774755825797,
+   "test_auc": 0.9099962192034925,
+   "test_sr": 0.9104836304030007,
+   "test_pa": 83.8722255115745,
+   "seconds": 28.655269145965576
+  },
+  {
+   "seed": 3,
+   "train_auc": 0.9548831157256349,
+   "test_auc": 0.8383297609401056,
+   "test_sr": 0.8386206975763513,
+   "test_pa": 75.16217083663369,
+   "seconds": 24.262056589126587
+  },
+  {
+   "seed": 4,
+   "train_auc": 0.9462176773897539,
+   "test_auc": 0.9252962239294882,
+   "test_sr": 0.9259654148884328,
+   "test_pa": 84.16369636187862,
+   "seconds": 31.33267617225647
+  },
+  {
+   "seed": 5,
+   "train_auc": 0.9583570435763766,
+   "test_auc": 0.8813689765298524,
+   "test_sr": 0.882040124505089,
+   "test_pa": 77.77777777777779,
+   "seconds": 25.687448978424072
+  },
+  {
+   "seed": 6,
+   "train_auc": 0.9420694390024862,
+   "test_auc": 0.8941728145634181,
+   "test_sr": 0.8948051777577598,
+   "test_pa": 83.08849015620667,
+   "seconds": 24.951295852661133
+  },
+  {
+   "seed": 7,
+   "train_auc": 0.9539715636328986,
+   "test_auc": 0.8766543035933648,
+   "test_sr": 0.8773129347135874,
+   "test_pa": 80.64773290584044,
+   "seconds": 22.06840205192566
+  },
+  {
+   "seed": 8,
+   "train_auc": 0.9452650491409563,
+   "test_auc": 0.8802199360218341,
+   "test_sr": 0.8807741039916122,
+   "test_pa": 84.42484876005214,
+   "seconds": 25.54131031036377
+  },
+  {
+   "seed": 9,
+   "train_auc": 0.9595193635587606,
+   "test_auc": 0.8892434862488297,
+   "test_sr": 0.8895838563433112,
+   "test_pa": 80.0,
+   "seconds": 28.197046995162964
+  }
+ ],
+ "robust_summary": {
+  "train_auc_mean": 0.9515290998958766,
+  "train_auc_sd": 0.00631922083614555,
+  "test_auc_mean": 0.8872389769433771,
+  "test_auc_sd": 0.026192023219085453,
+  "test_auc_min": 0.8383297609401056,
+  "test_auc_max": 0.9252962239294882,
+  "test_sr_mean": 0.8877809117356057,
+  "test_pa_mean": 81.22239944817309,
+  "seconds_mean": 26.67118904590607
+ },
+ "reference": {
+  "seed": 42,
+  "seconds": 24.198829650878906,
+  "curves": {
+   "training": {
+    "deposits": 23,
+    "negatives": 338553,
+    "auc": 0.9487024637719687,
+    "auc_lo": 0.9266047062380848,
+    "auc_hi": 0.9708002213058528,
+    "sr_auc": 0.9491012147100689,
+    "pa_prediction": 87.95048796526162,
+    "pa_area": 12.049512034738374,
+    "tpr_at": {
+     "0.05": 0.6086956521739131,
+     "0.1": 0.782608695652174,
+     "0.2": 1.0,
+     "0.3": 1.0
+    }
+   },
+   "test": {
+    "deposits": 9,
+    "negatives": 338553,
+    "auc": 0.8964025655592411,
+    "auc_lo": 0.8168234061180228,
+    "auc_hi": 0.9759817250004592,
+    "sr_auc": 0.8970744257555545,
+    "pa_prediction": 85.90262532351242,
+    "pa_area": 14.097374676487568,
+    "tpr_at": {
+     "0.05": 0.2222222222222222,
+     "0.1": 0.7777777777777778,
+     "0.2": 0.8888888888888888,
+     "0.3": 0.8888888888888888
+    }
+   }
+  },
+  "messages": [
+   "non-deposit samples are at least 6,771 map units apart (auto: ½·√(area / n))",
+   "3 random non-deposit samples: 900 trees pooled; importances averaged; OOB and cross-validation refer to sample 1"
+  ],
+  "tables": {
+   "importance": [
+    {
+     "rank": 1,
+     "layer": "geology_host",
+     "impurity_pct": 26.289023966449108,
+     "permutation_auc_drop": 0.2398487712665406,
+     "permutation_sd": 0.02174435706052524
+    },
+    {
+     "rank": 2,
+     "layer": "sb_log_idw",
+     "impurity_pct": 42.141061717029636,
+     "permutation_auc_drop": 0.0855198487712665,
+     "permutation_sd": 0.010360547974293439
+    },
+    {
+     "rank": 3,
+     "layer": "as_log_idw",
+     "impurity_pct": 17.612007942411527,
+     "permutation_auc_drop": 0.004612476370510388,
+     "permutation_sd": 0.007297471979701941
+    },
+    {
+     "rank": 4,
+     "layer": "dist_faults",
+     "impurity_pct": 13.957906374109724,
+     "permutation_auc_drop": -0.009678638941398842,
+     "permutation_sd": 0.008401705523339643
+    }
+   ],
+   "importance_columns": [
+    {
+     "column": "sb_log_idw",
+     "layer": "sb_log_idw",
+     "impurity_pct": 42.141061717029636
+    },
+    {
+     "column": "as_log_idw",
+     "layer": "as_log_idw",
+     "impurity_pct": 17.612007942411527
+    },
+    {
+     "column": "dist_faults",
+     "layer": "dist_faults",
+     "impurity_pct": 13.957906374109724
+    },
+    {
+     "column": "geology_host[favourable host]",
+     "layer": "geology_host",
+     "impurity_pct": 13.60713852477216
+    },
+    {
+     "column": "geology_host[other]",
+     "layer": "geology_host",
+     "impurity_pct": 12.681885441676945
+    }
+   ],
+   "sample_validation": [
+    {
+     "item": "Samples (deposits / non-deposits)",
+     "value": "23 / 115"
+    },
+    {
+     "item": "OOB confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "111 / 4"
+    },
+    {
+     "item": "OOB confusion: true deposit → predicted non-deposit / deposit",
+     "value": "16 / 7"
+    },
+    {
+     "item": "OOB accuracy",
+     "value": "0.8551"
+    },
+    {
+     "item": "OOB AUC",
+     "value": "0.8469"
+    }
+   ],
+   "summary": [
+    {
+     "item": "Training deposits (cells)",
+     "value": "23"
+    },
+    {
+     "item": "Non-deposit samples per draw",
+     "value": "115"
+    },
+    {
+     "item": "Random draws (repeats)",
+     "value": "3"
+    },
+    {
+     "item": "Trees per forest / pooled",
+     "value": "300 / 900"
+    },
+    {
+     "item": "Features per split",
+     "value": "sqrt of 5 columns"
+    },
+    {
+     "item": "Min. samples per leaf / max. depth",
+     "value": "5 / unlimited"
+    },
+    {
+     "item": "Class weight",
+     "value": "none"
+    },
+    {
+     "item": "Min. distance of non-deposits from deposits",
+     "value": "1000"
+    },
+    {
+     "item": "Min. spacing between non-deposits",
+     "value": "6,771"
+    },
+    {
+     "item": "Study area (cells)",
+     "value": "338,585"
+    },
+    {
+     "item": "Evidence columns",
+     "value": "geology_host[other], geology_host[favourable host], dist_faults, as_log_idw, sb_log_idw"
+    },
+    {
+     "item": "OOB AUC (sample 1)",
+     "value": "0.8469"
+    },
+    {
+     "item": "OOB accuracy (sample 1)",
+     "value": "0.8551"
+    },
+    {
+     "item": "Mean score in the study area",
+     "value": "0.1184"
+    },
+    {
+     "item": "Mean tree-vote std",
+     "value": "0.1432"
+    }
+   ],
+   "repeats": [
+    {
+     "repeat": 1,
+     "seed": 42,
+     "deposits": 23,
+     "non_deposits": 115,
+     "oob_auc": 0.8468809073724007,
+     "oob_accuracy": 0.855072463768116
+    },
+    {
+     "repeat": 2,
+     "seed": 43,
+     "deposits": 23,
+     "non_deposits": 115,
+     "oob_auc": 0.8487712665406427,
+     "oob_accuracy": 0.8478260869565217
+    },
+    {
+     "repeat": 3,
+     "seed": 44,
+     "deposits": 23,
+     "non_deposits": 115,
+     "oob_auc": 0.8752362948960303,
+     "oob_accuracy": 0.8695652173913043
+    }
+   ],
+   "stats": {
+    "oob_auc": 0.8468809073724007,
+    "oob_accuracy": 0.855072463768116,
+    "n_trees": 900,
+    "spacing": 6771.252774076211
+   }
+  }
+ },
+ "sensitivity": [
+  {
+   "n_trees": 50,
+   "oob_auc": 0.8294896030245746,
+   "train_auc": 0.9473609488155409,
+   "test_auc": 0.9006712226577358,
+   "seconds": 7.055649995803833
+  },
+  {
+   "n_trees": 100,
+   "oob_auc": 0.8362948960302458,
+   "train_auc": 0.9475614825705153,
+   "test_auc": 0.8984281797991911,
+   "seconds": 10.603957653045654
+  },
+  {
+   "n_trees": 300,
+   "oob_auc": 0.8468809073724007,
+   "train_auc": 0.9487024637719687,
+   "test_auc": 0.8964025655592411,
+   "seconds": 25.520628929138184
+  },
+  {
+   "n_trees": 500,
+   "oob_auc": 0.8446124763705104,
+   "train_auc": 0.9487637861338004,
+   "test_auc": 0.8962844156683821,
+   "seconds": 40.65638470649719
+  },
+  {
+   "n_trees": 1000,
+   "oob_auc": 0.8415879017013232,
+   "train_auc": 0.9488218979007719,
+   "test_auc": 0.897083568402387,
+   "seconds": 72.8052670955658
+  }
+ ],
+ "figures": {
+  "map": "random_forest_carlin_map.png",
+  "curves": "random_forest_carlin_curves.png"
+ },
+ "runtime_s": 1176.294670343399
+}

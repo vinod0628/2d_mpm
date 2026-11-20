@@ -1,0 +1,254 @@
+{
+ "method": "fuzzy_logic",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "expert",
+ "search": [
+  {
+   "label": "OR within groups, gamma 0.9 between groups (default)",
+   "cfg": {
+    "label": "OR within groups, gamma 0.9 between groups (default)"
+   },
+   "mean_test_auc": 0.7778128073743255,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7778128073743255,
+   "seconds": 1.3968782424926758,
+   "pa_prediction": 69.60664328484481,
+   "pa_area": 30.3933567151552
+  },
+  {
+   "label": "OR within groups, gamma 0.7",
+   "cfg": {
+    "label": "OR within groups, gamma 0.7",
+    "gamma": 0.7
+   },
+   "mean_test_auc": 0.7803277385667828,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7803277385667828,
+   "seconds": 1.851750135421753,
+   "pa_prediction": 70.35489955966324,
+   "pa_area": 29.64510044033677
+  },
+  {
+   "label": "OR within groups, gamma 0.95",
+   "cfg": {
+    "label": "OR within groups, gamma 0.95",
+    "gamma": 0.95
+   },
+   "mean_test_auc": 0.775327044436174,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.775327044436174,
+   "seconds": 1.4818150997161865,
+   "pa_prediction": 69.625042999656,
+   "pa_area": 30.374957000343997
+  },
+  {
+   "label": "OR within groups, fuzzy AND between groups",
+   "cfg": {
+    "label": "OR within groups, fuzzy AND between groups",
+    "final_op": "and"
+   },
+   "mean_test_auc": 0.7761153257392492,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7761153257392492,
+   "seconds": 1.2280380725860596,
+   "pa_prediction": 71.875,
+   "pa_area": 28.125
+  },
+  {
+   "label": "OR within groups, algebraic product between groups",
+   "cfg": {
+    "label": "OR within groups, algebraic product between groups",
+    "final_op": "product"
+   },
+   "mean_test_auc": 0.7810079311806422,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7810079311806422,
+   "seconds": 1.312727928161621,
+   "pa_prediction": 70.6362035411793,
+   "pa_area": 29.363796458820705
+  },
+  {
+   "label": "OR within groups, geometric average between groups",
+   "cfg": {
+    "label": "OR within groups, geometric average between groups",
+    "final_op": "geomean"
+   },
+   "mean_test_auc": 0.7810079311806422,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7810079311806422,
+   "seconds": 1.4525601863861084,
+   "pa_prediction": 70.6362035411793,
+   "pa_area": 29.363796458820705
+  },
+  {
+   "label": "gamma 0.9 within and between groups",
+   "cfg": {
+    "label": "gamma 0.9 within and between groups",
+    "group_op": "gamma"
+   },
+   "mean_test_auc": 0.774379629998848,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.774379629998848,
+   "seconds": 1.3443450927734375,
+   "pa_prediction": 70.58641358360103,
+   "pa_area": 29.41358641639897
+  }
+ ],
+ "selected": {
+  "label": "OR within groups, gamma 0.9 between groups (default)"
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 1.485034465789795,
+  "curves": {
+   "training": {
+    "deposits": 32,
+    "negatives": 338553,
+    "auc": 0.7778128073743255,
+    "auc_lo": 0.679167212220481,
+    "auc_hi": 0.8764584025281696,
+    "sr_auc": 0.7783652923195062,
+    "pa_prediction": 69.60664328484481,
+    "pa_area": 30.3933567151552,
+    "tpr_at": {
+     "0.05": 0.34375,
+     "0.1": 0.59375,
+     "0.2": 0.625,
+     "0.3": 0.6875
+    }
+   }
+  },
+  "messages": [],
+  "tables": {
+   "inference_network": [
+    {
+     "node": "group trap",
+     "inputs": "geology_host",
+     "operator": "—",
+     "gamma": null,
+     "mean": 0.4564670614469041
+    },
+    {
+     "node": "group pathway",
+     "inputs": "dist_faults",
+     "operator": "—",
+     "gamma": null,
+     "mean": 0.694648176139701
+    },
+    {
+     "node": "group footprint",
+     "inputs": "as_log_idw, sb_log_idw",
+     "operator": "or",
+     "gamma": null,
+     "mean": 0.5564220177354469
+    },
+    {
+     "node": "favourability",
+     "inputs": "group trap, group pathway, group footprint",
+     "operator": "gamma",
+     "gamma": 0.9,
+     "mean": 0.6597834709474607
+    }
+   ],
+   "memberships": [
+    {
+     "layer": "geology_host",
+     "group": "trap",
+     "membership": "classes",
+     "parameters": "{2.0: 0.9, 1.0: 0.1}",
+     "mean": 0.4564670614469041,
+     "min": 0.1,
+     "max": 0.9,
+     "area_above_0_5": 0.44558382680863
+    },
+    {
+     "layer": "dist_faults",
+     "group": "pathway",
+     "membership": "z_shape",
+     "parameters": "(500.0, 5000.0)",
+     "mean": 0.694648176139701,
+     "min": 0.0,
+     "max": 1.0,
+     "area_above_0_5": 0.7212841679341967
+    },
+    {
+     "layer": "as_log_idw",
+     "group": "footprint",
+     "membership": "logistic",
+     "parameters": "(1.22616, 8.11777)",
+     "mean": 0.4791464871253124,
+     "min": 0.00075278654463965,
+     "max": 0.9999987541644397,
+     "area_above_0_5": 0.47215027245743313
+    },
+    {
+     "layer": "sb_log_idw",
+     "group": "footprint",
+     "membership": "logistic",
+     "parameters": "(0.55623, 7.25201)",
+     "mean": 0.4629561519554111,
+     "min": 0.0005357263729634864,
+     "max": 0.9999993631155926,
+     "area_above_0_5": 0.4551264822718077
+    }
+   ]
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "fuzzy_logic_carlin_map.png",
+  "curves": "fuzzy_logic_carlin_curves.png"
+ },
+ "runtime_s": 16.993685483932495
+}

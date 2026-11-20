@@ -1,0 +1,620 @@
+{
+ "method": "bayesian_network",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_k",
+   "kind": "continuous",
+   "description": "SA_RAD_K (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16922,
+   "min": 0.0,
+   "max": 8.675689697265625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "TAN, 5 classes, all cells (default)",
+   "cfg": {
+    "label": "TAN, 5 classes, all cells (default)",
+    "structure": "tan"
+   },
+   "mean_test_auc": 0.6036089604102356,
+   "sd_test_auc": 0.4144946980952685,
+   "mean_train_auc": 0.9741312665334154,
+   "seconds": 0.5512913976396833,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.7495276892195064,
+     "train_auc": 0.9739260483696401,
+     "seconds": 0.9992177486419678
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.6204687684496398,
+     "train_auc": 0.9756183954188559,
+     "seconds": 0.654578447341919
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9457137796670209,
+     "train_auc": 0.9731930259558809,
+     "seconds": 0.47614336013793945
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9457137796670209,
+     "train_auc": 0.9731930259558809,
+     "seconds": 0.4294412136077881
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.03123155036013697,
+     "train_auc": 0.9744229293346716,
+     "seconds": 0.43337321281433105
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9189987011453536,
+     "train_auc": 0.9710382352362399,
+     "seconds": 0.4221963882446289
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.013608454362970835,
+     "train_auc": 0.9775272054627389,
+     "seconds": 0.444089412689209
+    }
+   ]
+  },
+  {
+   "label": "naive Bayes, 5 classes, all cells",
+   "cfg": {
+    "label": "naive Bayes, 5 classes, all cells",
+    "structure": "naive"
+   },
+   "mean_test_auc": 0.840253529679672,
+   "sd_test_auc": 0.16294207633609165,
+   "mean_train_auc": 0.9486033920032384,
+   "seconds": 0.3910432202475412,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9271165426850868,
+     "train_auc": 0.9365861817895587,
+     "seconds": 0.3954958915710449
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9280316448222931,
+     "train_auc": 0.9465139618631561,
+     "seconds": 0.49390172958374023
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9328433108985713,
+     "train_auc": 0.9470157624417026,
+     "seconds": 0.4035475254058838
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9328433108985713,
+     "train_auc": 0.9470157624417026,
+     "seconds": 0.3358609676361084
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6363797378675168,
+     "train_auc": 0.95679103449633,
+     "seconds": 0.36081361770629883
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9535659463927264,
+     "train_auc": 0.9377422909656218,
+     "seconds": 0.39420437812805176
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.5709942141929389,
+     "train_auc": 0.9685587500245981,
+     "seconds": 0.35347843170166016
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "naive Bayes, 5 classes, all cells",
+  "structure": "naive"
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 0.46657299995422363,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9411340519204493,
+    "auc_lo": 0.9002780665533391,
+    "auc_hi": 0.98199003728756,
+    "sr_auc": 0.9409518189099187,
+    "pa_prediction": 85.98861610992928,
+    "pa_area": 14.011383890070718,
+    "tpr_at": {
+     "0.05": 0.7142857142857143,
+     "0.1": 0.7142857142857143,
+     "0.2": 1.0,
+     "0.3": 1.0
+    }
+   }
+  },
+  "messages": [
+   "only 7 training deposits: the conditional probability tables are poorly determined — use few classes and a TAN only if the layers are clearly dependent",
+   "predicted deposits Σ P = 35.8 vs observed 7 (ratio N/T = 0.20)"
+  ],
+  "tables": {
+   "edges": [],
+   "cpt": [
+    {
+     "layer": "rad_th",
+     "parent_class": "",
+     "cls": "0 – 16.47",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_th",
+     "parent_class": "",
+     "cls": "16.47 – 30.82",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_th",
+     "parent_class": "",
+     "cls": "30.82 – 47.6",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_th",
+     "parent_class": "",
+     "cls": "47.6 – 82.98",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_th",
+     "parent_class": "",
+     "cls": "82.98 – 380",
+     "p_given_deposit": 0.525,
+     "p_given_barren": 0.19984650805832693,
+     "log_ratio": 0.9658486503999177,
+     "deposits": 4,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_u",
+     "parent_class": "",
+     "cls": "0 – 91.78",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_u",
+     "parent_class": "",
+     "cls": "91.78 – 120.1",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_u",
+     "parent_class": "",
+     "cls": "120.1 – 170.9",
+     "p_given_deposit": 0.15,
+     "p_given_barren": 0.20002361414487277,
+     "log_ratio": -0.2878001362063454,
+     "deposits": 1,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_u",
+     "parent_class": "",
+     "cls": "170.9 – 274.5",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_u",
+     "parent_class": "",
+     "cls": "274.5 – 1618",
+     "p_given_deposit": 0.775,
+     "p_given_barren": 0.19972843733396303,
+     "log_ratio": 1.3559043987993131,
+     "deposits": 6,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_k",
+     "parent_class": "",
+     "cls": "0 – 1.775",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_k",
+     "parent_class": "",
+     "cls": "1.775 – 2.372",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_k",
+     "parent_class": "",
+     "cls": "2.372 – 3.004",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_k",
+     "parent_class": "",
+     "cls": "3.004 – 3.675",
+     "p_given_deposit": 0.15,
+     "p_given_barren": 0.20002361414487277,
+     "log_ratio": -0.2878001362063454,
+     "deposits": 1,
+     "cells": 3389
+    },
+    {
+     "layer": "rad_k",
+     "parent_class": "",
+     "cls": "3.675 – 8.676",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "parent_class": "",
+     "cls": "-1.026 – 0.9362",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "parent_class": "",
+     "cls": "0.9362 – 1.051",
+     "p_given_deposit": 0.15,
+     "p_given_barren": 0.20002361414487277,
+     "log_ratio": -0.2878001362063454,
+     "deposits": 1,
+     "cells": 3389
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "parent_class": "",
+     "cls": "1.051 – 1.126",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "parent_class": "",
+     "cls": "1.126 – 1.244",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "parent_class": "",
+     "cls": "1.244 – 1.643",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "aster_silica_index",
+     "parent_class": "",
+     "cls": "0 – 37.32",
+     "p_given_deposit": 0.4,
+     "p_given_barren": 0.19990554342050887,
+     "log_ratio": 0.6936195750180953,
+     "deposits": 3,
+     "cells": 3389
+    },
+    {
+     "layer": "aster_silica_index",
+     "parent_class": "",
+     "cls": "37.32 – 50.96",
+     "p_given_deposit": 0.275,
+     "p_given_barren": 0.19996457878269083,
+     "log_ratio": 0.31863085289021553,
+     "deposits": 2,
+     "cells": 3389
+    },
+    {
+     "layer": "aster_silica_index",
+     "parent_class": "",
+     "cls": "50.96 – 62.39",
+     "p_given_deposit": 0.15,
+     "p_given_barren": 0.20002361414487277,
+     "log_ratio": -0.2878001362063454,
+     "deposits": 1,
+     "cells": 3389
+    },
+    {
+     "layer": "aster_silica_index",
+     "parent_class": "",
+     "cls": "62.39 – 83.42",
+     "p_given_deposit": 0.15,
+     "p_given_barren": 0.20002361414487277,
+     "log_ratio": -0.2878001362063454,
+     "deposits": 1,
+     "cells": 3389
+    },
+    {
+     "layer": "aster_silica_index",
+     "parent_class": "",
+     "cls": "83.42 – 238.6",
+     "p_given_deposit": 0.025,
+     "p_given_barren": 0.2000826495070547,
+     "log_ratio": -2.079854703851863,
+     "deposits": 0,
+     "cells": 3389
+    }
+   ],
+   "layers": [
+    {
+     "layer": "geochem_nb_log_idw",
+     "classes": 5,
+     "mutual_information_with_deposits": 0.0002500871057856978,
+     "parent": "D",
+     "auc_drop_without_layer": 0.03283825042592314
+    },
+    {
+     "layer": "rad_u",
+     "classes": 5,
+     "mutual_information_with_deposits": 0.0004956781997517091,
+     "parent": "D",
+     "auc_drop_without_layer": 0.028385034495555295
+    },
+    {
+     "layer": "rad_k",
+     "classes": 5,
+     "mutual_information_with_deposits": 0.0002500871057856979,
+     "parent": "D",
+     "auc_drop_without_layer": 0.007675050183020504
+    },
+    {
+     "layer": "rad_th",
+     "classes": 5,
+     "mutual_information_with_deposits": 0.0003828829935479733,
+     "parent": "D",
+     "auc_drop_without_layer": 0.006928630467418984
+    },
+    {
+     "layer": "aster_silica_index",
+     "classes": 5,
+     "mutual_information_with_deposits": 0.00013736164631034017,
+     "parent": "D",
+     "auc_drop_without_layer": -0.006144257206956438
+    }
+   ],
+   "comparison": [
+    {
+     "structure": "naive",
+     "log_likelihood": -66.54110233533459,
+     "parameters": 40,
+     "bic": 522.5913280323152,
+     "training_auc": 0.9411340519204494,
+     "edges": 0
+    },
+    {
+     "structure": "tan",
+     "log_likelihood": -45.39819460758486,
+     "parameters": 168,
+     "bic": 1726.7347073340832,
+     "training_auc": 0.9682244488301874,
+     "edges": 4
+    }
+   ],
+   "summary": [
+    {
+     "item": "Structure",
+     "value": "naive"
+    },
+    {
+     "item": "Training cells",
+     "value": "all"
+    },
+    {
+     "item": "Training deposits (cells)",
+     "value": "7"
+    },
+    {
+     "item": "Cells used for the tables",
+     "value": "16,945"
+    },
+    {
+     "item": "Evidence layers / classes",
+     "value": "rad_th (5), rad_u (5), rad_k (5), geochem_nb_log_idw (5), aster_silica_index (5)"
+    },
+    {
+     "item": "Classes of continuous layers",
+     "value": "5 equal-area (quantile) classes"
+    },
+    {
+     "item": "Missing evidence",
+     "value": "own class"
+    },
+    {
+     "item": "Dirichlet equivalent sample size α",
+     "value": "1"
+    },
+    {
+     "item": "TAN edges (parent → child)",
+     "value": "—"
+    },
+    {
+     "item": "Log-likelihood of the training cells",
+     "value": "-66.54"
+    },
+    {
+     "item": "Training AUC",
+     "value": "0.9411"
+    },
+    {
+     "item": "Posterior s.d. from",
+     "value": "30 Dirichlet draws of the tables"
+    }
+   ],
+   "stats": {
+    "training_auc": 0.9411340519204494,
+    "deposits": 7,
+    "structure": "naive",
+    "edges": 0,
+    "predicted": 35.76974198214705,
+    "log_likelihood": -66.54110233533459
+   },
+   "params": {
+    "structure": "naive",
+    "n_classes": 5,
+    "alpha": 1.0,
+    "design": "all",
+    "missing": "class",
+    "draws": 30,
+    "unit_cell_km2": 1.0,
+    "neg_ratio": 5.0,
+    "seed": 42
+   }
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "bayesian_network_curnamona_map.png",
+  "curves": "bayesian_network_curnamona_curves.png"
+ },
+ "runtime_s": 9.837515830993652
+}

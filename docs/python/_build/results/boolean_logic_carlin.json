@@ -1,0 +1,273 @@
+{
+ "method": "boolean_logic",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "expert",
+ "search": [
+  {
+   "label": "upper quartile, OR within groups, AND between (default)",
+   "cfg": {
+    "label": "upper quartile, OR within groups, AND between (default)"
+   },
+   "mean_test_auc": 0.8066005359574425,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8066005359574425,
+   "seconds": 0.4835853576660156,
+   "pa_prediction": 75.31486993866486,
+   "pa_area": 24.685130061335148,
+   "fav_area_pct": 15.70063647237769,
+   "fav_deposits_pct": 65.625,
+   "fav_ratio": 4.179766859480813,
+   "select_score": 0.4992436352762231
+  },
+  {
+   "label": "above median, OR within, AND between",
+   "cfg": {
+    "label": "above median, OR within, AND between",
+    "q": 50
+   },
+   "mean_test_auc": 0.7708712705248514,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7708712705248514,
+   "seconds": 0.4099588394165039,
+   "pa_prediction": 70.7218046401931,
+   "pa_area": 29.2781953598069,
+   "fav_area_pct": 25.539820133792105,
+   "fav_deposits_pct": 71.875,
+   "fav_ratio": 2.814232818535051,
+   "select_score": 0.46335179866207893
+  },
+  {
+   "label": "upper decile, OR within, AND between",
+   "cfg": {
+    "label": "upper decile, OR within, AND between",
+    "q": 90
+   },
+   "mean_test_auc": 0.7590206518624854,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.7590206518624854,
+   "seconds": 0.3949398994445801,
+   "pa_prediction": 68.01509361563662,
+   "pa_area": 31.98490638436339,
+   "fav_area_pct": 7.148574213269932,
+   "fav_deposits_pct": 37.5,
+   "fav_ratio": 5.245801313832424,
+   "select_score": 0.3035142578673007
+  },
+  {
+   "label": "upper quartile, AND within, AND between",
+   "cfg": {
+    "label": "upper quartile, AND within, AND between",
+    "group_op": "and"
+   },
+   "mean_test_auc": 0.8066005359574425,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8066005359574425,
+   "seconds": 0.47682690620422363,
+   "pa_prediction": 75.31486993866486,
+   "pa_area": 24.685130061335148,
+   "fav_area_pct": 8.107565308563581,
+   "fav_deposits_pct": 37.5,
+   "fav_ratio": 4.62530964263597,
+   "select_score": 0.2939243469143642
+  },
+  {
+   "label": "upper quartile, OR within, OR between",
+   "cfg": {
+    "label": "upper quartile, OR within, OR between",
+    "final_op": "or"
+   },
+   "mean_test_auc": 0.8066005359574425,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8066005359574425,
+   "seconds": 0.6384563446044922,
+   "pa_prediction": 75.31486993866486,
+   "pa_area": 24.685130061335148,
+   "fav_area_pct": 89.15959064931997,
+   "fav_deposits_pct": 100.0,
+   "fav_ratio": 1.1215843328993875,
+   "select_score": 0.10840409350680033
+  },
+  {
+   "label": "upper quartile, faults ≤ 1500 m",
+   "cfg": {
+    "label": "upper quartile, faults ≤ 1500 m",
+    "faults_m": 1500
+   },
+   "mean_test_auc": 0.793270136064368,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.793270136064368,
+   "seconds": 0.5914380550384521,
+   "pa_prediction": 73.0889034773042,
+   "pa_area": 26.911096522695797,
+   "fav_area_pct": 10.754758775492121,
+   "fav_deposits_pct": 53.125,
+   "fav_ratio": 4.939673786181139,
+   "select_score": 0.42370241224507876
+  }
+ ],
+ "selected": {
+  "label": "upper quartile, OR within groups, AND between (default)"
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 0.4907691478729248,
+  "curves": {
+   "training": {
+    "deposits": 32,
+    "negatives": 338553,
+    "auc": 0.8066005359574425,
+    "auc_lo": 0.7423486326385358,
+    "auc_hi": 0.870852439276349,
+    "sr_auc": 0.8065715588404684,
+    "pa_prediction": 75.31486993866486,
+    "pa_area": 24.685130061335148,
+    "tpr_at": {
+     "0.05": 0.0,
+     "0.1": 0.375,
+     "0.2": 0.375,
+     "0.3": 0.75
+    }
+   }
+  },
+  "messages": [
+   "favourable area 15.7 % of the study area contains 21 of 32 deposits (66 %)"
+  ],
+  "tables": {
+   "conditions": [
+    {
+     "layer": "geology_host",
+     "group": "trap",
+     "condition": "in",
+     "values": "(2.0,)",
+     "area_pct": 44.558382680863,
+     "deposits_inside": 31,
+     "deposits_pct": 96.875,
+     "ratio": 2.174113919121351
+    },
+    {
+     "layer": "dist_faults",
+     "group": "pathway",
+     "condition": "le",
+     "values": "3000.0",
+     "area_pct": 74.5998789078075,
+     "deposits_inside": 25,
+     "deposits_pct": 78.125,
+     "ratio": 1.0472537106467552
+    },
+    {
+     "layer": "as_log_idw",
+     "group": "footprint",
+     "condition": "ge",
+     "values": "1.37111",
+     "area_pct": 29.230769230769234,
+     "deposits_inside": 17,
+     "deposits_pct": 53.125,
+     "ratio": 1.8174342105263157
+    },
+    {
+     "layer": "sb_log_idw",
+     "group": "footprint",
+     "condition": "ge",
+     "values": "0.695004",
+     "area_pct": 26.771416335632114,
+     "deposits_inside": 25,
+     "deposits_pct": 78.125,
+     "ratio": 2.9182243860597503
+    },
+    {
+     "layer": "FAVOURABLE (combined)",
+     "group": "",
+     "condition": "and",
+     "values": "",
+     "area_pct": 15.70063647237769,
+     "deposits_inside": 21,
+     "deposits_pct": 65.625,
+     "ratio": 4.179766859480813
+    }
+   ],
+   "network": [
+    {
+     "node": "group trap",
+     "inputs": "geology_host",
+     "operator": "—",
+     "area_pct": 44.558382680863005
+    },
+    {
+     "node": "group pathway",
+     "inputs": "dist_faults",
+     "operator": "—",
+     "area_pct": 74.5998789078075
+    },
+    {
+     "node": "group footprint",
+     "inputs": "as_log_idw, sb_log_idw",
+     "operator": "or",
+     "area_pct": 37.93641183159325
+    },
+    {
+     "node": "favourable",
+     "inputs": "group trap, group pathway, group footprint",
+     "operator": "and",
+     "area_pct": 15.70063647237769
+    }
+   ]
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "boolean_logic_carlin_map.png",
+  "curves": "boolean_logic_carlin_curves.png"
+ },
+ "runtime_s": 8.818164348602295
+}

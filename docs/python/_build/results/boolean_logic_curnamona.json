@@ -1,0 +1,283 @@
+{
+ "method": "boolean_logic",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_k",
+   "kind": "continuous",
+   "description": "SA_RAD_K (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16922,
+   "min": 0.0,
+   "max": 8.675689697265625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "expert",
+ "search": [
+  {
+   "label": "upper quartile, OR within groups, AND between (default)",
+   "cfg": {
+    "label": "upper quartile, OR within groups, AND between (default)"
+   },
+   "mean_test_auc": 0.8092243982254609,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8092243982254609,
+   "seconds": 0.035097599029541016,
+   "pa_prediction": 73.27996287272305,
+   "pa_area": 26.720037127276946,
+   "fav_area_pct": 5.989967542047801,
+   "fav_deposits_pct": 28.571428571428573,
+   "fav_ratio": 4.769880365939478,
+   "select_score": 0.22581461029380773
+  },
+  {
+   "label": "above median, OR within, AND between",
+   "cfg": {
+    "label": "above median, OR within, AND between",
+    "q": 50
+   },
+   "mean_test_auc": 0.8526643388492485,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8526643388492485,
+   "seconds": 0.029220104217529297,
+   "pa_prediction": 77.36311214683019,
+   "pa_area": 22.63688785316981,
+   "fav_area_pct": 21.8412511065211,
+   "fav_deposits_pct": 71.42857142857143,
+   "fav_ratio": 3.2703516424132473,
+   "select_score": 0.4958732032205033
+  },
+  {
+   "label": "upper decile, OR within, AND between",
+   "cfg": {
+    "label": "upper decile, OR within, AND between",
+    "q": 90
+   },
+   "mean_test_auc": 0.8926252045274362,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8926252045274362,
+   "seconds": 0.028199195861816406,
+   "pa_prediction": 79.87909019437743,
+   "pa_area": 20.120909805622578,
+   "fav_area_pct": 0.10622602537621717,
+   "fav_deposits_pct": 0.0,
+   "fav_ratio": 0.0,
+   "select_score": -0.0010622602537621716
+  },
+  {
+   "label": "upper quartile, AND within, AND between",
+   "cfg": {
+    "label": "upper quartile, AND within, AND between",
+    "group_op": "and"
+   },
+   "mean_test_auc": 0.8092243982254609,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8092243982254609,
+   "seconds": 0.027261972427368164,
+   "pa_prediction": 73.27996287272305,
+   "pa_area": 26.720037127276946,
+   "fav_area_pct": 3.145470640306875,
+   "fav_deposits_pct": 28.571428571428573,
+   "fav_ratio": 9.083355668721522,
+   "select_score": 0.25425957931121695
+  },
+  {
+   "label": "upper quartile, OR within, OR between",
+   "cfg": {
+    "label": "upper quartile, OR within, OR between",
+    "final_op": "or"
+   },
+   "mean_test_auc": 0.8092243982254609,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8092243982254609,
+   "seconds": 0.02854442596435547,
+   "pa_prediction": 73.27996287272305,
+   "pa_area": 26.720037127276946,
+   "fav_area_pct": 52.18058424313957,
+   "fav_deposits_pct": 100.0,
+   "fav_ratio": 1.9164216240669532,
+   "select_score": 0.4781941575686043
+  },
+  {
+   "label": "upper quartile, faults ≤ 1500 m",
+   "cfg": {
+    "label": "upper quartile, faults ≤ 1500 m",
+    "faults_m": 1500
+   },
+   "mean_test_auc": 0.8092243982254609,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8092243982254609,
+   "seconds": 0.032469749450683594,
+   "pa_prediction": 73.27996287272305,
+   "pa_area": 26.720037127276946,
+   "fav_area_pct": 5.989967542047801,
+   "fav_deposits_pct": 28.571428571428573,
+   "fav_ratio": 4.769880365939478,
+   "select_score": 0.22581461029380773
+  }
+ ],
+ "selected": {
+  "label": "above median, OR within, AND between",
+  "q": 50
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 0.03152275085449219,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.8526643388492485,
+    "auc_lo": 0.7816452266694541,
+    "auc_hi": 0.9236834510290427,
+    "sr_auc": 0.8525186527842179,
+    "pa_prediction": 77.36311214683019,
+    "pa_area": 22.63688785316981,
+    "tpr_at": {
+     "0.05": 0.0,
+     "0.1": 0.0,
+     "0.2": 0.7142857142857143,
+     "0.3": 0.7142857142857143
+    }
+   }
+  },
+  "messages": [
+   "favourable area 21.8 % of the study area contains 5 of 7 deposits (71 %)"
+  ],
+  "tables": {
+   "conditions": [
+    {
+     "layer": "rad_th",
+     "group": "source",
+     "condition": "ge",
+     "values": "39.9295",
+     "area_pct": 50.00295072292712,
+     "deposits_inside": 7,
+     "deposits_pct": 100.0,
+     "ratio": 1.999881978047917
+    },
+    {
+     "layer": "rad_u",
+     "group": "source",
+     "condition": "ge",
+     "values": "139.49",
+     "area_pct": 49.99704927707288,
+     "deposits_inside": 7,
+     "deposits_pct": 100.0,
+     "ratio": 2.0001180358829087
+    },
+    {
+     "layer": "geochem_nb_log_idw",
+     "group": "enrichment",
+     "condition": "ge",
+     "values": "1.0923",
+     "area_pct": 50.00295072292712,
+     "deposits_inside": 6,
+     "deposits_pct": 85.71428571428571,
+     "ratio": 1.7141845526125001
+    },
+    {
+     "layer": "aster_silica_index",
+     "group": "exposure",
+     "condition": "le",
+     "values": "56.6075",
+     "area_pct": 50.00295072292712,
+     "deposits_inside": 6,
+     "deposits_pct": 85.71428571428571,
+     "ratio": 1.7141845526125001
+    },
+    {
+     "layer": "FAVOURABLE (combined)",
+     "group": "",
+     "condition": "and",
+     "values": "",
+     "area_pct": 21.8412511065211,
+     "deposits_inside": 5,
+     "deposits_pct": 71.42857142857143,
+     "ratio": 3.2703516424132473
+    }
+   ],
+   "network": [
+    {
+     "node": "group source",
+     "inputs": "rad_th, rad_u",
+     "operator": "or",
+     "area_pct": 59.01445854234287
+    },
+    {
+     "node": "group enrichment",
+     "inputs": "geochem_nb_log_idw",
+     "operator": "—",
+     "area_pct": 50.00295072292712
+    },
+    {
+     "node": "group exposure",
+     "inputs": "aster_silica_index",
+     "operator": "—",
+     "area_pct": 50.00295072292712
+    },
+    {
+     "node": "favourable",
+     "inputs": "group source, group enrichment, group exposure",
+     "operator": "and",
+     "area_pct": 21.8412511065211
+    }
+   ]
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "boolean_logic_curnamona_map.png",
+  "curves": "boolean_logic_curnamona_curves.png"
+ },
+ "runtime_s": 2.3298749923706055
+}

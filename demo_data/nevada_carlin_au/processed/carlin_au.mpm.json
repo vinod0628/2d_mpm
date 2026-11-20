@@ -1,0 +1,546 @@
+{
+  "format": "mpm-project",
+  "version": 1,
+  "name": "processed",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid (deprecated)\",DATUM[\"Not_specified_based_on_Clarke_1866_ellipsoid\",SPHEROID[\"Clarke 1866\",6378206.4,294.978698213898,AUTHORITY[\"EPSG\",\"7008\"]],AUTHORITY[\"EPSG\",\"6008\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4008\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-117],PARAMETER[\"standard_parallel_1\",33],PARAMETER[\"standard_parallel_2\",45],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"METERS\",1],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "cell_size": 250.0,
+  "extent": [
+    -164174.263274,
+    4570126.006454,
+    87825.736726,
+    4848126.006454
+  ],
+  "nodata": -9999.0,
+  "layers": [
+    {
+      "type": "vector",
+      "name": "deposits",
+      "path": "vectors/deposits.gpkg",
+      "visible": true,
+      "style": {
+        "color": "#ffd54f",
+        "edgecolor": "#000000",
+        "markersize": 36,
+        "marker": "*",
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": "single",
+        "unique": {},
+        "categorized": {},
+        "labels": {
+          "enabled": false,
+          "field": null,
+          "size": 8.0,
+          "color": "#202020",
+          "family": ""
+        }
+      }
+    },
+    {
+      "type": "vector",
+      "name": "faults",
+      "path": "vectors/faults.gpkg",
+      "visible": false,
+      "style": {
+        "color": "#ff7043",
+        "linewidth": 0.6,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": "single",
+        "unique": {},
+        "categorized": {},
+        "labels": {
+          "enabled": false,
+          "field": null,
+          "size": 8.0,
+          "color": "#202020",
+          "family": ""
+        }
+      }
+    },
+    {
+      "type": "vector",
+      "name": "study_area",
+      "path": "vectors/study_area.gpkg",
+      "visible": false,
+      "style": {
+        "facecolor": "none",
+        "edgecolor": "#9e9e9e",
+        "linewidth": 0.8,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": "single",
+        "unique": {},
+        "categorized": {},
+        "labels": {
+          "enabled": false,
+          "field": null,
+          "size": 8.0,
+          "color": "#202020",
+          "family": ""
+        }
+      }
+    },
+    {
+      "type": "vector",
+      "name": "nure_geochem",
+      "path": "vectors/nure_geochem.gpkg",
+      "visible": false,
+      "style": {
+        "color": "#80cbc4",
+        "edgecolor": "#202020",
+        "markersize": 4.0,
+        "marker": "o",
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": "single",
+        "unique": {
+          "cmap": "tab20",
+          "field": "SAMPLEID",
+          "styles": {}
+        },
+        "categorized": {
+          "field": "SAMPLEID",
+          "method": "unique",
+          "n": 5,
+          "cmap": "tab20",
+          "classes": []
+        },
+        "labels": {
+          "enabled": true,
+          "field": "NAA_LI",
+          "size": 8.0,
+          "color": "#202020",
+          "family": "Arial"
+        }
+      }
+    },
+    {
+      "type": "raster",
+      "name": "study_mask",
+      "path": "rasters/study_mask.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 1.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "geology",
+      "path": "rasters/geology.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 20.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": "unique",
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {
+            "1.0": "#ffff7f",
+            "2.0": "#aec7e8",
+            "3.0": "#ff7f0e",
+            "4.0": "#ffbb78",
+            "5.0": "#2ca02c",
+            "6.0": "#98df8a",
+            "7.0": "#d62728",
+            "8.0": "#ff9896",
+            "9.0": "#9467bd",
+            "10.0": "#c5b0d5",
+            "11.0": "#8c564b",
+            "12.0": "#c49c94",
+            "13.0": "#e377c2",
+            "14.0": "#f7b6d2",
+            "15.0": "#7f7f7f",
+            "16.0": "#c7c7c7",
+            "17.0": "#bcbd22",
+            "18.0": "#dbdb8d",
+            "19.0": "#17becf",
+            "20.0": "#9edae5",
+            "21.0": "#1f77b4",
+            "22.0": "#aec7e8",
+            "23.0": "#ff7f0e",
+            "24.0": "#ffbb78",
+            "25.0": "#2ca02c"
+          },
+          "labels": {}
+        },
+        "categorized": {
+          "field": "__value__",
+          "method": "unique",
+          "n": 5,
+          "cmap": "tab20",
+          "classes": []
+        }
+      }
+    },
+    {
+      "type": "raster",
+      "name": "geology_host",
+      "path": "rasters/geology_host.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 2.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "expert_map",
+      "path": "rasters/expert_map.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 0.0,
+        "vmax": 2.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "aeromag",
+      "path": "rasters/aeromag.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": -200.0,
+        "vmax": 200.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "bouguer",
+      "path": "rasters/bouguer.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": -240.0,
+        "vmax": -160.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "potassium",
+      "path": "rasters/potassium.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 2.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "thorium",
+      "path": "rasters/thorium.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 6.0,
+        "vmax": 18.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "uranium",
+      "path": "rasters/uranium.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 4.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "sb_class",
+      "path": "rasters/sb_class.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 9.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "sb_surface",
+      "path": "rasters/sb_surface.tif",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "cmap": "viridis",
+        "vmin": 1.0411791491508484,
+        "vmax": 29.47812561035151,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "dist_faults",
+      "path": "rasters/dist_faults.tif",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "cmap": "magma_r",
+        "vmin": 0.0,
+        "vmax": 13509.255859375,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "dist_faults_class",
+      "path": "rasters/dist_faults_class.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 10.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "as_log_idw",
+      "path": "rasters/as_log_idw.tif",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "cmap": "viridis",
+        "vmin": 0.6595011258125305,
+        "vmax": 1.7928176498413084,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "as_q8",
+      "path": "rasters/as_q8.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 8.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "sb_log_idw",
+      "path": "rasters/sb_log_idw.tif",
+      "visible": false,
+      "categorical": false,
+      "style": {
+        "cmap": "viridis",
+        "vmin": -0.07807602748274803,
+        "vmax": 1.1905369544029236,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    },
+    {
+      "type": "raster",
+      "name": "sb_q8",
+      "path": "rasters/sb_q8.tif",
+      "visible": false,
+      "categorical": true,
+      "style": {
+        "cmap": "tab20",
+        "vmin": 1.0,
+        "vmax": 8.0,
+        "opacity": 1.0
+      },
+      "symbology": {
+        "renderer": null,
+        "single_color": "#4f8fd6",
+        "unique": {
+          "cmap": null,
+          "colors": {},
+          "labels": {}
+        },
+        "categorized": {}
+      }
+    }
+  ]
+}

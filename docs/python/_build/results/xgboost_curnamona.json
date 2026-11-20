@@ -1,0 +1,1254 @@
+{
+ "method": "xgboost",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_k",
+   "kind": "continuous",
+   "description": "SA_RAD_K (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16922,
+   "min": 0.0,
+   "max": 8.675689697265625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "depth 3, η 0.05, 1:1 non-deposits (default)",
+   "cfg": {
+    "label": "depth 3, η 0.05, 1:1 non-deposits (default)",
+    "neg_ratio": 1.0
+   },
+   "mean_test_auc": 0.8159632609685745,
+   "sd_test_auc": 0.2781156057512561,
+   "mean_train_auc": 0.9292861781349886,
+   "seconds": 1.7735039506639754,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9295371354351163,
+     "train_auc": 0.9311500088553044,
+     "seconds": 3.2943038940429688
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.991852639036486,
+     "train_auc": 0.9005401735639649,
+     "seconds": 1.7817482948303223
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9771814854174047,
+     "train_auc": 0.9404087214908396,
+     "seconds": 1.4376473426818848
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9339060101546818,
+     "train_auc": 0.9445903929787276,
+     "seconds": 1.3630497455596924
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.20173574211831385,
+     "train_auc": 0.951453253832379,
+     "seconds": 1.3770651817321777
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8706754044161058,
+     "train_auc": 0.9174538048290926,
+     "seconds": 1.8451638221740723
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8068544102019128,
+     "train_auc": 0.9194068913946121,
+     "seconds": 1.315549373626709
+    }
+   ]
+  },
+  {
+   "label": "depth 3, η 0.05, 1:3 non-deposits",
+   "cfg": {
+    "label": "depth 3, η 0.05, 1:3 non-deposits",
+    "neg_ratio": 3.0
+   },
+   "mean_test_auc": 0.8665342509657068,
+   "sd_test_auc": 0.1073474887057437,
+   "mean_train_auc": 0.9601363716866402,
+   "seconds": 1.9732093470437186,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8962687448341008,
+     "train_auc": 0.9711415471200583,
+     "seconds": 1.4513418674468994
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9798677529814618,
+     "train_auc": 0.9460564378062459,
+     "seconds": 1.0767385959625244
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9450348329200614,
+     "train_auc": 0.9527225141192908,
+     "seconds": 1.2146186828613281
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.7762132483173928,
+     "train_auc": 0.9656217407560461,
+     "seconds": 1.7689003944396973
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6712421773526981,
+     "train_auc": 0.9693360489599937,
+     "seconds": 3.4515695571899414
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8773172747667966,
+     "train_auc": 0.9491607139343133,
+     "seconds": 3.298768997192383
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9197957255874365,
+     "train_auc": 0.9669155991105338,
+     "seconds": 1.5505273342132568
+    }
+   ]
+  },
+  {
+   "label": "depth 3, η 0.05, 1:5 non-deposits",
+   "cfg": {
+    "label": "depth 3, η 0.05, 1:5 non-deposits",
+    "neg_ratio": 5.0
+   },
+   "mean_test_auc": 0.8671625929861849,
+   "sd_test_auc": 0.15359883126929302,
+   "mean_train_auc": 0.9621730916819173,
+   "seconds": 1.8975003106253487,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8984236627701028,
+     "train_auc": 0.9652232520613181,
+     "seconds": 1.8311834335327148
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9832034478686976,
+     "train_auc": 0.9680963063541728,
+     "seconds": 2.259474754333496
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9249911441728658,
+     "train_auc": 0.965218332447803,
+     "seconds": 2.014286756515503
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9260833628527572,
+     "train_auc": 0.9585374972942127,
+     "seconds": 1.7096455097198486
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5250619907899398,
+     "train_auc": 0.9584686227050002,
+     "seconds": 1.106151819229126
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8957373952060456,
+     "train_auc": 0.9533079481275951,
+     "seconds": 1.518254280090332
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9166371472428858,
+     "train_auc": 0.9663596827833206,
+     "seconds": 2.843505620956421
+    }
+   ]
+  },
+  {
+   "label": "depth 2, η 0.05, 1:5 non-deposits",
+   "cfg": {
+    "label": "depth 2, η 0.05, 1:5 non-deposits",
+    "neg_ratio": 5.0,
+    "max_depth": 2
+   },
+   "mean_test_auc": 0.8671625929861849,
+   "sd_test_auc": 0.15359883126929302,
+   "mean_train_auc": 0.9621730916819173,
+   "seconds": 1.6113308838435583,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8984236627701028,
+     "train_auc": 0.9652232520613181,
+     "seconds": 1.4757294654846191
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9832034478686976,
+     "train_auc": 0.9680963063541728,
+     "seconds": 1.644284963607788
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9249911441728658,
+     "train_auc": 0.965218332447803,
+     "seconds": 1.974621295928955
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9260833628527572,
+     "train_auc": 0.9585374972942127,
+     "seconds": 1.5768890380859375
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5250619907899398,
+     "train_auc": 0.9584686227050002,
+     "seconds": 1.152782917022705
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8957373952060456,
+     "train_auc": 0.9533079481275951,
+     "seconds": 1.7184126377105713
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9166371472428858,
+     "train_auc": 0.9663596827833206,
+     "seconds": 1.736595869064331
+    }
+   ]
+  },
+  {
+   "label": "depth 5, η 0.05, 1:5 non-deposits",
+   "cfg": {
+    "label": "depth 5, η 0.05, 1:5 non-deposits",
+    "neg_ratio": 5.0,
+    "max_depth": 5
+   },
+   "mean_test_auc": 0.8671625929861849,
+   "sd_test_auc": 0.15359883126929302,
+   "mean_train_auc": 0.9621730916819173,
+   "seconds": 2.771740061896188,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.8984236627701028,
+     "train_auc": 0.9652232520613181,
+     "seconds": 1.8538520336151123
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9832034478686976,
+     "train_auc": 0.9680963063541728,
+     "seconds": 2.0386598110198975
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9249911441728658,
+     "train_auc": 0.965218332447803,
+     "seconds": 2.131795644760132
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9260833628527572,
+     "train_auc": 0.9585374972942127,
+     "seconds": 2.109523057937622
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5250619907899398,
+     "train_auc": 0.9584686227050002,
+     "seconds": 4.525202035903931
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8957373952060456,
+     "train_auc": 0.9533079481275951,
+     "seconds": 3.782735824584961
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9166371472428858,
+     "train_auc": 0.9663596827833206,
+     "seconds": 2.96041202545166
+    }
+   ]
+  },
+  {
+   "label": "depth 3, 1:5, geological monotone constraints",
+   "cfg": {
+    "label": "depth 3, 1:5, geological monotone constraints",
+    "neg_ratio": 5.0,
+    "mono": true
+   },
+   "mean_test_auc": 0.8672806706813082,
+   "sd_test_auc": 0.1533973214059743,
+   "mean_train_auc": 0.9577883104360464,
+   "seconds": 1.7211242403302873,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9021431101664895,
+     "train_auc": 0.9605201015408229,
+     "seconds": 2.3130292892456055
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9828196953595466,
+     "train_auc": 0.962340358541433,
+     "seconds": 2.2835347652435303
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9256110520722636,
+     "train_auc": 0.9645837023043469,
+     "seconds": 2.0166001319885254
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9189987011453536,
+     "train_auc": 0.9586014522699098,
+     "seconds": 1.5452654361724854
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5250619907899398,
+     "train_auc": 0.9584686227050003,
+     "seconds": 1.1435487270355225
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9016117605384343,
+     "train_auc": 0.9457317433142453,
+     "seconds": 1.515979290008545
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9147183846971307,
+     "train_auc": 0.9542721923765669,
+     "seconds": 1.2299120426177979
+    }
+   ]
+  },
+  {
+   "label": "depth 3, 1:1, geological monotone constraints",
+   "cfg": {
+    "label": "depth 3, 1:1, geological monotone constraints",
+    "neg_ratio": 1.0,
+    "mono": true
+   },
+   "mean_test_auc": 0.8201929726903161,
+   "sd_test_auc": 0.28046290788868344,
+   "mean_train_auc": 0.9292594716616206,
+   "seconds": 1.7849615982600622,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9295371354351163,
+     "train_auc": 0.9311500088553044,
+     "seconds": 1.2604260444641113
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9940075569724879,
+     "train_auc": 0.9027343211917271,
+     "seconds": 1.438610553741455
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9771814854174047,
+     "train_auc": 0.9404087214908396,
+     "seconds": 1.5008041858673096
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9613590742708702,
+     "train_auc": 0.9422093000373891,
+     "seconds": 3.9401557445526123
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.20173574211831385,
+     "train_auc": 0.951453253832379,
+     "seconds": 1.5426254272460938
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8706754044161058,
+     "train_auc": 0.9174538048290926,
+     "seconds": 1.4097094535827637
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8068544102019128,
+     "train_auc": 0.9194068913946121,
+     "seconds": 1.4023997783660889
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "depth 3, η 0.05, 1:3 non-deposits",
+  "neg_ratio": 3.0
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 1.1544272899627686,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9594107923013342,
+    "auc_lo": 0.9238793853261645,
+    "auc_hi": 0.9949421992765038,
+    "sr_auc": 0.9594865742106816,
+    "pa_prediction": 85.71428571428572,
+    "pa_area": 14.285714285714281,
+    "tpr_at": {
+     "0.05": 0.8571428571428571,
+     "0.1": 0.8571428571428571,
+     "0.2": 1.0,
+     "0.3": 1.0
+    }
+   }
+  },
+  "messages": [
+   "only 7 training deposits: the number of trees and the importances are uncertain — keep the trees shallow and use several repeats",
+   "non-deposit samples are at least 2,814 map units apart (auto: ½·√(area / n))",
+   "3 random non-deposit samples: one booster each, scores averaged; importance, boosting curve and validation refer to sample 1"
+  ],
+  "tables": {
+   "importance": [
+    {
+     "rank": 1,
+     "layer": "rad_u",
+     "columns": 1,
+     "mean_abs_shap": 0.20014432072639465,
+     "shap_pct": 52.36478439352614,
+     "shap_deposits": 0.27025651931762695,
+     "direction": 0.419255239980272,
+     "gain_pct": 62.10900352295154,
+     "permutation_auc_drop": 0.13197278911564628,
+     "permutation_sd": 0.01817740029372433
+    },
+    {
+     "rank": 2,
+     "layer": "geochem_nb_log_idw",
+     "columns": 1,
+     "mean_abs_shap": 0.11469809710979462,
+     "shap_pct": 30.00905098732607,
+     "shap_deposits": 0.13590107858181,
+     "direction": 0.7308543490791195,
+     "gain_pct": 30.511262745487404,
+     "permutation_auc_drop": 0.09931972789115646,
+     "permutation_sd": 0.04379177398484646
+    },
+    {
+     "rank": 3,
+     "layer": "aster_silica_index",
+     "columns": 1,
+     "mean_abs_shap": 0.036106206476688385,
+     "shap_pct": 9.44665184881553,
+     "shap_deposits": -0.0012131838593631983,
+     "direction": 0.6687398304168531,
+     "gain_pct": 0.702958627621392,
+     "permutation_auc_drop": 0.004081632653061229,
+     "permutation_sd": 0.005442176870748306
+    },
+    {
+     "rank": 4,
+     "layer": "rad_th",
+     "columns": 1,
+     "mean_abs_shap": 0.026837900280952454,
+     "shap_pct": 7.021737397726188,
+     "shap_deposits": 0.03141896054148674,
+     "direction": 0.9346460390922354,
+     "gain_pct": 6.45080132361719,
+     "permutation_auc_drop": 0.044897959183673494,
+     "permutation_sd": 0.025580402281582523
+    },
+    {
+     "rank": 5,
+     "layer": "rad_k",
+     "columns": 1,
+     "mean_abs_shap": 0.00442515267059207,
+     "shap_pct": 1.1577753726060689,
+     "shap_deposits": 0.004207269288599491,
+     "direction": 0.42180639059902003,
+     "gain_pct": 0.22597378032247634,
+     "permutation_auc_drop": 0.0,
+     "permutation_sd": 0.0
+    }
+   ],
+   "curve": [
+    {
+     "round": 1,
+     "train_auc": 0.8661764705882353,
+     "cv_auc": 0.7
+    },
+    {
+     "round": 2,
+     "train_auc": 0.932843137254902,
+     "cv_auc": 0.75
+    },
+    {
+     "round": 3,
+     "train_auc": 0.9357843137254902,
+     "cv_auc": 0.7625
+    },
+    {
+     "round": 4,
+     "train_auc": 0.948529411764706,
+     "cv_auc": 0.7625
+    },
+    {
+     "round": 5,
+     "train_auc": 0.967279411764706,
+     "cv_auc": 0.7925
+    },
+    {
+     "round": 6,
+     "train_auc": 0.9741421568627452,
+     "cv_auc": 0.7925
+    },
+    {
+     "round": 7,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 8,
+     "train_auc": 0.9769117647058824,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 9,
+     "train_auc": 0.9798529411764706,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 10,
+     "train_auc": 0.9798529411764706,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 11,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 12,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 13,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 14,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 15,
+     "train_auc": 0.9837745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 16,
+     "train_auc": 0.9837745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 17,
+     "train_auc": 0.9837745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 18,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 19,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 20,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 21,
+     "train_auc": 0.9837745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 22,
+     "train_auc": 0.9837745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 23,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 24,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 25,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 26,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 27,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 28,
+     "train_auc": 0.9818137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 29,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 30,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 31,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 32,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 33,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 34,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 35,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 36,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 37,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 38,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 39,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 40,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 41,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 42,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 43,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 44,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 45,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 46,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 47,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 48,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 49,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 50,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 51,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 52,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 53,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 54,
+     "train_auc": 0.9843137254901961,
+     "cv_auc": 0.875
+    },
+    {
+     "round": 55,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 56,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 57,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 58,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 59,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 60,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 61,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 62,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 63,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 64,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 65,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 66,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 67,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 68,
+     "train_auc": 0.9862745098039216,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 69,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 70,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 71,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 72,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 73,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 74,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    },
+    {
+     "round": 75,
+     "train_auc": 0.9882352941176471,
+     "cv_auc": 0.85
+    }
+   ],
+   "sample_validation": [
+    {
+     "item": "Samples (deposits / non-deposits)",
+     "value": "7 / 21"
+    },
+    {
+     "item": "Training confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "21 / 0"
+    },
+    {
+     "item": "Training confusion: true deposit → predicted non-deposit / deposit",
+     "value": "7 / 0"
+    },
+    {
+     "item": "Training accuracy",
+     "value": "0.7500"
+    },
+    {
+     "item": "Training AUC",
+     "value": "0.9796"
+    },
+    {
+     "item": "Cross-validation",
+     "value": "5-fold (stratified)"
+    },
+    {
+     "item": "Trees K* (best mean held-out AUC)",
+     "value": "9"
+    },
+    {
+     "item": "CV confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "21 / 0"
+    },
+    {
+     "item": "CV confusion: true deposit → predicted non-deposit / deposit",
+     "value": "7 / 0"
+    },
+    {
+     "item": "Cross-validated accuracy (mean of folds)",
+     "value": "0.7562"
+    },
+    {
+     "item": "Cross-validated AUC",
+     "value": "0.8027"
+    }
+   ],
+   "summary": [
+    {
+     "item": "Training deposits (cells)",
+     "value": "7"
+    },
+    {
+     "item": "Non-deposit samples per draw",
+     "value": "21"
+    },
+    {
+     "item": "Random draws (repeats)",
+     "value": "3"
+    },
+    {
+     "item": "Trees K* (sample 1 / mean)",
+     "value": "9 / 18 of max. 500 (early stopping, patience 50)"
+    },
+    {
+     "item": "Learning rate η / max. depth",
+     "value": "0.05 / 3"
+    },
+    {
+     "item": "Min. child weight / min. split loss γ",
+     "value": "1 / 0"
+    },
+    {
+     "item": "Row / column subsample",
+     "value": "0.8 / 0.8"
+    },
+    {
+     "item": "L2 λ / L1 α",
+     "value": "1 / 0"
+    },
+    {
+     "item": "Class weight",
+     "value": "none"
+    },
+    {
+     "item": "Monotone constraints",
+     "value": "none"
+    },
+    {
+     "item": "Missing evidence",
+     "value": "exclude"
+    },
+    {
+     "item": "Device",
+     "value": "cpu"
+    },
+    {
+     "item": "Evidence columns",
+     "value": "rad_th, rad_u, rad_k, geochem_nb_log_idw, aster_silica_index"
+    },
+    {
+     "item": "Study area (cells)",
+     "value": "16,945"
+    },
+    {
+     "item": "Min. distance of non-deposits from deposits",
+     "value": "800"
+    },
+    {
+     "item": "Min. spacing between non-deposits",
+     "value": "2,814"
+    },
+    {
+     "item": "Training AUC (samples)",
+     "value": "0.9796"
+    },
+    {
+     "item": "Cross-validated AUC (samples)",
+     "value": "0.8027"
+    },
+    {
+     "item": "Mean score in the study area",
+     "value": "0.2179"
+    }
+   ],
+   "repeats": [
+    {
+     "repeat": 1,
+     "seed": 42,
+     "deposits": 7,
+     "non_deposits": 21,
+     "trees": 9,
+     "training_auc": 0.9795918367346939,
+     "cv_auc": 0.8027210884353742
+    },
+    {
+     "repeat": 2,
+     "seed": 1042,
+     "deposits": 7,
+     "non_deposits": 21,
+     "trees": 44,
+     "training_auc": 0.9863945578231292,
+     "cv_auc": 0.8061224489795918
+    },
+    {
+     "repeat": 3,
+     "seed": 2042,
+     "deposits": 7,
+     "non_deposits": 21,
+     "trees": 2,
+     "training_auc": 0.935374149659864,
+     "cv_auc": 0.7346938775510204
+    }
+   ],
+   "stats": {
+    "cv_auc": 0.8027210884353742,
+    "training_auc": 0.9795918367346939,
+    "trees": 9,
+    "trees_mean": 18.333333333333332,
+    "spacing": 2814.0802438892215,
+    "device": "cpu"
+   },
+   "params": {
+    "n_rounds": 500,
+    "learning_rate": 0.05,
+    "max_depth": 3,
+    "min_child_weight": 1.0,
+    "subsample": 0.8,
+    "colsample": 0.8,
+    "reg_lambda": 1.0,
+    "reg_alpha": 0.0,
+    "min_split_loss": 0.0,
+    "early_stopping": 50,
+    "class_weight": "none",
+    "monotone": {
+     "rad_th": 0,
+     "rad_u": 0,
+     "rad_k": 0,
+     "geochem_nb_log_idw": 0,
+     "aster_silica_index": 0
+    },
+    "neg_ratio": 3.0,
+    "min_distance": 800.0,
+    "min_spacing": 2814.0802438892215,
+    "repeats": 3,
+    "cv_folds": 5,
+    "missing": "exclude",
+    "device": "cpu",
+    "seed": 42
+   }
+  }
+ },
+ "sensitivity": [
+  {
+   "learning_rate": 0.01,
+   "trees": 22,
+   "cv_auc": 0.7346938775510204,
+   "train_auc": 0.9580149452625542,
+   "test_auc": null,
+   "seconds": 1.1070597171783447
+  },
+  {
+   "learning_rate": 0.05,
+   "trees": 9,
+   "cv_auc": 0.8027210884353742,
+   "train_auc": 0.9594107923013342,
+   "test_auc": null,
+   "seconds": 1.0896105766296387
+  },
+  {
+   "learning_rate": 0.1,
+   "trees": 39,
+   "cv_auc": 0.8707482993197279,
+   "train_auc": 0.9648044127321491,
+   "test_auc": null,
+   "seconds": 1.271108865737915
+  },
+  {
+   "learning_rate": 0.3,
+   "trees": 5,
+   "cv_auc": 0.8469387755102041,
+   "train_auc": 0.9569901995513048,
+   "test_auc": null,
+   "seconds": 1.0189321041107178
+  }
+ ],
+ "figures": {
+  "map": "xgboost_curnamona_map.png",
+  "curves": "xgboost_curnamona_curves.png"
+ },
+ "runtime_s": 102.83498883247375
+}

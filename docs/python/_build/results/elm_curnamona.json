@@ -1,0 +1,851 @@
+{
+ "method": "elm",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_k",
+   "kind": "continuous",
+   "description": "SA_RAD_K (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16922,
+   "min": 0.0,
+   "max": 8.675689697265625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "100 sigmoid, tuned C, 1:1 non-deposits (default)",
+   "cfg": {
+    "label": "100 sigmoid, tuned C, 1:1 non-deposits (default)",
+    "neg_ratio": 1.0
+   },
+   "mean_test_auc": 0.883533222002935,
+   "sd_test_auc": 0.10710180537465491,
+   "mean_train_auc": 0.9152153806796939,
+   "seconds": 8.105672189167567,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9983469122682725,
+     "train_auc": 0.9019619418698467,
+     "seconds": 13.536656141281128
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9873066477742355,
+     "train_auc": 0.9055335812818546,
+     "seconds": 11.920361042022705
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.8749557208643287,
+     "train_auc": 0.9029655430269398,
+     "seconds": 6.712497234344482
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8330971779430866,
+     "train_auc": 0.912096345711081,
+     "seconds": 6.513162851333618
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6803046404534183,
+     "train_auc": 0.9602888797056103,
+     "seconds": 5.654642105102539
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9062463100720274,
+     "train_auc": 0.913158982230356,
+     "seconds": 5.960794925689697
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9044751446451765,
+     "train_auc": 0.9105023909321683,
+     "seconds": 6.441591024398804
+    }
+   ]
+  },
+  {
+   "label": "100 sigmoid, tuned C, 1:3 non-deposits",
+   "cfg": {
+    "label": "100 sigmoid, tuned C, 1:3 non-deposits",
+    "neg_ratio": 3.0
+   },
+   "mean_test_auc": 0.8693217279827269,
+   "sd_test_auc": 0.13650650537344555,
+   "mean_train_auc": 0.9173097304332913,
+   "seconds": 7.786245380129133,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9804581414570788,
+     "train_auc": 0.9086624554774978,
+     "seconds": 7.194596290588379
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9669972842130121,
+     "train_auc": 0.9133557667709624,
+     "seconds": 6.714014291763306
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9021135907427087,
+     "train_auc": 0.9028573115296062,
+     "seconds": 6.8144850730896
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8639744952178533,
+     "train_auc": 0.9147824546903596,
+     "seconds": 10.884092569351196
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.574684142165545,
+     "train_auc": 0.9594230277269418,
+     "seconds": 8.14413571357727
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8864092572912977,
+     "train_auc": 0.9130802684141134,
+     "seconds": 7.587549209594727
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9106151847915929,
+     "train_auc": 0.9090068284235591,
+     "seconds": 7.164844512939453
+    }
+   ]
+  },
+  {
+   "label": "100 sigmoid, tuned C, 1:5 non-deposits",
+   "cfg": {
+    "label": "100 sigmoid, tuned C, 1:5 non-deposits",
+    "neg_ratio": 5.0
+   },
+   "mean_test_auc": 0.8692205185297641,
+   "sd_test_auc": 0.11541374144470082,
+   "mean_train_auc": 0.9096843294847899,
+   "seconds": 11.591937473842076,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9496398630298737,
+     "train_auc": 0.897573646614322,
+     "seconds": 12.530007362365723
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9463927264139804,
+     "train_auc": 0.8945038077808607,
+     "seconds": 15.828163385391235
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9163419530050774,
+     "train_auc": 0.901666765058937,
+     "seconds": 8.086180686950684
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8831621206754044,
+     "train_auc": 0.9110337091918059,
+     "seconds": 9.359373807907104
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6184909670563231,
+     "train_auc": 0.9460121612846095,
+     "seconds": 13.301440477371216
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8560632896445861,
+     "train_auc": 0.9112403329594427,
+     "seconds": 12.619544982910156
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9144527098831031,
+     "train_auc": 0.9057598835035521,
+     "seconds": 9.418851613998413
+    }
+   ]
+  },
+  {
+   "label": "30 sigmoid, tuned C, 1:3",
+   "cfg": {
+    "label": "30 sigmoid, tuned C, 1:3",
+    "neg_ratio": 3.0,
+    "hidden": 30
+   },
+   "mean_test_auc": 0.8646913955096741,
+   "sd_test_auc": 0.1266019289337976,
+   "mean_train_auc": 0.9129678201051955,
+   "seconds": 4.406228678567069,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9240760420356595,
+     "train_auc": 0.8973768620737155,
+     "seconds": 5.880548715591431
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9665840122800803,
+     "train_auc": 0.9084459924828305,
+     "seconds": 5.841917276382446
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9070138150903294,
+     "train_auc": 0.9022571186807564,
+     "seconds": 5.165552854537964
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8725351281142992,
+     "train_auc": 0.9112009760513213,
+     "seconds": 3.7883739471435547
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.5854882512693352,
+     "train_auc": 0.9589409056024559,
+     "seconds": 3.786194086074829
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8897154327547526,
+     "train_auc": 0.9075112659149498,
+     "seconds": 3.140760898590088
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9074270870232614,
+     "train_auc": 0.9050416199303384,
+     "seconds": 3.24025297164917
+    }
+   ]
+  },
+  {
+   "label": "300 sigmoid, tuned C, 1:3",
+   "cfg": {
+    "label": "300 sigmoid, tuned C, 1:3",
+    "neg_ratio": 3.0,
+    "hidden": 300
+   },
+   "mean_test_auc": 0.8201423679638344,
+   "sd_test_auc": 0.18154027982855472,
+   "mean_train_auc": 0.9237783194037991,
+   "seconds": 21.307647466659546,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9907899397803754,
+     "train_auc": 0.9107090146998051,
+     "seconds": 18.847307443618774
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9661117014995867,
+     "train_auc": 0.9125095932463546,
+     "seconds": 25.7895929813385
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.8935529578462629,
+     "train_auc": 0.9048940315248835,
+     "seconds": 23.745522022247314
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8633841067422364,
+     "train_auc": 0.9170749945884251,
+     "seconds": 20.63136601448059
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.583185736214429,
+     "train_auc": 0.9591672078241533,
+     "seconds": 20.749735116958618
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.5422127760066123,
+     "train_auc": 0.942450361099632,
+     "seconds": 20.53757953643799
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9017593576573385,
+     "train_auc": 0.9196430328433398,
+     "seconds": 18.852429151535034
+    }
+   ]
+  },
+  {
+   "label": "100 Gaussian RBF, tuned C, 1:3",
+   "cfg": {
+    "label": "100 Gaussian RBF, tuned C, 1:3",
+    "neg_ratio": 3.0,
+    "activation": "rbf"
+   },
+   "mean_test_auc": 0.7654133562741426,
+   "sd_test_auc": 0.271507570882492,
+   "mean_train_auc": 0.9356373991830632,
+   "seconds": 3.352744851793562,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9226000708466171,
+     "train_auc": 0.9398921620717477,
+     "seconds": 3.345634937286377
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9663478568898335,
+     "train_auc": 0.9309089477930614,
+     "seconds": 3.1904942989349365
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.6379737867516826,
+     "train_auc": 0.9211189168978886,
+     "seconds": 3.7487945556640625
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.844845908607864,
+     "train_auc": 0.912853966192416,
+     "seconds": 3.135302782058716
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.1984295666548589,
+     "train_auc": 0.9665171104158057,
+     "seconds": 3.628321647644043
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8837525091510213,
+     "train_auc": 0.9350709408268887,
+     "seconds": 3.448068618774414
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9039437950171213,
+     "train_auc": 0.9430997500836334,
+     "seconds": 2.972597122192383
+    }
+   ]
+  },
+  {
+   "label": "100 sigmoid, C = 1 (not tuned), 1:3",
+   "cfg": {
+    "label": "100 sigmoid, C = 1 (not tuned), 1:3",
+    "neg_ratio": 3.0,
+    "tune": false
+   },
+   "mean_test_auc": 0.8787342071082772,
+   "sd_test_auc": 0.11796563049096341,
+   "mean_train_auc": 0.9239287190169768,
+   "seconds": 5.601765939167568,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9804581414570788,
+     "train_auc": 0.9086624554774978,
+     "seconds": 5.937901496887207
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9669972842130121,
+     "train_auc": 0.9133557667709624,
+     "seconds": 6.254144906997681
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9354705396150668,
+     "train_auc": 0.9155695928527854,
+     "seconds": 6.043404817581177
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.898748376431692,
+     "train_auc": 0.9237853474231065,
+     "seconds": 5.092607498168945
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.635376077458968,
+     "train_auc": 0.9552216777849931,
+     "seconds": 5.158679246902466
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.8335694887235802,
+     "train_auc": 0.9307908770686975,
+     "seconds": 5.206235647201538
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.9005195418585429,
+     "train_auc": 0.9201153157407954,
+     "seconds": 5.51938796043396
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "100 sigmoid, tuned C, 1:1 non-deposits (default)",
+  "neg_ratio": 1.0
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 5.7637999057769775,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9620801916232309,
+    "auc_lo": 0.9426629208999844,
+    "auc_hi": 0.9814974623464778,
+    "sr_auc": 0.962331914176116,
+    "pa_prediction": 92.39054494643689,
+    "pa_area": 7.609455053563111,
+    "tpr_at": {
+     "0.05": 0.7142857142857143,
+     "0.1": 1.0,
+     "0.2": 1.0,
+     "0.3": 1.0
+    }
+   }
+  },
+  "messages": [
+   "sample 3: cross-validated outputs do not separate deposits; the sigmoid was fitted to the training outputs",
+   "non-deposit samples are at least 4,874 map units apart (auto: ½·√(area / n))",
+   "3 random non-deposit samples × 10 ELMs averaged; tuning, importance and validation refer to sample 1"
+  ],
+  "tables": {
+   "tuning": [
+    {
+     "C": 0.015625,
+     "log2_C": -6.0,
+     "cv_auc": 0.7346938775510204,
+     "selected": false
+    },
+    {
+     "C": 0.0625,
+     "log2_C": -4.0,
+     "cv_auc": 0.7551020408163265,
+     "selected": false
+    },
+    {
+     "C": 0.25,
+     "log2_C": -2.0,
+     "cv_auc": 0.7346938775510204,
+     "selected": false
+    },
+    {
+     "C": 1.0,
+     "log2_C": 0.0,
+     "cv_auc": 0.7959183673469388,
+     "selected": false
+    },
+    {
+     "C": 4.0,
+     "log2_C": 2.0,
+     "cv_auc": 0.7551020408163265,
+     "selected": false
+    },
+    {
+     "C": 16.0,
+     "log2_C": 4.0,
+     "cv_auc": 0.8163265306122449,
+     "selected": false
+    },
+    {
+     "C": 64.0,
+     "log2_C": 6.0,
+     "cv_auc": 0.8367346938775511,
+     "selected": true
+    },
+    {
+     "C": 256.0,
+     "log2_C": 8.0,
+     "cv_auc": 0.8367346938775511,
+     "selected": false
+    },
+    {
+     "C": 1024.0,
+     "log2_C": 10.0,
+     "cv_auc": 0.8367346938775511,
+     "selected": false
+    },
+    {
+     "C": 4096.0,
+     "log2_C": 12.0,
+     "cv_auc": 0.8367346938775511,
+     "selected": false
+    }
+   ],
+   "importance": [
+    {
+     "rank": 1,
+     "layer": "geochem_nb_log_idw",
+     "columns": 1,
+     "permutation_auc_drop": 0.25714285714285723,
+     "permutation_sd": 0.11659474985376081
+    },
+    {
+     "rank": 2,
+     "layer": "rad_u",
+     "columns": 1,
+     "permutation_auc_drop": 0.1714285714285715,
+     "permutation_sd": 0.024489795918367377
+    },
+    {
+     "rank": 3,
+     "layer": "rad_th",
+     "columns": 1,
+     "permutation_auc_drop": 0.028571428571428647,
+     "permutation_sd": 0.042022980167293875
+    },
+    {
+     "rank": 4,
+     "layer": "rad_k",
+     "columns": 1,
+     "permutation_auc_drop": 0.024489795918367398,
+     "permutation_sd": 0.0326530612244898
+    },
+    {
+     "rank": 5,
+     "layer": "aster_silica_index",
+     "columns": 1,
+     "permutation_auc_drop": 0.016326530612244917,
+     "permutation_sd": 0.008163265306122458
+    }
+   ],
+   "sample_validation": [
+    {
+     "item": "Samples (deposits / non-deposits)",
+     "value": "7 / 7"
+    },
+    {
+     "item": "Training confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "7 / 0"
+    },
+    {
+     "item": "Training confusion: true deposit → predicted non-deposit / deposit",
+     "value": "0 / 7"
+    },
+    {
+     "item": "Training accuracy",
+     "value": "1.0000"
+    },
+    {
+     "item": "Training AUC",
+     "value": "1.0000"
+    },
+    {
+     "item": "Cross-validation",
+     "value": "5-fold (stratified)"
+    },
+    {
+     "item": "CV confusion: true non-deposit → predicted non-deposit / deposit",
+     "value": "6 / 1"
+    },
+    {
+     "item": "CV confusion: true deposit → predicted non-deposit / deposit",
+     "value": "3 / 4"
+    },
+    {
+     "item": "Cross-validated accuracy (mean of folds)",
+     "value": "0.6500"
+    },
+    {
+     "item": "Cross-validated AUC",
+     "value": "0.8367"
+    }
+   ],
+   "summary": [
+    {
+     "item": "Training deposits (cells)",
+     "value": "7"
+    },
+    {
+     "item": "Non-deposit samples per draw",
+     "value": "7"
+    },
+    {
+     "item": "Random draws × ELMs",
+     "value": "3 × 10 = 30"
+    },
+    {
+     "item": "Hidden neurons L / activation",
+     "value": "100 / sigmoid"
+    },
+    {
+     "item": "C (regularisation)",
+     "value": "64 (tuned)"
+    },
+    {
+     "item": "Platt sigmoid A / B (sample 1)",
+     "value": "-1.793 / 1.056"
+    },
+    {
+     "item": "Evidence columns",
+     "value": "rad_th, rad_u, rad_k, geochem_nb_log_idw, aster_silica_index"
+    },
+    {
+     "item": "Study area (cells)",
+     "value": "16,945"
+    },
+    {
+     "item": "Min. distance of non-deposits from deposits",
+     "value": "800"
+    },
+    {
+     "item": "Min. spacing between non-deposits",
+     "value": "4,874"
+    },
+    {
+     "item": "Training AUC (samples)",
+     "value": "1.0000"
+    },
+    {
+     "item": "Cross-validated AUC (samples)",
+     "value": "0.8367"
+    },
+    {
+     "item": "Mean score in the study area",
+     "value": "0.4074"
+    }
+   ],
+   "repeats": [
+    {
+     "repeat": 1,
+     "seed": 42,
+     "deposits": 7,
+     "non_deposits": 7,
+     "C": 64.0,
+     "networks": 10,
+     "training_auc": 1.0,
+     "cv_auc": 0.8367346938775511,
+     "platt_A": -1.7926306730192196,
+     "platt_B": 1.0562174464941974
+    },
+    {
+     "repeat": 2,
+     "seed": 1042,
+     "deposits": 7,
+     "non_deposits": 7,
+     "C": 64.0,
+     "networks": 10,
+     "training_auc": 1.0,
+     "cv_auc": 0.8367346938775511,
+     "platt_A": -1.4924689847864692,
+     "platt_B": 0.9712310326408706
+    },
+    {
+     "repeat": 3,
+     "seed": 2042,
+     "deposits": 7,
+     "non_deposits": 7,
+     "C": 64.0,
+     "networks": 10,
+     "training_auc": 1.0,
+     "cv_auc": 0.4489795918367347,
+     "platt_A": -5.118495661601003,
+     "platt_B": 2.5402121004411375
+    }
+   ],
+   "stats": {
+    "cv_auc": 0.8367346938775511,
+    "training_auc": 1.0,
+    "C": 64.0,
+    "networks": 30,
+    "hidden": 100,
+    "platt_A": -1.7926306730192196,
+    "platt_B": 1.0562174464941974,
+    "spacing": 4874.129958991949,
+    "samples": 14
+   },
+   "params": {
+    "hidden": 100,
+    "activation": "sigmoid",
+    "C": 64.0,
+    "tune": true,
+    "networks": 10,
+    "neg_ratio": 1.0,
+    "min_distance": 800.0,
+    "min_spacing": 4874.129958991949,
+    "repeats": 3,
+    "cv_folds": 5,
+    "missing": "exclude",
+    "seed": 42
+   }
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "elm_curnamona_map.png",
+  "curves": "elm_curnamona_curves.png"
+ },
+ "runtime_s": 443.93560314178467
+}

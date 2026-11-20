@@ -1,0 +1,22 @@
+name,file,group,kind,description
+study_mask,rasters/study_mask.tif,mask,categorical,Study area (mapped geology inside study polygon)
+geology,rasters/geology.tif,geology,categorical,"Lithology (25 units, Kbgeol), labels = unit codes"
+geology_host,rasters/geology_host.tif,geology,categorical,Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)
+expert_map,rasters/expert_map.tif,reference,categorical,"Expert (knowledge-driven) permissive map from the course: 0 non-permissive, 1 permissive, 2 favourable"
+aeromag,rasters/aeromag.tif,geophysics,categorical,"Aeromagnetic anomaly, classified (nT)"
+bouguer,rasters/bouguer.tif,geophysics,categorical,"Bouguer gravity, classified (mGal)"
+potassium,rasters/potassium.tif,geophysics,categorical,"Radiometric K, classified"
+thorium,rasters/thorium.tif,geophysics,categorical,"Radiometric Th, classified"
+uranium,rasters/uranium.tif,geophysics,categorical,"Radiometric U, classified"
+sb_class,rasters/sb_class.tif,geochemistry,categorical,"Stream-sediment Sb surface, 15 classes (course data)"
+sb_surface,rasters/sb_surface.tif,geochemistry,continuous,Stream-sediment Sb interpolated surface (course data)
+dist_faults,rasters/dist_faults.tif,structure,continuous,Distance to nearest fault (m)
+dist_faults_class,rasters/dist_faults_class.tif,structure,categorical,"Distance to faults, 10 classes (use cumulative ASCENDING in WofE)"
+as_log_idw,rasters/as_log_idw.tif,geochemistry,continuous,"log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)"
+as_q8,rasters/as_q8.tif,geochemistry,categorical,"log10 As IDW, 8 quantile classes (use cumulative DESCENDING in WofE)"
+sb_log_idw,rasters/sb_log_idw.tif,geochemistry,continuous,"log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)"
+sb_q8,rasters/sb_q8.tif,geochemistry,categorical,"log10 Sb IDW, 8 quantile classes (use cumulative DESCENDING in WofE)"
+deposits,vectors/deposits.gpkg,deposits,vector,35 Carlin-type Au deposits (training points)
+faults,vectors/faults.gpkg,structure,vector,Faults (1 674)
+study_area,vectors/study_area.gpkg,mask,vector,Study area polygon
+nure_geochem,vectors/nure_geochem.gpkg,geochemistry,vector,"NURE stream-sediment samples (3 472, 46 elements; 0 = below detection/not analysed)"
