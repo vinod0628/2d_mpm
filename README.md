@@ -223,11 +223,11 @@ Two open case studies cover every evidence type and method family. The original 
 `demo_data\<case>\raw\`. The analysis-ready, co-registered layers in `processed\` (the demo projects) are made by
 `python\utils\prepare_demo_data.py`.
 
-| | Carlin-type Au, Nevada (USA) | REE (+U, Cu, Co), Curnamona Province (South Australia) |
+| | Carlin-type Au, Nevada | REE (+U, Cu, Co), Curnamona Province (South Australia) |
 |---|---|---|
 | Folder | `demo_data\nevada_carlin_au\` | `demo_data\curnamona_ree\` |
 | Source | USGS Open-File Report 01-221 v1.1, Raines (2001, rev. 2006), the ArcSDM course data, <https://pubs.usgs.gov/of/2001/of01-221/> | DEEP-SEAM v1.0 (EarthByte), Zenodo [10.5281/zenodo.17098677](https://doi.org/10.5281/zenodo.17098677); underlying data from the Geological Survey of South Australia (SARIG) |
-| Licence | US public domain (USGS) | GPL-3.0 (Zenodo package); the SARIG data are under SA government terms, so check them before redistributing |
+| Licence | USGS public domain | GPL-3.0 (Zenodo package); the SARIG data are under SA government terms, so check them before redistributing |
 | Deposits | 35 Carlin-type Au deposits | 7 REE occurrences |
 | Evidence | 25-class geology with a favourable-host flag, 1 674 faults, 3 472 NURE stream-sediment samples × 46 elements, Sb surface, aeromagnetics, Bouguer gravity, radiometrics (pre-classified), expert map | faults, granites, Mesoproterozoic units, 615 geochemical samples × 27 elements, gravity, 12 magnetic derivatives, radiometrics, 15 ASTER mineral products, DEM |
 | Demo project grid | Lambert conformal conic (Clarke 1866), 250 m cells, 1008 × 1112 | GDA94 / MGA zone 54 (EPSG:28354), 200 m cells, 227 × 252 |
