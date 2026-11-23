@@ -1,4 +1,4 @@
-<img src="gui/resources/mpm_studio.png" alt="MPM Studio icon" width="96" align="right">
+<img src="python/gui/resources/mpm_studio.png" alt="MPM Studio icon" width="96" align="right">
 
 # MPM Studio
 
