@@ -1,0 +1,590 @@
+{
+ "method": "topsis",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "knowledge": null,
+ "protocol": "expert",
+ "search": [
+  {
+   "label": "TOPSIS, vector normalisation, equal weights, 2–98 % ranges (default)",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, equal weights, 2–98 % ranges (default)"
+   },
+   "mean_test_auc": 0.8862118021144781,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8862118021144781,
+   "seconds": 3.046027898788452,
+   "pa_prediction": 79.33862683166231,
+   "pa_area": 20.66137316833769,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "TOPSIS, no normalisation, equal weights",
+   "cfg": {
+    "label": "TOPSIS, no normalisation, equal weights",
+    "normalisation": "linear"
+   },
+   "mean_test_auc": 0.8759015752938215,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8759015752938215,
+   "seconds": 2.8393352031707764,
+   "pa_prediction": 76.47058823529412,
+   "pa_area": 23.529411764705884,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, AHP weights",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, AHP weights",
+    "weighting": "ahp"
+   },
+   "mean_test_auc": 0.8999690978093141,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8999690978093141,
+   "seconds": 2.5268442630767822,
+   "pa_prediction": 82.35294117647058,
+   "pa_area": 17.647058823529417,
+   "weights": {
+    "geology_host": 0.3509128874313554,
+    "dist_faults": 0.10911380053565638,
+    "as_log_idw": 0.18906042460163275,
+    "sb_log_idw": 0.3509128874313555
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, fuzzy AHP weights (δ = 1)",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, fuzzy AHP weights (δ = 1)",
+    "weighting": "fuzzy_ahp",
+    "delta": 1.0
+   },
+   "mean_test_auc": 0.8993094996684385,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8993094996684385,
+   "seconds": 1.9542937278747559,
+   "pa_prediction": 82.35294117647058,
+   "pa_area": 17.647058823529417,
+   "weights": {
+    "geology_host": 0.34748816294307233,
+    "dist_faults": 0.11006917825189748,
+    "as_log_idw": 0.19495449586195784,
+    "sb_log_idw": 0.34748816294307233
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, entropy weights",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, entropy weights",
+    "weighting": "entropy"
+   },
+   "mean_test_auc": 0.9069234165715553,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.9069234165715553,
+   "seconds": 2.5857057571411133,
+   "pa_prediction": 85.29411764705883,
+   "pa_area": 14.705882352941176,
+   "weights": {
+    "geology_host": 0.7162207915489137,
+    "dist_faults": 0.054956882096986084,
+    "as_log_idw": 0.12099183296201706,
+    "sb_log_idw": 0.10783049339208312
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, equal weights, min–max ranges",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, equal weights, min–max ranges",
+    "robust": false
+   },
+   "mean_test_auc": 0.915678800120582,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.915678800120582,
+   "seconds": 1.8919119834899902,
+   "pa_prediction": 84.84597341837436,
+   "pa_area": 15.154026581625637,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, AHP weights, min–max ranges",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, AHP weights, min–max ranges",
+    "weighting": "ahp",
+    "robust": false
+   },
+   "mean_test_auc": 0.9270914939618167,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.9270914939618167,
+   "seconds": 2.051811933517456,
+   "pa_prediction": 87.0696626705292,
+   "pa_area": 12.930337329470794,
+   "weights": {
+    "geology_host": 0.3509128874313554,
+    "dist_faults": 0.10911380053565638,
+    "as_log_idw": 0.18906042460163275,
+    "sb_log_idw": 0.3509128874313555
+   }
+  },
+  {
+   "label": "TOPSIS, vector normalisation, entropy weights, min–max ranges",
+   "cfg": {
+    "label": "TOPSIS, vector normalisation, entropy weights, min–max ranges",
+    "weighting": "entropy",
+    "robust": false
+   },
+   "mean_test_auc": 0.8991955729022324,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8991955729022324,
+   "seconds": 2.375790596008301,
+   "pa_prediction": 85.69196286822843,
+   "pa_area": 14.30803713177157,
+   "weights": {
+    "geology_host": 0.9253219121013908,
+    "dist_faults": 0.008813178754674442,
+    "as_log_idw": 0.04731686137508991,
+    "sb_log_idw": 0.018548047768844885
+   }
+  },
+  {
+   "label": "VIKOR, v = 0.5, equal weights",
+   "cfg": {
+    "label": "VIKOR, v = 0.5, equal weights",
+    "method": "vikor",
+    "v": 0.5
+   },
+   "mean_test_auc": 0.8823731524250878,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8823731524250878,
+   "seconds": 1.9975049495697021,
+   "pa_prediction": 78.88475589433966,
+   "pa_area": 21.11524410566034,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "VIKOR, v = 1 (group utility only), equal weights",
+   "cfg": {
+    "label": "VIKOR, v = 1 (group utility only), equal weights",
+    "method": "vikor",
+    "v": 1.0
+   },
+   "mean_test_auc": 0.8848251164313441,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8848251164313441,
+   "seconds": 1.8436694145202637,
+   "pa_prediction": 77.13798164578498,
+   "pa_area": 22.86201835421502,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "VIKOR, v = 0 (regret only), equal weights",
+   "cfg": {
+    "label": "VIKOR, v = 0 (regret only), equal weights",
+    "method": "vikor",
+    "v": 0.0
+   },
+   "mean_test_auc": 0.8617750443402457,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.8617750443402457,
+   "seconds": 1.609466552734375,
+   "pa_prediction": 79.41176470588236,
+   "pa_area": 20.588235294117638,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  },
+  {
+   "label": "VIKOR, v = 0.5, AHP weights",
+   "cfg": {
+    "label": "VIKOR, v = 0.5, AHP weights",
+    "method": "vikor",
+    "v": 0.5,
+    "weighting": "ahp"
+   },
+   "mean_test_auc": 0.9008105971877454,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.9008105971877454,
+   "seconds": 1.68052339553833,
+   "pa_prediction": 81.80826363051446,
+   "pa_area": 18.19173636948555,
+   "weights": {
+    "geology_host": 0.3509128874313554,
+    "dist_faults": 0.10911380053565638,
+    "as_log_idw": 0.18906042460163275,
+    "sb_log_idw": 0.3509128874313555
+   }
+  },
+  {
+   "label": "VIKOR, v = 0.5, entropy weights",
+   "cfg": {
+    "label": "VIKOR, v = 0.5, entropy weights",
+    "method": "vikor",
+    "v": 0.5,
+    "weighting": "entropy"
+   },
+   "mean_test_auc": 0.9028769629083812,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.9028769629083812,
+   "seconds": 1.8368134498596191,
+   "pa_prediction": 84.93897728523284,
+   "pa_area": 15.061022714767157,
+   "weights": {
+    "geology_host": 0.7162207915489137,
+    "dist_faults": 0.054956882096986084,
+    "as_log_idw": 0.12099183296201706,
+    "sb_log_idw": 0.10783049339208312
+   }
+  },
+  {
+   "label": "VIKOR, v = 0.5, equal weights, min–max ranges",
+   "cfg": {
+    "label": "VIKOR, v = 0.5, equal weights, min–max ranges",
+    "method": "vikor",
+    "v": 0.5,
+    "robust": false
+   },
+   "mean_test_auc": 0.9085738186266479,
+   "sd_test_auc": null,
+   "mean_train_auc": 0.9085738186266479,
+   "seconds": 1.635218858718872,
+   "pa_prediction": 83.6753552343126,
+   "pa_area": 16.324644765687392,
+   "weights": {
+    "geology_host": 0.25,
+    "dist_faults": 0.25,
+    "as_log_idw": 0.25,
+    "sb_log_idw": 0.25
+   }
+  }
+ ],
+ "selected": {
+  "label": "TOPSIS, vector normalisation, AHP weights, min–max ranges",
+  "weighting": "ahp",
+  "robust": false
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 1.8864948749542236,
+  "curves": {
+   "training": {
+    "deposits": 34,
+    "negatives": 909511,
+    "auc": 0.9270914939618167,
+    "auc_lo": 0.8890866882018876,
+    "auc_hi": 0.9650962997217457,
+    "sr_auc": 0.9275184457128369,
+    "pa_prediction": 87.0696626705292,
+    "pa_area": 12.930337329470794,
+    "tpr_at": {
+     "0.05": 0.6470588235294118,
+     "0.1": 0.7941176470588235,
+     "0.2": 0.9117647058823529,
+     "0.3": 0.9411764705882353
+    }
+   }
+  },
+  "messages": [],
+  "tables": {
+   "evidence": [
+    {
+     "layer": "geology_host",
+     "rule": "classes",
+     "scores": "2=1; 1=0",
+     "weight": 0.3509128874313554,
+     "mean_score": 0.44557987879074273,
+     "favourable_area_pct": 44.557987879074275,
+     "mean_score_at_deposits": 0.9117647058823529
+    },
+    {
+     "layer": "dist_faults",
+     "rule": "negative",
+     "scores": "0 … 32350.6",
+     "weight": 0.10911380053565638,
+     "mean_score": 0.8897017393906029,
+     "favourable_area_pct": 99.0885552666443,
+     "mean_score_at_deposits": 0.9408398571405288
+    },
+    {
+     "layer": "as_log_idw",
+     "rule": "positive",
+     "scores": "0.240046 … 2.90097",
+     "weight": 0.18906042460163275,
+     "mean_score": 0.35422951102300276,
+     "favourable_area_pct": 9.329882221457101,
+     "mean_score_at_deposits": 0.4267634301686529
+    },
+    {
+     "layer": "sb_log_idw",
+     "rule": "positive",
+     "scores": "-1.09165 … 3.22306",
+     "weight": 0.3509128874313555,
+     "mean_score": 0.3716570664136712,
+     "favourable_area_pct": 4.295415511216571,
+     "mean_score_at_deposits": 0.45951827373500304
+    }
+   ],
+   "ahp": [
+    {
+     "layer": "geology_host",
+     "geology_host": 1.0,
+     "dist_faults": 3.0,
+     "as_log_idw": 2.0,
+     "sb_log_idw": 1.0,
+     "weight": 0.35091288743135535,
+     "lambda_max / CI / CR": "4.0104 / 0.0035 / 0.0038"
+    },
+    {
+     "layer": "dist_faults",
+     "geology_host": 0.3333333333333333,
+     "dist_faults": 1.0,
+     "as_log_idw": 0.5,
+     "sb_log_idw": 0.3333333333333333,
+     "weight": 0.10911380053565635,
+     "lambda_max / CI / CR": ""
+    },
+    {
+     "layer": "as_log_idw",
+     "geology_host": 0.5,
+     "dist_faults": 2.0,
+     "as_log_idw": 1.0,
+     "sb_log_idw": 0.5,
+     "weight": 0.1890604246016327,
+     "lambda_max / CI / CR": ""
+    },
+    {
+     "layer": "sb_log_idw",
+     "geology_host": 1.0,
+     "dist_faults": 3.0,
+     "as_log_idw": 2.0,
+     "sb_log_idw": 1.0,
+     "weight": 0.35091288743135546,
+     "lambda_max / CI / CR": ""
+    }
+   ]
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "topsis_carlin_map.png",
+  "curves": "topsis_carlin_curves.png"
+ },
+ "ahp": {
+  "layers": [
+   "geology_host",
+   "dist_faults",
+   "as_log_idw",
+   "sb_log_idw"
+  ],
+  "matrix": [
+   [
+    1.0,
+    3.0,
+    2.0,
+    1.0
+   ],
+   [
+    0.3333333333333333,
+    1.0,
+    0.5,
+    0.3333333333333333
+   ],
+   [
+    0.5,
+    2.0,
+    1.0,
+    0.5
+   ],
+   [
+    1.0,
+    3.0,
+    2.0,
+    1.0
+   ]
+  ],
+  "ahp": [
+   0.35091288743135535,
+   0.10911380053565635,
+   0.1890604246016327,
+   0.35091288743135546
+  ],
+  "lambda_max": 4.010362902240903,
+  "ci": 0.0034543007469676943,
+  "cr": 0.003838111941075216,
+  "fuzzy1": [
+   0.34748816294307233,
+   0.11006917825189748,
+   0.19495449586195784,
+   0.34748816294307233
+  ],
+  "fuzzy1_tfn": [
+   [
+    0.18437581246181559,
+    0.3511869046381858,
+    0.6635415523588843
+   ],
+   [
+    0.058902826981140514,
+    0.10893874663644047,
+    0.21198264963028807
+   ],
+   [
+    0.08951293985206404,
+    0.18868744408718802,
+    0.3945441675825679
+   ],
+   [
+    0.18437581246181559,
+    0.3511869046381858,
+    0.6635415523588843
+   ]
+  ],
+  "fuzzy2": [
+   0.3498616350374725,
+   0.12029862508688692,
+   0.1799781048381681,
+   0.3498616350374725
+  ]
+ },
+ "vector_weights": [
+  {
+   "label": "equal weights, 2–98 % ranges",
+   "layers": [
+    "geology_host",
+    "dist_faults",
+    "as_log_idw",
+    "sb_log_idw"
+   ],
+   "weights": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "effective": [
+    0.3226327099512609,
+    0.16894427317632324,
+    0.2537240875157965,
+    0.2546989293566192
+   ]
+  },
+  {
+   "label": "equal weights, min–max ranges",
+   "layers": [
+    "geology_host",
+    "dist_faults",
+    "as_log_idw",
+    "sb_log_idw"
+   ],
+   "weights": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "effective": [
+    0.27519433385749187,
+    0.1250560268186957,
+    0.3033240960242093,
+    0.296425543299603
+   ]
+  },
+  {
+   "label": "AHP weights, min–max ranges",
+   "layers": [
+    "geology_host",
+    "dist_faults",
+    "as_log_idw",
+    "sb_log_idw"
+   ],
+   "weights": [
+    0.3509128874313554,
+    0.10911380053565638,
+    0.18906042460163275,
+    0.3509128874313555
+   ],
+   "effective": [
+    0.35558210675493107,
+    0.050244138289529984,
+    0.21115853184040495,
+    0.383015223115134
+   ]
+  }
+ ],
+ "runtime_s": 38.334494829177856
+}

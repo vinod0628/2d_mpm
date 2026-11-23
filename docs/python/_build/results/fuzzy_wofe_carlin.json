@@ -1,0 +1,825 @@
+{
+ "method": "fuzzy_wofe",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "knowledge": [
+  {
+   "layer": "geology_host",
+   "process": "trap",
+   "direction": "2=0.9; 1=0.1",
+   "weight": 1.0
+  },
+  {
+   "layer": "dist_faults",
+   "process": "pathway",
+   "direction": "−",
+   "weight": 1.0
+  },
+  {
+   "layer": "as_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "sb_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  }
+ ],
+ "protocol": "split",
+ "search": [
+  {
+   "label": "modified, expert memberships, max. contrast pattern, 10 classes (default)",
+   "cfg": {
+    "label": "modified, expert memberships, max. contrast pattern, 10 classes (default)"
+   },
+   "mean_test_auc": 0.9074364246281794,
+   "sd_test_auc": 0.04530184321391559,
+   "mean_train_auc": 0.9329552638725647,
+   "seconds": 12.833367586135864
+  },
+  {
+   "label": "classic, expert memberships, max. contrast pattern, 10 classes",
+   "cfg": {
+    "label": "classic, expert memberships, max. contrast pattern, 10 classes",
+    "model": "classic"
+   },
+   "mean_test_auc": 0.9080084133122084,
+   "sd_test_auc": 0.026497681284723722,
+   "mean_train_auc": 0.904385515953078,
+   "seconds": 14.014336013793946
+  },
+  {
+   "label": "modified, data memberships, 10 classes",
+   "cfg": {
+    "label": "modified, data memberships, 10 classes",
+    "membership": "data"
+   },
+   "mean_test_auc": 0.886048382042658,
+   "sd_test_auc": 0.03866894990429463,
+   "mean_train_auc": 0.9427481635736127,
+   "seconds": 15.65540976524353
+  },
+  {
+   "label": "modified, expert memberships, 5 classes",
+   "cfg": {
+    "label": "modified, expert memberships, 5 classes",
+    "n_classes": 5
+   },
+   "mean_test_auc": 0.9060252927122378,
+   "sd_test_auc": 0.044112734811488946,
+   "mean_train_auc": 0.9291074498640844,
+   "seconds": 14.767579507827758
+  },
+  {
+   "label": "modified, expert memberships, 20 classes",
+   "cfg": {
+    "label": "modified, expert memberships, 20 classes",
+    "n_classes": 20
+   },
+   "mean_test_auc": 0.9082592513999282,
+   "sd_test_auc": 0.04652893400309459,
+   "mean_train_auc": 0.9321315245225181,
+   "seconds": 14.511435747146606
+  },
+  {
+   "label": "modified, expert memberships, μ ≥ 0.5 pattern",
+   "cfg": {
+    "label": "modified, expert memberships, μ ≥ 0.5 pattern",
+    "pattern": "half"
+   },
+   "mean_test_auc": 0.9074192725541528,
+   "sd_test_auc": 0.04527710384064785,
+   "mean_train_auc": 0.9322217011852156,
+   "seconds": 12.372736072540283
+  },
+  {
+   "label": "modified, unconstrained β",
+   "cfg": {
+    "label": "modified, unconstrained β",
+    "nonnegative": false
+   },
+   "mean_test_auc": 0.9078152765607012,
+   "sd_test_auc": 0.048764264672123296,
+   "mean_train_auc": 0.9327733529336093,
+   "seconds": 12.414517974853515
+  }
+ ],
+ "selected": {
+  "label": "modified, expert memberships, max. contrast pattern, 10 classes (default)"
+ },
+ "robust": [
+  {
+   "seed": 0,
+   "train_auc": 0.9077726245202092,
+   "test_auc": 0.9449213918248378,
+   "test_sr": 0.94490503493505,
+   "test_pa": 90.0,
+   "seconds": 12.27609658241272
+  },
+  {
+   "seed": 1,
+   "train_auc": 0.9150881856660704,
+   "test_auc": 0.9496238088379361,
+   "test_sr": 0.9496354221066577,
+   "test_pa": 90.0,
+   "seconds": 12.047196388244629
+  },
+  {
+   "seed": 2,
+   "train_auc": 0.9056237133653873,
+   "test_auc": 0.9519105321430966,
+   "test_sr": 0.951893144374385,
+   "test_pa": 90.0,
+   "seconds": 12.269749402999878
+  },
+  {
+   "seed": 3,
+   "train_auc": 0.9298346858916494,
+   "test_auc": 0.8978360349682412,
+   "test_sr": 0.8978167105530788,
+   "test_pa": 80.0,
+   "seconds": 12.133466243743896
+  },
+  {
+   "seed": 4,
+   "train_auc": 0.959978425219706,
+   "test_auc": 0.8448443174409106,
+   "test_sr": 0.8448299974162906,
+   "test_pa": 74.7071947021472,
+   "seconds": 12.116973161697388
+  },
+  {
+   "seed": 5,
+   "train_auc": 0.9202950587366912,
+   "test_auc": 0.9317565153142733,
+   "test_sr": 0.9318302557872343,
+   "test_pa": 81.61201536258987,
+   "seconds": 12.120720386505127
+  },
+  {
+   "seed": 6,
+   "train_auc": 0.9520247922601633,
+   "test_auc": 0.863933036543813,
+   "test_sr": 0.8639167385890748,
+   "test_pa": 80.0,
+   "seconds": 12.090343236923218
+  },
+  {
+   "seed": 7,
+   "train_auc": 0.9202300741827202,
+   "test_auc": 0.9301446051779473,
+   "test_sr": 0.9302754124314905,
+   "test_pa": 81.61263445339755,
+   "seconds": 12.650469064712524
+  },
+  {
+   "seed": 8,
+   "train_auc": 0.9083181328574733,
+   "test_auc": 0.9439512551250068,
+   "test_sr": 0.9439338350493929,
+   "test_pa": 85.54182997702392,
+   "seconds": 12.261764526367188
+  },
+  {
+   "seed": 9,
+   "train_auc": 0.9075127550225708,
+   "test_auc": 0.9599606271941736,
+   "test_sr": 0.9600345777284247,
+   "test_pa": 90.0,
+   "seconds": 12.09554123878479
+  }
+ ],
+ "robust_summary": {
+  "train_auc_mean": 0.9226678447722643,
+  "train_auc_sd": 0.019213011913450852,
+  "test_auc_mean": 0.9218882124570236,
+  "test_auc_sd": 0.039687725210973676,
+  "test_auc_min": 0.8448443174409106,
+  "test_auc_max": 0.9599606271941736,
+  "test_sr_mean": 0.921907112897108,
+  "test_pa_mean": 84.34736744951586,
+  "seconds_mean": 12.206232023239135
+ },
+ "reference": {
+  "seed": 42,
+  "seconds": 11.778290748596191,
+  "curves": {
+   "training": {
+    "deposits": 24,
+    "negatives": 909511,
+    "auc": 0.9498095909047096,
+    "auc_lo": 0.9230412680752336,
+    "auc_hi": 0.9765779137341857,
+    "sr_auc": 0.9497932803398036,
+    "pa_prediction": 87.75283899748683,
+    "pa_area": 12.247161002513174,
+    "tpr_at": {
+     "0.05": 0.6666666666666666,
+     "0.1": 0.8333333333333334,
+     "0.2": 0.9583333333333334,
+     "0.3": 0.9583333333333334
+    }
+   },
+   "test": {
+    "deposits": 10,
+    "negatives": 909511,
+    "auc": 0.8692495197969018,
+    "auc_lo": 0.71531128758055,
+    "auc_hi": 1.0,
+    "sr_auc": 0.869234507363572,
+    "pa_prediction": 80.0,
+    "pa_area": 20.000000000000004,
+    "tpr_at": {
+     "0.05": 0.7,
+     "0.1": 0.7,
+     "0.2": 0.8,
+     "0.3": 0.9
+    }
+   }
+  },
+  "messages": [
+   "dist_faults: modified coefficient β = 0 — the layer adds no information once the other layers are accounted for (dependence), or its expert direction is not supported",
+   "as_log_idw: modified coefficient β = 0 — the layer adds no information once the other layers are accounted for (dependence), or its expert direction is not supported",
+   "classic model: N/S = 1.42 — its probabilities are too low (the memberships compress the evidence); the modified model rescales the weights so that Σ P = N"
+  ],
+  "tables": {
+   "summary": [
+    {
+     "item": "Training deposits (cells) / study cells",
+     "value": "24 / 909,545"
+    },
+    {
+     "item": "Prior probability per cell",
+     "value": "2.64e-05"
+    },
+    {
+     "item": "Membership of the classes",
+     "value": "expert (knowledge table)"
+    },
+    {
+     "item": "Favourable pattern B",
+     "value": "maximum studentized contrast"
+    },
+    {
+     "item": "Classes per continuous layer",
+     "value": "10"
+    },
+    {
+     "item": "Reported model",
+     "value": "modified fuzzy WofE (β by logistic regression)"
+    },
+    {
+     "item": "Modified model: β0 / mean β",
+     "value": "-13.170 / 2.184  (β ≥ 0)"
+    },
+    {
+     "item": "Conditional-independence ratio N / S",
+     "value": "1.422"
+    }
+   ],
+   "layers": [
+    {
+     "layer": "geology_host",
+     "process": "trap",
+     "classes": 2,
+     "pattern_classes": 1,
+     "pattern_area_pct": 44.557987879074275,
+     "pattern_deposits": 23,
+     "w_plus": 0.7869570727839039,
+     "w_minus": -3.260382995084446,
+     "contrast": 4.047340067868349,
+     "studentized_contrast": 2.831283871432196,
+     "membership_weight_corr": null,
+     "beta": 6.456181016546775,
+     "beta_se": 1.548594694210757
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "classes": 10,
+     "pattern_classes": 4,
+     "pattern_area_pct": 39.83695144275434,
+     "pattern_deposits": 17,
+     "w_plus": 0.575555321759175,
+     "w_minus": -0.7240454427407931,
+     "contrast": 1.299600764499968,
+     "studentized_contrast": 2.8938290947846346,
+     "membership_weight_corr": 0.9989393507124867,
+     "beta": 0.0,
+     "beta_se": null
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "classes": 10,
+     "pattern_classes": 1,
+     "pattern_area_pct": 10.000011000144102,
+     "pattern_deposits": 7,
+     "w_plus": 1.0704909148820028,
+     "w_minus": -0.2394854708360356,
+     "contrast": 1.3099763857180384,
+     "studentized_contrast": 2.9168773393434066,
+     "membership_weight_corr": 0.9711757355582259,
+     "beta": 0.0,
+     "beta_se": null
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "classes": 10,
+     "pattern_classes": 2,
+     "pattern_area_pct": 20.000043982239973,
+     "pattern_deposits": 16,
+     "w_plus": 1.2040321836797518,
+     "w_minus": -0.8754835816414474,
+     "contrast": 2.079515765321199,
+     "studentized_contrast": 4.8023479346254,
+     "membership_weight_corr": 0.9986231474489098,
+     "beta": 2.280645240225057,
+     "beta_se": 0.5122889709072781
+    }
+   ],
+   "weights": [
+    {
+     "layer": "geology_host",
+     "process": "trap",
+     "cls": "1",
+     "membership": 0.10000000000000003,
+     "cells": 187720,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -4.047340067868349,
+     "fuzzy_weight": -1.535795784366253,
+     "fuzzy_weight_sd": 0.2897783226470782
+    },
+    {
+     "layer": "geology_host",
+     "process": "trap",
+     "cls": "2",
+     "membership": 0.9,
+     "cells": 150868,
+     "deposits": 23,
+     "in_pattern": true,
+     "class_contrast": 4.047340067868349,
+     "fuzzy_weight": 0.6598574928752867,
+     "fuzzy_weight_sd": 0.20805236695630824
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "0 – 353.6",
+     "membership": 0.5385061728895295,
+     "cells": 86804,
+     "deposits": 3,
+     "in_pattern": true,
+     "class_contrast": 0.3030876326849429,
+     "fuzzy_weight": 0.047363092754900644,
+     "fuzzy_weight_sd": 0.2045959172487653
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "353.6 – 750",
+     "membership": 0.504049046855613,
+     "cells": 82800,
+     "deposits": 5,
+     "in_pattern": true,
+     "class_contrast": 0.9661045822820349,
+     "fuzzy_weight": 0.005016041125906851,
+     "fuzzy_weight_sd": 0.20413233240130876
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "750 – 1250",
+     "membership": 0.4661034003756257,
+     "cells": 83291,
+     "deposits": 4,
+     "in_pattern": true,
+     "class_contrast": 0.6851476393763873,
+     "fuzzy_weight": -0.04234052168267306,
+     "fuzzy_weight_sd": 0.20453692909261725
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "1250 – 1904",
+     "membership": 0.4128212992122436,
+     "cells": 109440,
+     "deposits": 5,
+     "in_pattern": true,
+     "class_contrast": 0.6543873894618278,
+     "fuzzy_weight": -0.1102523197733965,
+     "fuzzy_weight_sd": 0.20708695368349184
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "1904 – 2574",
+     "membership": 0.3508492339616624,
+     "cells": 91491,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.944823659425418,
+     "fuzzy_weight": -0.19159348145075142,
+     "fuzzy_weight_sd": 0.2136897307419234
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "2574 – 3400",
+     "membership": 0.2898299908446947,
+     "cells": 89016,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.9143778876683075,
+     "fuzzy_weight": -0.2745342244251716,
+     "fuzzy_weight_sd": 0.22496564072276665
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "3400 – 4451",
+     "membership": 0.22479195423474302,
+     "cells": 93297,
+     "deposits": 2,
+     "in_pattern": false,
+     "class_contrast": -0.22897051124572002,
+     "fuzzy_weight": -0.36656671166810034,
+     "fuzzy_weight_sd": 0.24337683805954877
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "4451 – 5815",
+     "membership": 0.15760975411461342,
+     "cells": 91019,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.6747934465372802,
+     "fuzzy_weight": -0.46625424039806085,
+     "fuzzy_weight_sd": 0.27070401268487193
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "5815 – 7977",
+     "membership": 0.09140745981094818,
+     "cells": 91184,
+     "deposits": 3,
+     "in_pattern": false,
+     "class_contrast": 0.2485212070689764,
+     "fuzzy_weight": -0.569941763859564,
+     "fuzzy_weight_sd": 0.30746425015508644
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "cls": "7977 – 3.235e+04",
+     "membership": 0.028045354593564296,
+     "cells": 91203,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.677037788069908,
+     "fuzzy_weight": -0.6752414886065518,
+     "fuzzy_weight_sd": 0.35357233025293905
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "0.24 – 0.8521",
+     "membership": 0.09395943164946399,
+     "cells": 90908,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.9382879725160054,
+     "fuzzy_weight": -0.209126736805418,
+     "fuzzy_weight_sd": 0.23312016245329562
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "0.8521 – 0.9382",
+     "membership": 0.15028122137395436,
+     "cells": 90908,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.67400698996074,
+     "fuzzy_weight": -0.18864986313125842,
+     "fuzzy_weight_sd": 0.22752581481883669
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "0.9382 – 1.006",
+     "membership": 0.18904563868195154,
+     "cells": 90908,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.9382879725160054,
+     "fuzzy_weight": -0.17339925605605333,
+     "fuzzy_weight_sd": 0.2237587341480521
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.006 – 1.08",
+     "membership": 0.23278724832369313,
+     "cells": 90908,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.9382879725160054,
+     "fuzzy_weight": -0.15491371478275842,
+     "fuzzy_weight_sd": 0.21965035133389596
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.08 – 1.16",
+     "membership": 0.28927895876716064,
+     "cells": 90907,
+     "deposits": 4,
+     "in_pattern": false,
+     "class_contrast": 0.5878172220381598,
+     "fuzzy_weight": -0.1287669516650315,
+     "fuzzy_weight_sd": 0.21469273070287564
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.16 – 1.244",
+     "membership": 0.3558580090597486,
+     "cells": 90908,
+     "deposits": 2,
+     "in_pattern": false,
+     "class_contrast": -0.2006768067997214,
+     "fuzzy_weight": -0.09409193783331272,
+     "fuzzy_weight_sd": 0.2096391768285281
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.244 – 1.326",
+     "membership": 0.43082733075176566,
+     "cells": 90908,
+     "deposits": 3,
+     "in_pattern": false,
+     "class_contrast": 0.2513205396483551,
+     "fuzzy_weight": -0.04892662610345461,
+     "fuzzy_weight_sd": 0.20556487888167935
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.326 – 1.42",
+     "membership": 0.5111210208025305,
+     "cells": 90908,
+     "deposits": 3,
+     "in_pattern": false,
+     "class_contrast": 0.2513205396483551,
+     "fuzzy_weight": 0.008643339543365228,
+     "fuzzy_weight_sd": 0.20416934470649128
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.42 – 1.558",
+     "membership": 0.6128573672606007,
+     "cells": 90908,
+     "deposits": 2,
+     "in_pattern": false,
+     "class_contrast": -0.2006768067997214,
+     "fuzzy_weight": 0.10038247063785112,
+     "fuzzy_weight_sd": 0.20929687151002435
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "cls": "1.558 – 2.901",
+     "membership": 0.7730725458425303,
+     "cells": 90908,
+     "deposits": 7,
+     "in_pattern": true,
+     "class_contrast": 1.3099763857180384,
+     "fuzzy_weight": 0.3161346621312377,
+     "fuzzy_weight_sd": 0.24265466630133237
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "-1.092 – 0.1559",
+     "membership": 0.07575160406487444,
+     "cells": 90946,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.6740081989574223,
+     "fuzzy_weight": -0.743971049419156,
+     "fuzzy_weight_sd": 0.3057966474369437
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.1559 – 0.2623",
+     "membership": 0.13586402985931043,
+     "cells": 90946,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.6740081989574223,
+     "fuzzy_weight": -0.6406154971912711,
+     "fuzzy_weight_sd": 0.2755453749255935
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.2623 – 0.3445",
+     "membership": 0.1837237108996914,
+     "cells": 90946,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.6740081989574223,
+     "fuzzy_weight": -0.5585548243786447,
+     "fuzzy_weight_sd": 0.2558599567841013
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.3445 – 0.4192",
+     "membership": 0.23172132891821096,
+     "cells": 90945,
+     "deposits": 2,
+     "in_pattern": false,
+     "class_contrast": -0.20066580840807968,
+     "fuzzy_weight": -0.4761582252781805,
+     "fuzzy_weight_sd": 0.23975260877256777
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.4192 – 0.4981",
+     "membership": 0.2888819450765257,
+     "cells": 90946,
+     "deposits": 0,
+     "in_pattern": false,
+     "class_contrast": -1.6740081989574223,
+     "fuzzy_weight": -0.37751129324340305,
+     "fuzzy_weight_sd": 0.2249694594518152
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.4981 – 0.5734",
+     "membership": 0.3531998386970803,
+     "cells": 90946,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.938289186618153,
+     "fuzzy_weight": -0.2652540574627201,
+     "fuzzy_weight_sd": 0.21351982674147943
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.5734 – 0.6543",
+     "membership": 0.4244955096401777,
+     "cells": 90945,
+     "deposits": 1,
+     "in_pattern": false,
+     "class_contrast": -0.938276969138213,
+     "fuzzy_weight": -0.13838361833131102,
+     "fuzzy_weight_sd": 0.20640801237207726
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.6543 – 0.7428",
+     "membership": 0.503491900288833,
+     "cells": 90946,
+     "deposits": 4,
+     "in_pattern": false,
+     "class_contrast": 0.5878037696749618,
+     "fuzzy_weight": 0.006524478830605769,
+     "fuzzy_weight_sd": 0.20413124290498066
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.7428 – 0.8962",
+     "membership": 0.6113884904089022,
+     "cells": 90946,
+     "deposits": 7,
+     "in_pattern": true,
+     "class_contrast": 1.3099751409810025,
+     "fuzzy_weight": 0.21512220425584508,
+     "fuzzy_weight_sd": 0.20799183651440634
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "cls": "0.8962 – 3.223",
+     "membership": 0.8003487226122958,
+     "cells": 90946,
+     "deposits": 9,
+     "in_pattern": true,
+     "class_contrast": 1.6864771487282777,
+     "fuzzy_weight": 0.6294787515110795,
+     "fuzzy_weight_sd": 0.2257112976660339
+    }
+   ],
+   "ci_test": [
+    {
+     "item": "Observed training deposits N",
+     "value": "24"
+    },
+    {
+     "item": "Predicted deposits S = Σ P (classic fuzzy WofE)",
+     "value": "16.88"
+    },
+    {
+     "item": "Conditional-independence ratio N / S",
+     "value": "1.422  (> 1.15: probabilities too low — memberships compress the evidence)"
+    },
+    {
+     "item": "Agterberg–Cheng test: T = S − N, s.d.(T)",
+     "value": "-7.12, 0.01"
+    },
+    {
+     "item": "One-sided probability of T > 0 under independence",
+     "value": "0.0000"
+    },
+    {
+     "item": "Predicted deposits Σ P (modified fuzzy WofE)",
+     "value": "24.00"
+    }
+   ],
+   "stats": {
+    "deposits": 24,
+    "prior": 2.6386819783518132e-05,
+    "S_classic": 16.88087252363569,
+    "ci_ratio": 1.421727459075145,
+    "T": -7.119127476364309,
+    "T_sd": 0.01080023154276735,
+    "ci_probability": 0.0,
+    "beta0": -13.169656688844395,
+    "S_modified": 23.999984700197178,
+    "mean_beta": 2.1842065641929578
+   }
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "fuzzy_wofe_carlin_map.png",
+  "curves": "fuzzy_wofe_carlin_curves.png"
+ },
+ "runtime_s": 620.4886646270752
+}

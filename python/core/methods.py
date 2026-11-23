@@ -107,17 +107,7 @@ def methods(category: Optional[str] = None) -> List[MPMMethod]:
 
 # (category, group, name) — shown greyed out in the menus until implemented (GUI shows tr(group), tr(name))
 PLANNED = [
-    ("Knowledge-driven", N_("Overlay"), N_("Index overlay")),
-    ("Knowledge-driven", N_("MCDM"), N_("AHP")),
-    ("Knowledge-driven", N_("MCDM"), N_("Fuzzy AHP")),
-    ("Knowledge-driven", N_("MCDM"), N_("TOPSIS")),
-    ("Knowledge-driven", N_("Evidential"), N_("Dempster-Shafer (expert)")),
-    ("Data-driven", N_("Statistical"), N_("Evidential belief functions")),
-    ("Data-driven", N_("Statistical"), N_("Frequency ratio")),
     ("Data-driven", N_("Machine learning"), N_("One-class / PU learning")),
-    ("Hybrid", N_("Neuro-fuzzy"), N_("Neuro-fuzzy (ANFIS-type)")),
-    ("Hybrid", N_("Fuzzy evidence"), N_("Fuzzy weights of evidence")),
-    ("Hybrid", N_("Fuzzy evidence"), N_("Data-calibrated fuzzy memberships (WofE / LR)")),
 ]
 
 

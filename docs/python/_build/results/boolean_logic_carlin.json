@@ -50,6 +50,7 @@
    "dtype": "float32"
   }
  ],
+ "knowledge": null,
  "protocol": "expert",
  "search": [
   {
@@ -60,7 +61,7 @@
    "mean_test_auc": 0.8066005359574425,
    "sd_test_auc": null,
    "mean_train_auc": 0.8066005359574425,
-   "seconds": 0.4835853576660156,
+   "seconds": 0.33530688285827637,
    "pa_prediction": 75.31486993866486,
    "pa_area": 24.685130061335148,
    "fav_area_pct": 15.70063647237769,
@@ -77,7 +78,7 @@
    "mean_test_auc": 0.7708712705248514,
    "sd_test_auc": null,
    "mean_train_auc": 0.7708712705248514,
-   "seconds": 0.4099588394165039,
+   "seconds": 0.3333597183227539,
    "pa_prediction": 70.7218046401931,
    "pa_area": 29.2781953598069,
    "fav_area_pct": 25.539820133792105,
@@ -94,7 +95,7 @@
    "mean_test_auc": 0.7590206518624854,
    "sd_test_auc": null,
    "mean_train_auc": 0.7590206518624854,
-   "seconds": 0.3949398994445801,
+   "seconds": 0.3812990188598633,
    "pa_prediction": 68.01509361563662,
    "pa_area": 31.98490638436339,
    "fav_area_pct": 7.148574213269932,
@@ -111,7 +112,7 @@
    "mean_test_auc": 0.8066005359574425,
    "sd_test_auc": null,
    "mean_train_auc": 0.8066005359574425,
-   "seconds": 0.47682690620422363,
+   "seconds": 0.3425431251525879,
    "pa_prediction": 75.31486993866486,
    "pa_area": 24.685130061335148,
    "fav_area_pct": 8.107565308563581,
@@ -128,7 +129,7 @@
    "mean_test_auc": 0.8066005359574425,
    "sd_test_auc": null,
    "mean_train_auc": 0.8066005359574425,
-   "seconds": 0.6384563446044922,
+   "seconds": 0.33347105979919434,
    "pa_prediction": 75.31486993866486,
    "pa_area": 24.685130061335148,
    "fav_area_pct": 89.15959064931997,
@@ -145,7 +146,7 @@
    "mean_test_auc": 0.793270136064368,
    "sd_test_auc": null,
    "mean_train_auc": 0.793270136064368,
-   "seconds": 0.5914380550384521,
+   "seconds": 0.33208489418029785,
    "pa_prediction": 73.0889034773042,
    "pa_area": 26.911096522695797,
    "fav_area_pct": 10.754758775492121,
@@ -161,7 +162,7 @@
  "robust_summary": null,
  "reference": {
   "seed": 42,
-  "seconds": 0.4907691478729248,
+  "seconds": 0.33482909202575684,
   "curves": {
    "training": {
     "deposits": 32,
@@ -269,5 +270,7 @@
   "map": "boolean_logic_carlin_map.png",
   "curves": "boolean_logic_carlin_curves.png"
  },
- "runtime_s": 8.818164348602295
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 5.655669450759888
 }

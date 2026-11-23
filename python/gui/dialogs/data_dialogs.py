@@ -1,4 +1,4 @@
-"""Data-preparation dialogs: convert, reclassify, align to grid, distance to features."""
+"""Data-preparation dialogs: convert, reclassify, align to grid, clip, polygon to raster, distance to features."""
 from __future__ import annotations
 
 import os
@@ -525,6 +525,325 @@ class ClipDialog(BaseDialog):
             path += ".tif"
         write_raster(path, lyr.data, lyr.grid, nodata=nodata, compress=self.compress.currentData(),
                      class_table=lyr.class_table if lyr.categorical else None)
+        lyr.source = path
+        return lyr
+
+
+# ================================================================================ polygon to raster
+NO_LABEL_FIELD = N_("(none — one class for all polygons)")
+MAX_OUTPUT_CELLS = 200_000_000
+
+
+class PolygonToRasterDialog(BaseDialog):
+    """Polygons (e.g. a geological map) to a categorical raster with a class table (cf. ArcGIS Polygon to Raster)."""
+
+    def __init__(self, store: LayerStore, parent=None):
+        super().__init__(tr("Polygon to raster"),
+                         tr("Convert polygons (e.g. a geological map) into a categorical raster for the class-based "
+                            "methods: every value of the label field becomes a class, written with a class table. "
+                            "Cells of the study area outside every polygon form a gap class."),
+                         parent, ok_text=tr("Create raster"))
+        self.store = store
+        self._auto_path = self._auto_name = ""
+
+        g_in = QGroupBox(tr("Input"))
+        f = QFormLayout(g_in)
+        self.src = LayerCombo(store, "polygon")
+        f.addRow(tr("Polygon layer"), self.src)
+        self.field = QComboBox()
+        f.addRow(tr("Class label field"), self.field)
+        self.codes = QComboBox()
+        self.codes.addItem(tr("sequential 1, 2, 3 … (labels sorted)"), "sequential")
+        self.codes.addItem(tr("values of the label field (whole numbers)"), "field")
+        f.addRow(tr("Class codes"), self.codes)
+        self.copy_attr = QCheckBox(tr("Copy class attributes to the class table"))
+        self.copy_attr.setChecked(True)
+        self.copy_attr.setToolTip(tr("Attributes with one value per class (e.g. the unit name or a host-rock flag of "
+                                     "every map unit) are added to the class table — then usable as class-table "
+                                     "columns in the methods"))
+        f.addRow("", self.copy_attr)
+
+        g_grid = QGroupBox(tr("Output grid"))
+        f = QFormLayout(g_grid)
+        self.grid_from = QComboBox()
+        self.grid_from.addItem(tr("reference raster (cell size, extent, alignment)"), "raster")
+        self.grid_from.addItem(tr("study area polygon and cell size"), "polygon")
+        f.addRow(tr("Grid from"), self.grid_from)
+        self.ref = LayerCombo(store, "raster")
+        f.addRow(tr("Reference raster"), self.ref)
+        self.cell = QDoubleSpinBox()
+        self.cell.setRange(1e-6, 1e9)
+        self.cell.setDecimals(6 if store.crs is not None and store.crs.is_geographic else 3)
+        self.cell.setValue(store.cell_size or 100.0)
+        self.cell.setToolTip(tr("Default: the project cell size"))
+        f.addRow(tr("Cell size"), self.cell)
+        self.extent = QComboBox()
+        self.extent.addItem(tr("project extent (same grid as the project rasters)"), "project")
+        self.extent.addItem(tr("study area polygon extent (aligned to the project grid)"), "study")
+        f.addRow(tr("Extent"), self.extent)
+        self.assign = QComboBox()
+        self.assign.addItem(tr("cell centre — polygon containing the cell centre"), "center")
+        self.assign.addItem(tr("maximum area — polygon covering most of the cell"), "max_area")
+        self.assign.setToolTip(tr("Cell centre is exact and fast (overlapping polygons: the last feature wins). "
+                                  "Maximum area keeps narrow units and small polygons that miss every cell centre "
+                                  "(estimated on 4 × 4 points per cell)."))
+        f.addRow(tr("Cell value"), self.assign)
+
+        g_area = QGroupBox(tr("Study area"))
+        f = QFormLayout(g_area)
+        self.study = QComboBox()
+        self.study.addItem(tr("(whole output grid)"), "none")
+        self.study.addItem(tr("valid cells of the reference raster"), "ref")
+        for l in store.vectors("polygon"):
+            self.study.addItem(l.name, l.id)
+        self.study.setToolTip(tr("Cells outside the study area are NoData. A polygon study area uses the cells "
+                                 "whose centre is inside."))
+        f.addRow(tr("Study area"), self.study)
+        self.gap = QComboBox()
+        self.gap.addItem(tr("a class labelled"), "class")
+        self.gap.addItem(tr("NoData"), "nodata")
+        self.gap_label = QLineEdit("Other")
+        gr = QHBoxLayout()
+        gr.addWidget(self.gap)
+        gr.addWidget(self.gap_label, 1)
+        f.addRow(tr("Gaps (no polygon)"), gr)
+
+        g_out = QGroupBox(tr("Output"))
+        f = QFormLayout(g_out)
+        self.path = PathEdit("save", "GeoTIFF (*.tif)", tr("Save raster as"))
+        f.addRow(tr("Output file"), self.path)
+        self.name = QLineEdit()
+        f.addRow(tr("Output layer name"), self.name)
+        self.add = QCheckBox(tr("Add result to the map"))
+        self.add.setChecked(True)
+        f.addRow("", self.add)
+
+        for cb in (self.src, self.field, self.codes, self.grid_from, self.ref, self.extent, self.assign, self.study,
+                   self.gap):                              # long item texts must not widen the columns
+            cb.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+            cb.setMinimumContentsLength(12)
+        cols = QHBoxLayout()                               # two columns: fits a 1366 × 768 display unscrolled
+        for groups in ((g_in, g_area), (g_grid, g_out)):
+            labels = [g.layout().itemAt(i, QFormLayout.LabelRole) for g in groups
+                      for i in range(g.layout().rowCount())]
+            labels = [it.widget() for it in labels if it is not None and it.widget() is not None]
+            lw = max(l.sizeHint().width() for l in labels)
+            for l in labels:                                # one label column per column of groups
+                l.setMinimumWidth(lw)
+            col = QVBoxLayout()
+            for g in groups:
+                col.addWidget(g)
+            col.addStretch(1)
+            cols.addLayout(col, 1)
+        self.body.addLayout(cols)
+        self.summary = hint("")
+        self.summary.setWordWrap(True)
+        self.body.addWidget(self.summary)
+
+        self._default_study()
+        self.src.currentIndexChanged.connect(self._src_changed)
+        self.field.currentIndexChanged.connect(self._field_changed)
+        for w in (self.codes, self.grid_from, self.ref, self.extent, self.study, self.gap, self.assign):
+            w.currentIndexChanged.connect(lambda _i: self._sync())
+        self.cell.valueChanged.connect(lambda _v: self._update_summary())
+        self.path.edit.textChanged.connect(self._path_changed)
+        self._src_changed()
+        self.resize(980, 0)
+
+    # ------------------------------------------------------------ defaults / state
+    def _default_study(self):
+        """A polygon layer called like 'study area' if there is one, else the reference raster's valid cells
+        (a study-mask raster when the project has one)."""
+        for i in range(self.study.count()):
+            if re.search(r"study|aoi|boundary", self.study.itemText(i), re.I) and self.study.itemData(i) not in \
+                    ("none", "ref"):
+                self.study.setCurrentIndex(i)
+                break
+        else:
+            self.study.setCurrentIndex(1)
+        masks = [r for r in self.store.rasters() if re.search(r"study|mask", r.name, re.I)]
+        if masks:
+            self.ref.set_layer(masks[0])
+
+    def _src_changed(self):
+        l = self.src.layer()
+        self.field.blockSignals(True)
+        self.field.clear()
+        self.field.addItem(tr(NO_LABEL_FIELD), None)
+        if l is not None:
+            cols = [c for c in l.gdf.columns if c != l.gdf.geometry.name]
+            for c in cols:
+                self.field.addItem(str(c), c)
+            text = [c for c in cols if not pd.api.types.is_numeric_dtype(l.gdf[c])]
+            pick = text[0] if text else (cols[0] if cols else None)
+            if pick is not None:
+                self.field.setCurrentIndex(self.field.findData(pick))
+        self.field.blockSignals(False)
+        self._field_changed()
+
+    def _field_whole_numbers(self) -> bool:
+        l, fld = self.src.layer(), self.field.currentData()
+        if l is None or fld is None or not pd.api.types.is_numeric_dtype(l.gdf[fld]):
+            return False
+        v = l.gdf[fld].dropna().to_numpy(float)
+        return bool(v.size) and bool(np.all(v == np.round(v)))
+
+    def _field_changed(self):
+        if self.path.text() in ("", self._auto_path):
+            self._auto_path = self.default_path()
+            self.path.setText(self._auto_path)
+        self._sync()
+
+    def _sync(self):
+        whole = self._field_whole_numbers()
+        self.codes.model().item(1).setEnabled(whole)
+        if not whole and self.codes.currentData() == "field":
+            self.codes.setCurrentIndex(0)
+        self.copy_attr.setEnabled(self.field.currentData() is not None)
+        by_raster = self.grid_from.currentData() == "raster"
+        self.ref.setEnabled(by_raster or self.study.currentData() == "ref")
+        self.cell.setEnabled(not by_raster)
+        self.extent.setEnabled(not by_raster)
+        self.extent.model().item(0).setEnabled(bool(self.store.extent))
+        if not self.store.extent and self.extent.currentData() == "project":
+            self.extent.setCurrentIndex(1)
+        if by_raster and self.ref.layer() is not None:
+            self.cell.blockSignals(True)
+            self.cell.setValue(self.ref.layer().grid.res[0])
+            self.cell.blockSignals(False)
+        self.study.model().item(1).setEnabled(by_raster)
+        if not by_raster and self.study.currentData() == "ref":
+            polys = [i for i in range(2, self.study.count())]
+            self.study.setCurrentIndex(polys[0] if polys else 0)
+        self.gap_label.setEnabled(self.gap.currentData() == "class")
+        self._update_summary()
+
+    def default_path(self) -> str:
+        """<project>/results/<polygon layer>_<field>.tif"""
+        from core import project
+        l = self.src.layer()
+        pdir = project.project_dir(self.store)
+        if l is None or not pdir:
+            return ""
+        fld = self.field.currentData()
+        stem = project.safe_name(l.name + (f"_{fld}" if fld is not None else ""))
+        return project.unique_path(os.path.join(pdir, project.RESULTS_DIR, f"{stem}.tif"))
+
+    def _path_changed(self, text: str):
+        stem = os.path.splitext(os.path.basename(text.strip()))[0]
+        if self.name.text() in ("", self._auto_name):
+            self._auto_name = stem
+            self.name.setText(stem)
+
+    # ------------------------------------------------------------ grid / study area
+    def study_layer(self):
+        d = self.study.currentData()
+        return None if d in ("none", "ref") else self.store.by_id(d)
+
+    def output_grid(self) -> Grid:
+        from utils.polygon_raster import snapped_grid
+        if self.grid_from.currentData() == "raster":
+            r = self.ref.layer()
+            if r is None:
+                raise ValueError(tr("Choose a reference raster."))
+            return r.grid
+        cell = float(self.cell.value())
+        src = self.src.layer()
+        crs = self.store.crs or (src.crs if src is not None else None)
+        ext = self.store.extent
+        origin = (ext[0], ext[3]) if ext else None
+        if self.extent.currentData() == "project" and ext:
+            pg = self.store.project_grid()
+            if pg is not None and abs(pg.res[0] - cell) <= 1e-9 * cell:
+                return pg
+            return snapped_grid(ext, cell, crs, origin)
+        st = self.study_layer()
+        if st is None:
+            raise ValueError(tr("Choose a study area polygon layer for the extent."))
+        gdf = st.gdf
+        if gdf.crs is not None and crs is not None and gdf.crs != crs:
+            gdf = gdf.to_crs(crs)
+        return snapped_grid(tuple(gdf.total_bounds), cell, crs, origin)
+
+    def study_mask(self, grid: Grid):
+        from utils.raster_tools import rasterize_vector
+        d = self.study.currentData()
+        if d == "none":
+            return None
+        if d == "ref":
+            r = self.ref.layer()
+            if r is None or not r.grid.same_as(grid):
+                raise ValueError(tr("The reference raster is not on the output grid."))
+            m = ~np.ma.getmaskarray(r.data)
+            return m
+        return rasterize_vector(self.study_layer().gdf, grid, dtype="uint8") == 1
+
+    def _update_summary(self):
+        l = self.src.layer()
+        if l is None:
+            self.summary.setText("")
+            return
+        fld = self.field.currentData()
+        k = 1 if fld is None else int(l.gdf[fld].nunique())
+        text = tr("{n} polygons, {k} classes.", n=len(l.gdf), k=k)
+        try:
+            g = self.output_grid()
+            from core.layers import format_length
+            text += " " + tr("Output {w} × {h} cells of {cell}.", w=f"{g.width:,}", h=f"{g.height:,}",
+                             cell=format_length(g.res[0], g.crs))
+            pg = self.store.project_grid()
+            if pg is not None and not g.same_as(pg):
+                text += " " + tr("Not the project grid — align it before combining it with the project rasters.")
+        except Exception as exc:  # noqa: BLE001
+            text += " " + str(exc)
+        self.summary.setText(text)
+
+    # ------------------------------------------------------------ run
+    def validate(self):
+        from utils.polygon_raster import class_codes
+        l = self.src.layer()
+        if l is None:
+            return tr("Choose a polygon layer.")
+        if self.field.currentData() is not None and self.codes.currentData() == "field":
+            try:
+                class_codes(l.gdf[self.field.currentData()], "field")
+            except ValueError as exc:
+                return str(exc)
+        try:
+            g = self.output_grid()
+            if g.width * g.height > MAX_OUTPUT_CELLS:
+                return tr("{n:,} cells — too many; use a larger cell size.", n=g.width * g.height)
+            if self.study.currentData() == "ref":
+                self.study_mask(g)                      # reference raster on the output grid
+        except ValueError as exc:
+            return str(exc)
+        if self.gap.currentData() == "class" and not self.gap_label.text().strip():
+            return tr("Enter a label for the gap class.")
+        if not self.path.text():
+            return tr("Choose an output file.")
+        if not self.name.text().strip():
+            return tr("Enter an output layer name.")
+        return None
+
+    def run(self, progress=None):
+        from utils.polygon_raster import polygons_to_raster
+        from utils.raster_tools import write_raster
+        l = self.src.layer()
+        grid = self.output_grid()
+        fld = self.field.currentData()
+        res = polygons_to_raster(l.gdf, grid, fld, codes=self.codes.currentData(),
+                                 assignment=self.assign.currentData(), study=self.study_mask(grid),
+                                 gap_label=self.gap_label.text().strip() if self.gap.currentData() == "class" else None,
+                                 single_label=l.name, copy_attributes=self.copy_attr.isChecked())
+        self.result_info = res
+        lyr = RasterLayer(self.name.text().strip(), res.data, grid, categorical=True, class_table=res.table,
+                          cmap="tab20", nodata=res.nodata)
+        lyr.description = f"{l.name} ({fld or 'polygons'}) rasterised"
+        path = self.path.text()
+        if not path.lower().endswith((".tif", ".tiff")):
+            path += ".tif"
+        os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+        write_raster(path, lyr.data, grid, nodata=res.nodata, class_table=res.table)
         lyr.source = path
         return lyr
 

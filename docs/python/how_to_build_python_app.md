@@ -65,11 +65,12 @@ python\build_release.bat
 | Part | Purpose |
 |---|---|
 | `Analysis([python\main.py], pathex=[python])` | entry point; PyInstaller follows imports from here |
-| `datas = gui\resources` | icon (`mpm_studio.ico/png`) and checkbox SVGs used by the stylesheet |
+| `datas = gui\resources` | icon (`mpm_studio.ico/png`), splash image (`splash.png`) and checkbox SVGs used by the stylesheet |
 | `HIDDEN` | modules imported indirectly: **every module under `logic/`** (method plug-ins are discovered at run time; `collect_submodules("logic")`, template excluded — new methods are bundled automatically) and the Qt5Agg backend |
 | `collect_all(rasterio, fiona, pyproj, shapely, geopandas, qtawesome)` | these packages import submodules from compiled Cython code that PyInstaller cannot see (e.g. `rasterio._base` → `rasterio.serde`) and ship data files (GDAL/PROJ databases, icon fonts) — so all their submodules, data and DLLs are collected (their test modules are filtered out) |
 | `EXCLUDES` | packages in the dev venv that the app does not use: LightGBM, SHAP, numba, statsmodels, PySAL family, mapclassify, eis_toolkit, GDAL Python bindings (`osgeo`), Jupyter/IPython, pytest, tkinter, unused Qt modules. Without this list the build would be several GB. TensorFlow / Keras 2.15 (CNN tool, ≈ 1.2 GB) and XGBoost (≈ 140 MB) **are bundled**; TensorFlow is also named in `HIDDEN` because the CNN imports it lazily. |
 | `runtime_hooks = rthook_mpm.py` | sets `USE_PYGEOS=0` before the app starts |
+| `hookspath = packaging\hooks` | `hook-pyproj.py` replaces the pyinstaller-hooks-contrib hook. That hook looks for `pyproj/proj_dir` among the collected paths, but on Windows they read `pyproj\proj_dir`, so with the pip wheel the check always fails and prints the false warning "Datas for pyproj not found at: …\.venv\Library\share\proj" (a conda folder). The fixed hook collects the same data (proj.db included) and DLLs and warns only if proj.db is really missing |
 | `EXE(... icon=mpm_studio.ico, version=VSVersionInfo, console=False)` | Windows icon, file properties (version, description) and no console window |
 | `COLLECT(...)` | one-folder output |
 

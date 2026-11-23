@@ -59,6 +59,7 @@
    "dtype": "float32"
   }
  ],
+ "knowledge": null,
  "protocol": "expert",
  "search": [
   {
@@ -69,9 +70,15 @@
    "mean_test_auc": 0.8713712194052257,
    "sd_test_auc": null,
    "mean_train_auc": 0.8713712194052257,
-   "seconds": 0.09850740432739258,
+   "seconds": 0.053578853607177734,
    "pa_prediction": 77.108784176847,
-   "pa_area": 22.891215823152997
+   "pa_area": 22.891215823152997,
+   "weights": {
+    "rad_th": 1.0,
+    "rad_u": 1.0,
+    "geochem_nb_log_idw": 1.0,
+    "aster_silica_index": 1.0
+   }
   },
   {
    "label": "all layers, 2–98 % range, equal weights",
@@ -82,9 +89,15 @@
    "mean_test_auc": 0.8928613599176829,
    "sd_test_auc": null,
    "mean_train_auc": 0.8928613599176829,
-   "seconds": 0.06589865684509277,
+   "seconds": 0.05478382110595703,
    "pa_prediction": 81.04499274310595,
-   "pa_area": 18.95500725689405
+   "pa_area": 18.95500725689405,
+   "weights": {
+    "rad_th": 1.0,
+    "rad_u": 1.0,
+    "geochem_nb_log_idw": 1.0,
+    "aster_silica_index": 1.0
+   }
   },
   {
    "label": "all layers, data range, P–A weights",
@@ -95,9 +108,15 @@
    "mean_test_auc": 0.8791474790412092,
    "sd_test_auc": null,
    "mean_train_auc": 0.8791474790412092,
-   "seconds": 0.16126561164855957,
+   "seconds": 0.14460372924804688,
    "pa_prediction": 82.14369570321672,
-   "pa_area": 17.856304296783282
+   "pa_area": 17.856304296783282,
+   "weights": {
+    "rad_th": 0.9162907318741554,
+    "rad_u": 1.7917594692280554,
+    "geochem_nb_log_idw": 0.7768610215476789,
+    "aster_silica_index": 0.726001063203183
+   }
   },
   {
    "label": "all layers, 2–98 % range, P–A weights",
@@ -109,9 +128,15 @@
    "mean_test_auc": 0.8966398461616314,
    "sd_test_auc": null,
    "mean_train_auc": 0.8966398461616314,
-   "seconds": 0.14514875411987305,
+   "seconds": 0.1440272331237793,
    "pa_prediction": 84.45073412347426,
-   "pa_area": 15.54926587652574
+   "pa_area": 15.54926587652574,
+   "weights": {
+    "rad_th": 0.9162907318741554,
+    "rad_u": 1.7917594692280554,
+    "geochem_nb_log_idw": 0.7768610215476789,
+    "aster_silica_index": 0.726001063203183
+   }
   }
  ],
  "selected": {
@@ -122,7 +147,7 @@
  "robust_summary": null,
  "reference": {
   "seed": 42,
-  "seconds": 0.061757564544677734,
+  "seconds": 0.05794930458068848,
   "curves": {
    "training": {
     "deposits": 7,
@@ -180,5 +205,7 @@
   "map": "logistic_geometric_curnamona_map.png",
   "curves": "logistic_geometric_curnamona_curves.png"
  },
- "runtime_s": 4.087571144104004
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 2.137732744216919
 }

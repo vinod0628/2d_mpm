@@ -1,7 +1,7 @@
 # MPM Studio — 2D mineral prospectivity mapping application
 
 PyQt5 desktop application (Python 3.10) for knowledge- and data-driven MPM.
-Status: **framework + data tools + Weights of Evidence (WofE) + Logistic Regression (LR) + Random Forest (RF) + Support Vector Machine (SVM) + XGBoost + Relevance Vector Machine (RVM) + Neural Network (MLP) + Extreme Learning Machine (ELM) + CNN + Bayesian Network + fuzzy / Boolean / logistic-geometric overlays + ROC/AUC validation**. Further methods
+Status: **framework + data tools + Weights of Evidence (WofE) + Logistic Regression (LR) + Random Forest (RF) + Support Vector Machine (SVM) + XGBoost + Relevance Vector Machine (RVM) + Neural Network (MLP) + Extreme Learning Machine (ELM) + CNN + Bayesian Network + Evidential Belief Functions (EBF) + fuzzy / Boolean / logistic-geometric overlays + ROC/AUC validation**. Further methods
 plug into the same framework one by one (see §6).
 
 Version 1.0.0. Windows release (stand-alone exe, no Python needed): `python\build_release.bat` → `python\distribute\release\MPM_Studio_1.0.0_win64.zip`, see [how_to_build_python_app.md](how_to_build_python_app.md).
@@ -12,6 +12,8 @@ Version 1.0.0. Windows release (stand-alone exe, no Python needed): `python\buil
 python\run_mpm.bat                            :: or: .venv\Scripts\python.exe python\main.py
 python\run_mpm.bat D:\mpm\my_project          :: open a project folder (or its project.mpm.json)
 ```
+
+While the application starts, a splash screen (`python/gui/resources/splash.png`, 600 × 400 px) shows the start-up step (starting, loading methods, building the main window). It closes as soon as the main window is ready, but stays at least 2 s so that a fast start does not just flash it. Any PNG can replace `splash.png`: images larger than 600 × 400 px are scaled down (aspect ratio kept); the built-in image is regenerated with `python/tools/make_splash.py`, and only on it are the tagline and version drawn (in the interface language). A project given on the command line opens after the splash.
 
 At start-up no project is open: only *New project*, *Open project*, *Recent projects*, *Open demo project*, the view tools, Settings and Help are
 available. Everything else (adding data, data tools, methods, validation, saving) is enabled once a project is open.
@@ -29,7 +31,7 @@ cd python
 |---|---|
 | Menu bar | Project · View · Data · Knowledge-driven · Data-driven · Hybrid · Validation · Settings · Help |
 | Toolbar | open/save project · add raster/vector · pan, **measure**, box zoom, zoom ±, full extent, identify · reclassify, align, distance · WofE · ROC/AUC (LR: Data-driven ▸ Statistical menu) |
-| Left dock **Layers** (TOC) | checkbox = visible; drag to reorder (top = drawn last); double-click = properties; right-click = zoom to layer, properties, attribute table, move, save as (rasters: GeoTIFF; vectors: **ESRI Shapefile** or GeoPackage), **export legend to PNG** (all legend entries of the current symbology, black text on white, 300 dpi with **10 pt** text — true size when inserted in Word at 100 %; the width follows the longest text), remove. Below: details of the selected layer (size, cell size, CRS, statistics, classes) |
+| Left dock **Layers** (TOC) | checkbox = visible; drag to reorder — the map draws the layers exactly in this order, rasters and vectors alike (top = drawn last; a vector layer below a raster is hidden by it; labels are always drawn above all layers); double-click = properties; right-click = zoom to layer, properties, attribute table, move, save as (rasters: GeoTIFF; vectors: **ESRI Shapefile** or GeoPackage), **export legend to PNG** (all legend entries of the current symbology, black text on white, 300 dpi with **10 pt** text — true size when inserted in Word at 100 %; the width follows the longest text), remove. Below: details of the selected layer (size, cell size, CRS, statistics, classes) |
 | Large projects | rasters are read **lazily**: opening a project reads only their headers; the visible rasters are read by background threads (in parallel) and drawn as they arrive — the window stays responsive. Hidden rasters are read when they are shown or used. Distinct values / counts and statistics of a raster are computed once |
 | Centre **map view** | mouse wheel = zoom at cursor; **hold the middle button and drag = pan in any tool** (also left-drag in Pan mode) — snapshot panning as in ArcMap/QGIS: the map image follows the cursor, the legend stays fixed, and the map is re-rendered once on release; box zoom, identify; legend of the selected layer (colour bar or class swatches) |
 | **Coordinate bar** (below the map) | left: cursor X / Y in the map CRS (decimal degrees when the project CRS is geographic); right: project raster cell size (*Cell 200 m*) and map CRS |
@@ -103,6 +105,7 @@ Tabs as in ArcMap; the settings are saved in the project file (`symbology` of ea
 | Tab | Content |
 |---|---|
 | **General** | name (editable), source file (or *in-memory layer*), type (raster data type and columns × rows / vector geometry and feature count), extent, coordinate system; rasters also cell size, NoData and *Values are classes (categorical)* — the data type used by the methods (nearest-neighbour resampling, class lists) |
+| **Statistics** | histogram of the raster cell values (NoData excluded) or of a numeric attribute of a vector layer (*Field*: numeric attributes, the first one is selected). *Histogram*: **number of intervals** (equal intervals from the minimum to the maximum; default Sturges' rule ⌈log₂ n⌉ + 1, 5 … 50) or **interval width** (limits at whole multiples of the width, e.g. 0, 0.5, 1.0 …). *Cumulative probability*: empirical cumulative distribution on a second axis (0 … 1). *Statistics box* in the top-right corner: count, nulls (rasters: NoData cells), minimum, maximum, range, sum, mean, standard deviation, coefficient of variation, skewness, kurtosis, 1st quartile, median, 3rd quartile — 3 decimals; population moments as in the ArcGIS histogram (kurtosis m₄/m₂², 3 for a normal distribution). *Copy statistics* puts them on the clipboard (tab-separated, pastes into Excel); *Save histogram* writes the histogram as shown (intervals, cumulative curve, statistics box) to a PNG file — 300 dpi, white background, offered in the project `results` folder. Values are read when the tab is first opened (`utils/statistics.py`) |
 | **Symbology** | opacity and a list of renderers on the left — the one selected when OK is pressed is used: |
 | | **Single symbol** — every feature with one symbol (points: marker, fill, border colour, size; lines: colour, width; polygons: fill or *no fill*, border colour, border width); rasters: every valid cell in one colour |
 | | **Unique values** — vectors: every feature its own symbol, listed with a *label field*; a colour ramp gives the default colours, **double-click a feature** (or select several and *Change symbol of selected features…*) to set marker, fill and border. Rasters: every cell value its own colour (class table `color` column, else the ramp); double-click a row to change a colour, edit the label column to rename a class (up to 1024 values) |
@@ -123,6 +126,7 @@ The map legend follows the renderer (colour bar for stretched rasters, one entry
 | Reclassify raster | continuous → classes by equal interval, quantile, natural breaks (Fisher–Jenks), standard deviation or manual breaks, with histogram + class-table preview | `utils/reclass.py` |
 | Align raster to grid | reproject/resample onto a template grid (nearest, bilinear, cubic, average, mode) | `utils/raster_tools.align_to_grid` |
 | Clip raster by mask | keep cells inside (or outside) the polygons of a mask layer, optionally only features where *field = value*; cell centre or all-touched rule; optional crop to the mask extent (off by default, so the result stays on the project grid); output NoData (default −9999; 8-bit / unsigned integer rasters are widened so the value fits) and compression; default output `results/<input file>_clip.tif`; no resampling, the mask is reprojected to the raster CRS | `utils/raster_tools.clip_by_mask` |
+| Polygon to raster | polygons (e.g. a geological map) → **categorical raster + class table** for the class-based methods. *Class label field*: one class per distinct value (or one class for all polygons); *class codes*: sequential 1, 2, 3 … in sorted label order, or the whole-number values of the field; *copy class attributes*: attributes with one value per class (e.g. `STRATNAME` for `MAPUNIT`, a host-rock flag) become class-table columns. *Output grid*: a **reference raster** (its cell size, extent and alignment — e.g. `study_mask`) or a **study-area polygon + cell size** (default: project cell size; extent = project extent, or the polygon extent snapped to the project grid lines). *Cell value*: **cell centre** (ArcGIS CELL_CENTER; overlaps: last feature wins) or **maximum area** (polygon covering most of the cell, 4 × 4 points per cell — keeps narrow units). *Study area*: whole grid, the reference raster's valid cells, or a polygon layer (cell centres inside); cells outside are NoData. *Gaps* (study-area cells in no polygon): one extra class with a label (default *Other*, code = largest code + 1) or NoData. Codes ≥ 1 are written as 8/16-bit with NoData 0. Classes that got no cell (polygons smaller than a cell) and skipped features (no label) are reported in the log. Default output `results/<layer>_<field>.tif` | `utils/polygon_raster.py` |
 | Distance to features | Euclidean distance to vector features (0 inside polygons, or to outlines) | `utils/raster_tools.distance_to_features` |
 
 The same functions work from the command line (`python -m utils.convert …`, `python -m utils.reclass …`).
@@ -463,7 +467,38 @@ host → As; observed / predicted deposits 0.95 (WofE 0.59), test AUC 0.877.
 References: Porwal et al. (2006) Comput. Geosci. 32; Friedman, Geiger & Goldszmidt (1997) Mach. Learn. 29; Chow & Liu
 (1968) IEEE Trans. Inf. Theory 14; Heckerman, Geiger & Chickering (1995) Mach. Learn. 20.
 
-## 4k. Knowledge-driven overlays (Knowledge-driven ▸ Overlay / Fuzzy)
+## 4j2. Evidential Belief Functions (Data-driven ▸ Statistical ▸ Evidential Belief Functions…)
+
+Data-driven Dempster–Shafer model (Dempster 1967; Shafer 1976; An et al. 1994; Carranza & Hale 2003). For class C of
+a layer (cells on known evidence): W_CD = [N(C∩D)/N(D)] / [(N(C) − N(C∩D))/(N(T) − N(D))] (= exp W⁺ of WofE) and
+W_CD̄ = [(N(D) − N(C∩D))/N(D)] / [(N(T) − N(D) − N(C) + N(C∩D))/(N(T) − N(D))] (= exp W⁻); **Bel** = W_CD / Σ W_CD,
+**Dis** = W_CD̄ / Σ W_CD̄, **Unc** = 1 − Bel − Dis, **Pls** = Bel + Unc. Layers are combined with Dempster's rule
+(β = 1 − Bel₁Dis₂ − Dis₁Bel₂; Bel = (Bel₁Bel₂ + Bel₁Unc₂ + Bel₂Unc₁)/β, Dis likewise, Unc = Unc₁Unc₂/β) — order-free.
+Cells without evidence of a layer get the vacuous function (Bel 0, Dis 0, Unc 1), so only the other layers decide.
+A binary layer has Unc = 0; a class without deposits has Bel = 0, and if every other class of a layer is empty the
+remaining class gets Bel = 1, which overrides all other layers (warning) — the 0.5-deposit correction avoids this.
+Code: `python/logic/data_driven/ebf/`.
+
+| Section | Setting (default) |
+|---|---|
+| Training data | deposits, mask, hold-out (20 %, spatially stratified), seed, thinning, absence points — as WofE |
+| Evidence layers | tick layers; per layer **class values** (class rasters, ≤ 1000 values) or **quantile classes** (equal-area classes in the study area, 10; proposed for real-valued layers) |
+| Model options | missing evidence (vacuous belief, Unc = 1 / exclude), classes without deposits (Bel = 0 / 0.5-deposit correction), prospectivity score (Bel; Pls; (Bel + Pls)/2), outputs (Dis, Unc, Pls maps; belief map of every layer), resample, prefix (`ebf`) |
+
+Outputs: `bel` (or `pls` / `mid`, the score), `dis`, `unc`, `pls`, optional `bel_<layer>`, training / test points.
+Results: *Summary*, *Layers* (largest Bel, belief contrast, most favourable class, mean Unc, AUC of the layer's belief
+alone, conflict 1 − β when combined; bar chart of the AUCs), one tab per layer (cells, deposits, W_CD, W_CD̄, W⁺, Bel,
+Dis, Unc, Pls; stacked Bel / Unc / Dis bars), *Independence* (pairwise χ² on deposit cells, favourable / unfavourable
+classes). Demo (docs experiments): Carlin test AUC 0.917 ± 0.040 over 10 splits (10 quantile classes, 0.5-deposit correction;
+the original Bel = 0 rule 0.871, because the binary host layer reaches Bel = 1 and saturates every host cell; WofE
+0.835, LR 0.907), Curnamona LODO AUC 0.885 (8 quantile classes). Bel, Pls and mid-point rank alike; the `unc` map is
+0 on mapped geology and high under cover, where only faults and geochemistry decide. Document: `docs/python/tools/ebf.docx`.
+
+References: Dempster (1967) Ann. Math. Stat. 38; Shafer (1976) A Mathematical Theory of Evidence; An, Moon &
+Bonham-Carter (1994) Nonrenewable Resources 3; Carranza & Hale (2003) Ore Geol. Rev. 22; Carranza et al. (2005)
+Nat. Resour. Res. 14.
+
+## 4k. Knowledge-driven overlays and MCDM (Knowledge-driven ▸ Overlay / Fuzzy / MCDM)
 
 Deposits are **not** used to build these maps — only (optionally) to validate them (ROC / success rate / P–A of all
 deposits). Code: `python/logic/knowledge_driven/<method>/`.
@@ -483,6 +518,31 @@ quartiles), AND / OR within and between groups. Outputs: favourable area (1/0), 
 ranking for ROC), optional condition maps; table of area %, deposits inside and deposit-share / area-share ratio for
 every condition and the combined map.
 
+**Index Overlay (AHP / Fuzzy AHP weights)** (Bonham-Carter 1994; Saaty 1977, 1980; Buckley 1985): per layer a score
+0–1 — per class (`class=score; …`; classes without a score = no data), linear between two values in the favourable
+direction (default range 2nd–98th percentile), or binary (≥ / ≤ a threshold = binary index overlay); weighted mean
+S = Σ W s / Σ W over the layers with data (default; or only cells with every layer). Weights equal, custom, **AHP**
+(pairwise matrix on Saaty's 1–9 scale typed in the dialog's upper triangle, reciprocals filled in; principal
+eigenvector, λmax, CI, CR shown live, CR ≥ 0.1 warned) or **fuzzy AHP** (triangular judgements (a − δ, a, a + δ),
+Buckley's fuzzy geometric mean, centroid). Outputs: `index`, optional score maps; tables `evidence`, `ahp`. Demo
+(all deposits): Carlin AUC 0.910 (multi-class, equal weights, min–max ranges; AHP 0.901, fuzzy AHP 0.900–0.902,
+binary 0.845), Curnamona 0.900. AHP and fuzzy AHP are weight options of this tool (no separate menu entries); the
+planned expert Dempster–Shafer tool was dropped (rarely used, no comparative accuracy); the data-driven
+Dempster–Shafer model is *Evidential Belief Functions* (§4j2).
+
+**TOPSIS / VIKOR (AHP / Fuzzy AHP / entropy weights)** (Hwang & Yoon 1981; Opricovic 1998; Opricovic & Tzeng 2004;
+MPM: Pazand et al. 2012, Pazand & Hezarkhani 2015, Feizi et al. 2017): cells = alternatives, evidence layers =
+criteria scored 0–1 exactly as in the index overlay (same evidence table and AHP matrix). **TOPSIS**: vector
+normalisation x/√Σx² (default; or none), weighted, positive / negative ideal = best / worst value of each criterion in
+the study area, prospectivity = relative closeness C = D⁻/(D⁺ + D⁻). **VIKOR**: group utility S (weighted sum of the
+normalised shortfalls), individual regret R (largest one), Q = v·S′ + (1 − v)·R′, prospectivity = 1 − Q (strategy
+weight v = 0.5; v = 1 ranks exactly as the index overlay). Weights equal, custom, AHP, fuzzy AHP or **Shannon entropy**
+(objective, from the score distributions). Missing evidence: per-cell weights renormalised over the layers with data.
+Outputs: `topsis` / `vikor`, optional D⁺/D⁻ or S/R/Q maps and score maps; tables `evidence`, `ahp`. Demo (all
+deposits): Carlin AUC 0.927 (TOPSIS, vector normalisation, AHP weights, min–max ranges; index overlay 0.910),
+Curnamona 0.901 (TOPSIS without normalisation, equal weights; index overlay 0.900). Entropy weights and VIKOR with
+v < 1 never beat the best TOPSIS setting.
+
 **Logistic Fuzzification + Geometric Average** (Yousefi & Carranza 2015a, b): continuous layers fuzzified by
 F = 1/(1 + e^(−s(x − i))), i = (min + max)/2, s = ±9.2/(max − min) (range → 0.01 … 0.99; positive or negative
 evidence), categorical layers by class scores; combination by the (weighted) geometric average; weights equal, custom
@@ -491,6 +551,37 @@ or from the P–A plot of each layer (w = ln(Pr/Oa), Yousefi & Carranza 2015c; l
 Demo results (all deposits; `docs/python/tools/*.docx`): Carlin — fuzzy AUC 0.778, Boolean target 15.7 % of the area
 with 66 % of the deposits, logistic + geometric average AUC 0.850 (P–A weights 0.780); Curnamona — fuzzy 0.909,
 Boolean 21.8 % / 71 %, logistic + geometric average 0.893.
+
+## 4l. Hybrid methods (Hybrid ▸ …)
+
+Hybrid methods combine an **expert mineral-system model** with the training data (user's design documents in
+`docs/hybrid/`). Code: `python/logic/hybrid/<method>/`, shared parts in `python/logic/hybrid/common/`
+(`knowledge.py` knowledge network, `pipeline.py` data preparation, `dialogs.py` knowledge table and results window).
+
+**Knowledge table** (all hybrid dialogs): per evidence layer the mineral-system **process** (source, pathway, trap,
+deposition, preservation, footprint or a new name), the **direction** (high / low values favourable) or, for a
+categorical layer such as a geology map, an **expert score 0–1 per class** (`12=0.9; 7=0.8; 1=0.1`; classes without a
+score get 0.05; the pre-filled `class=0.5` means "no information"), and an expert **weight** inside the process; the
+process weights are on the right. Expert network (no labels): u = d(x − median)/IQR, μ = σ(1.5(u − 0.5)), process
+score F = (Σ w μ³)^(1/3) (OR-like), favourability K = Π F^v (AND-like); missing proxies: weights renormalised.
+Outputs of every hybrid tool also include `expert` (K), `limiting_process` (weakest process, codes in the layer
+description) and optional `process_*` maps.
+
+| Tool | Idea | Main outputs |
+|---|---|---|
+| **MS-KPRB** (Knowledge prior + data correction) | knowledge network calibrated by MAP with the expert weights as Dirichlet prior modes (confidence κ) + logistic boosting of the residuals; number of trees by spatial-block deviance (0 = expert model kept); B random non-deposit draws | `prob`, `prob_sd`, `knowledge_prob`, `delta` (data correction) |
+| **KP-RF** (Knowledge-constrained learning) | random forest on [evidence, process scores], knowledge-guided non-deposits ∝ (1 − K)^a, pooled with the calibrated expert map: logit P = (1 − λ) logit P_RF + λ η_K, λ = κ/(κ + N) | `prob`, `prob_rf`, `prob_k` |
+| **KW-SVM** (Knowledge-constrained learning) | RBF SVM on memberships × √(expert importance), non-deposit weights ∝ (1 − K)^a, Platt, bagging | `prob`, `prob_sd` |
+| **BS-WofE** (Fuzzy evidence) | weights of evidence on membership classes, data weights shrunk toward expert prior weights by precision (κ), dependence deflation ν; flags layers whose data run against the expert direction | `prob`, `logit_sd`, weight table |
+| **PT-Hurdle** (Knowledge-constrained learning) | necessary criterion (host / permissive unit: classes, ≥ or ≤ a threshold) as a gate (1 inside, falling off over d0 cells) × a conditional model (KP-RF, BS-WofE or RF) trained inside the tract only | `prob`, `gate`, `conditional`, `tract` |
+| **Fuzzy Weights of Evidence** (Fuzzy evidence) | classes of each layer with a fuzzy membership μ (expert: knowledge table; or data: logistic of the class contrast); crisp favourable pattern at the maximum studentized contrast; fuzzy weight W(μ) = ln{[μP(B\|D) + (1−μ)P(B̄\|D)] / [μP(B\|D̄) + (1−μ)P(B̄\|D̄)]} (Cheng & Agterberg 1999; Porwal et al. 2006); classic posterior (prior + Σ W) or **modified** (Agterberg 2011; Zhang et al. 2014): logit P = β0 + Σ β W by logistic regression over all cells (Σ P = N, dependence deflated, β ≥ 0 keeps the expert directions); Agterberg–Cheng independence test | `post`, `post_classic` / `post_modified`, `logit_sd`, tables `layers` (W⁺, W⁻, C, β), `weights`, `ci_test` |
+| **Data-Calibrated Fuzzy Memberships (WofE / LR)** (Fuzzy evidence) | data-driven fuzzy model (Porwal et al. 2003): the expert keeps the structure (layers, processes, directions, combination), the deposits set the memberships — **WofE**: class weights W_c = ln[(d_c/N) / ((n_c − d_c)/(n − N))] of categorical or quantile classes, optionally **monotone** in the expert direction (weighted isotonic fit); or **LR**: logit P = a + b·u per continuous layer (u = robust directed scaling; categorical layers: class weights), W = log-odds against the prior. Membership μ = σ(W) (keeps the layer strength) or stretched to 0.01 … 0.99; optional pooling with the expert memberships λ = N/(N + κ); combination by the expert inference network (OR within, AND between processes) or fuzzy γ. A layer whose weights run significantly against the expert direction (z < −1.96) is reported and, when the direction is kept, set neutral | `fuzzy`, optional `mu_*` (memberships), tables `layers` (contrast, slope ± s.e., trend z, agrees with expert, single-layer AUC), `memberships` (classes: cells, deposits, W ± s.d., W used, μ data / expert / final) |
+| **Neuro-Fuzzy Inference (ANFIS-type)** (Neuro-fuzzy) | first-order Takagi–Sugeno rule base on the expert memberships μ (one input per layer) or process scores F (one per process; *auto*: layers while M^m ≤ 64 rules), 2 or 3 Gaussian MFs per input (low / (medium) / high) starting at 0, (0.5,) 1, grid-partition rules IF x₁ is A … THEN f = p·x + q (or f = q); ANFIS hybrid learning (Jang 1993; Porwal et al. 2004): ridge least squares for the consequents with the **knowledge prior** κ (q → expert K at the rule prototype, Platt-calibrated to the sample; p → 0) and Adam on the MF centres / log widths; the epoch with the smallest **checking-set** error is kept; bagging over non-deposit draws, Platt-calibrated outputs | `prob`, `prob_sd`, tables `rules` (antecedent, expert K, learnt output, firing share of area / deposits, lift), `membership` (expert and learnt c, σ), `importance` (permutation AUC drop), `bags` |
+| **KT-RK** (Knowledge prior + data correction) | **regression** of a continuous target at points (composited grade / thickness / accumulation or a geochemical value): ln(y + c) = knowledge trend (slope ≥ 0) + forest correction (α, s ∈ {0, ½, 1} by the one-SE rule) + anisotropic kriging along the expert strike; deposits only validate | `prediction` (target units), `log_prediction`, `log_sd`, `trend` |
+
+KT-RK is a 2D targeting estimate, not a resource estimate (point support, median-type back-transform, random CV).
+Never tick an interpolated raster of the target element in its knowledge table. Documents:
+`docs/python/tools/kt_rk.docx`, `fuzzy_wofe.docx` (the other hybrid documents follow).
 
 ### Offline coordinate systems
 
@@ -587,8 +678,9 @@ python/
 │  ├─ map_canvas.py           map view + coordinate bar
 │  ├─ toc.py, widgets.py
 │  ├─ theme.py, app_settings.py dark/light palettes + icons, stored user preferences
+│  ├─ splash.py               start-up splash screen (minimum 2 s, start-up messages)
 │  ├─ dialogs/                layer, data tools, identify, measure, evaluation (ROC/AUC), target, settings dialogs
-│  └─ resources/              icon, stylesheet images
+│  └─ resources/              icon, splash image, stylesheet images
 ├─ logic/                     ★ all MPM methods
 │  ├─ data_driven/            one folder per method
 │  │  ├─ wofe/                model.py (algorithm) · plugin.py (registration) · dialogs.py (UI)
@@ -600,16 +692,17 @@ python/
 │  │  ├─ mlp/                 same layout (scikit-learn MLP, AUC early stopping, network ensemble)
 │  │  ├─ elm/                 same layout (random hidden layer, ridge output weights, ensemble, Platt score)
 │  │  ├─ cnn/                 same layout (TensorFlow patch CNN, D4 augmentation, CV early stopping)
+│  │  ├─ ebf/                 same layout (evidential belief functions, Dempster's rule, vacuous missing evidence)
 │  │  └─ bayesian_network/    same layout (naive Bayes / TAN, Dirichlet tables and uncertainty)
-│  ├─ knowledge_driven/       fuzzy_logic/, index_overlay/, ahp/, topsis/ … (planned)
-│  ├─ hybrid/                 neuro_fuzzy/, fuzzy_wofe/ … (planned)
+│  ├─ knowledge_driven/       boolean_logic/, fuzzy_logic/, logistic_geometric/, index_overlay/, topsis/
+│  ├─ hybrid/                 ms_kprb/, kp_rf/, kw_svm/, bs_wofe/, pt_hurdle/, fuzzy_wofe/, kt_rk/, neuro_fuzzy/, dc_fuzzy/ (common/: knowledge network, pipeline, dialogs)
 │  ├─ common/                 GUI-free helpers shared by methods (training.py: train/test split, non-deposit
 │  │                          sampling, training/test point layers; features.py: evidence → feature matrix)
 │  └─ method_template/        copy-me skeleton of a method (runnable example, not loaded)
 ├─ i18n/                      tr() / N_() + one JSON catalog per language (zh_CN.json)
 ├─ evaluation/metrics.py      ROC/AUC, success-rate, P-A (shared by all methods and Validation menu)
 ├─ utils/                     data preparation: convert, reclass, raster_tools, gdal_rat, prepare_demo_data
-├─ tools/                     developer scripts: make_icon, pip_check, smoke_test, i18n_update, benchmark_methods
+├─ tools/                     developer scripts: make_icon, make_splash, pip_check, smoke_test, i18n_update, benchmark_methods
 ├─ packaging/                 PyInstaller spec, runtime hook, build_release.py
 ├─ tests/                     pytest
 └─ distribute/               generated by build_release.bat: build/ (temporary), dist/ (application), release/ (zip)
@@ -656,9 +749,11 @@ algorithm, sparsity, ARD, moderated prediction, Carlin model); MLP (hidden-layer
 reproducible, E* = best held-out epoch, ensemble, importance, Carlin model); ELM (output weights = ridge least
 squares in both forms, RBF layer, C tuning, ensemble, Carlin model); CNN (D4 augmentation, exact patch windows and
 padding, spatial signal, Carlin model); Bayesian network (naive Bayes = WofE posterior, conditional mutual
-information, equal-area classes, TAN finds dependencies and fixes double counting, Carlin model); knowledge-driven
+information, equal-area classes, TAN finds dependencies and fixes double counting, Carlin model); evidential belief
+functions (class functions by hand, W_CD = exp W⁺, binary layer Unc = 0, Dempster's rule by hand / commutative /
+associative / vacuous identity, vacuous missing evidence, Bel = 1 warning and 0.5 correction, Carlin model); knowledge-driven
 overlays (membership functions, operators = eis_toolkit, inference network, Boolean conditions and statistics,
-logistic range → 0.01–0.99, weighted geometric mean, P–A weights, Carlin models); natural breaks (Fisher–Jenks optimality vs mapclassify) and reclassification, offscreen GUI workflow (WofE, LR, RF, SVM, XGBoost, RVM, MLP, ELM, CNN, Bayesian network, fuzzy, Boolean,
+logistic range → 0.01–0.99, weighted geometric mean, P–A weights, Carlin models); natural breaks (Fisher–Jenks optimality vs mapclassify) and reclassification, offscreen GUI workflow (WofE, LR, RF, SVM, XGBoost, RVM, MLP, ELM, CNN, Bayesian network, EBF, fuzzy, Boolean,
 logistic-geometric, identify, coordinates, middle-button pan) on both demo
 projects (set `MPM_SCREENSHOT_DIR` to save screenshots).
 

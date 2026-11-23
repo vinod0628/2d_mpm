@@ -27,6 +27,12 @@ from i18n import tr
 
 MAX_DISPLAY = 2400          # raster display decimation threshold (pixels per side)
 MAX_LABELS_DRAWN = 600     # labels on the map at once (all layers; overlapping labels are skipped)
+# Drawing order = TOC order (bottom layer first). Layer i (1 = bottom) owns the z band [i·Z_STEP, i·Z_STEP + 3]:
+# raster image + 0, lines / polygons + 1, points + 2 — a vector layer below a raster in the TOC is hidden by it.
+# Labels of all layers are drawn above every layer (LABEL_Z + band), below the legend (5000) and the identify
+# marker (9000): room for ~350 layers.
+Z_STEP = 4
+LABEL_Z = 3500
 
 
 @lru_cache(maxsize=64)
@@ -264,7 +270,8 @@ class MapCanvas(FigureCanvasQTAgg):
         ids = {l.id for l in layers}                    # forget caches of removed layers
         self._geom_cache = {k: v for k, v in self._geom_cache.items() if k in ids}
         self._label_cache = {k: v for k, v in self._label_cache.items() if k in ids}
-        for z, layer in enumerate(layers, start=1):
+        for i, layer in enumerate(layers, start=1):
+            z = i * Z_STEP                              # TOC order decides: one z band per layer (see Z_STEP)
             if not layer.visible:
                 continue
             try:
@@ -534,24 +541,23 @@ class MapCanvas(FigureCanvasQTAgg):
                 a = self.ax.scatter(xs[js], ys[js], s=[st.get("markersize", 24) for st in sts],
                                     c=[_rgba(st.get("color", "#ffd54f"), op) for st in sts], marker=marker,
                                     edgecolors=[_rgba(st.get("edgecolor", "#202020"), op) for st in sts],
-                                    linewidths=0.6, zorder=z + 1000)
+                                    linewidths=0.6, zorder=z + 2)
                 self._layer_artists.append(a)
         elif layer.geom_type == "line":
             parts = [(xy, styles[i]) for i, xy in geo if styles[i] is not None]
             if parts:
                 a = LineCollection([xy for xy, _st in parts],
                                    colors=[_rgba(st.get("color", "#ff8a65"), op) for _xy, st in parts],
-                                   linewidths=[st.get("linewidth", 0.8) for _xy, st in parts], zorder=z + 500)
+                                   linewidths=[st.get("linewidth", 0.8) for _xy, st in parts], zorder=z + 1)
                 self.ax.add_collection(a)
                 self._layer_artists.append(a)
         else:
             parts = [(path, styles[i]) for i, path in geo if styles[i] is not None]
             if parts:
-                # same level as lines: vectors always draw above rasters
                 a = PathCollection([path for path, _st in parts],
                                    facecolors=[_rgba(st.get("facecolor", "none"), op) for _p, st in parts],
                                    edgecolors=[_rgba(st.get("edgecolor", "#b0bec5"), op) for _p, st in parts],
-                                   linewidths=[st.get("linewidth", 0.8) for _p, st in parts], zorder=z + 500)
+                                   linewidths=[st.get("linewidth", 0.8) for _p, st in parts], zorder=z + 1)
                 self.ax.add_collection(a)
                 self._layer_artists.append(a)
         self._label_layers.append((layer, z))                     # placed for the current view in draw()
@@ -639,7 +645,7 @@ class MapCanvas(FigureCanvasQTAgg):
                     continue
                 occupied.update(cells)
                 t = ax.text(xs[j], ys[j], texts[j], transform=trans, ha="center", va="center" if dy == 0 else "bottom",
-                            zorder=z + 2000, clip_on=True, **font)
+                            zorder=LABEL_Z + z, clip_on=True, **font)
                 self._label_artists.append(t)
                 budget -= 1
 

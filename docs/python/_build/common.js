@@ -15,7 +15,7 @@ const esc = (s) => String(s).replace(/\$/g, '\\$').replace(/\*/g, '\\*').replace
 const DS = { carlin: 'Carlin (Au)', curnamona: 'Curnamona (REE)' };
 
 // ------------------------------------------------------------------ demo data chapter
-function demoData(n) {
+function demoData(n, protocolRow) {   // protocolRow: optional [label, Carlin, Curnamona] replacing the protocol row
   const c = load('wofe_carlin').dataset_info;
   const r = load('wofe_curnamona').dataset_info;
   const uc = load('univariate_carlin');
@@ -38,7 +38,7 @@ function demoData(n) {
         ['Study area', `${int(c.study_cells)} cells = ${int(c.study_km2)} km²`, `${int(r.study_cells)} cells = ${int(r.study_km2)} km²`],
         ['Known deposits (points / cells)', `${c.deposit_points} / ${c.deposit_cells}`, `${r.deposit_points} / ${r.deposit_cells}`],
         ['Deposit density', `1 per ${int(c.study_km2 / c.deposit_cells)} km²`, `1 per ${int(r.study_km2 / r.deposit_cells)} km²`],
-        ['Validation protocol', '5 + 10 spatially stratified 70 / 30 splits', 'leave-one-deposit-out (7 folds)'],
+        protocolRow || ['Validation protocol', '5 + 10 spatially stratified 70 / 30 splits', 'leave-one-deposit-out (7 folds)'],
       ],
     }],
     ['h3', `${n}.1.1 Carlin-type gold — geological setting and mineral system`],
@@ -159,7 +159,7 @@ function evidenceTable(J, caption) {
 }
 
 // knowledge-driven methods: nothing is trained, every deposit validates
-function protocolKD(n) {
+function protocolKD(n, missing) {
   const all = protocol(n);
   const i = all.findIndex((b) => b[0] === 'h2' && String(b[1]).startsWith(`${n}.4`));
   return [
@@ -169,11 +169,13 @@ function protocolKD(n) {
       '**No training.** The memberships, conditions and operators encode the deposit model; deposits are not used to build the map, so **all** deposits (34 Carlin, 7 Curnamona) validate it — there is no train / test split.',
       '**Configurations.** The evidence of each project is assigned to the components of its mineral system (Carlin: trap = favourable host, pathway = distance to faults, footprint = As and Sb; Curnamona: source = radiometric Th and U, enrichment = Nb, exposure = silica index). Alternative operators, γ values and thresholds are compared by the ROC AUC of all deposits; configurations within 0.005 of the best are equivalent and the earliest (default / simplest) is chosen.',
       '**Caveat.** Choosing among configurations with the deposits makes the selected map slightly optimistic; the differences between reasonable configurations are small (tables below), which is itself the main result: a well-founded deposit model matters more than the operator.',
-      'Study-area mask = the project mask; cells with missing evidence excluded.',
+      missing || 'Study-area mask = the project mask; cells with missing evidence excluded.',
     ]],
     ...all.slice(i),
   ];
 }
 
-module.exports = { protocolKD, load, has, f, g, int, pm, esc, DS, demoData, protocol, searchTable, robustTable, curvesTable,
+const MISSING_RENORM = 'Study-area mask = the project mask; where a layer has no data (e.g. outside the mapped host units of Carlin) the weights are renormalised over the layers with data.';
+
+module.exports = { MISSING_RENORM, protocolKD, load, has, f, g, int, pm, esc, DS, demoData, protocol, searchTable, robustTable, curvesTable,
   lodoTable, evidenceTable };

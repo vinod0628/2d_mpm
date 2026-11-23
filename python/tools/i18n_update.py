@@ -28,6 +28,10 @@ def source_files():
                 yield os.path.join(root, f)
 
 
+# logic/hybrid/common/dialogs.py helpers: positional indexes of the arguments shown through tr()
+OPT_HELPERS = {"opt_spin": (1, 7), "opt_check": (1, 3), "opt_combo": (1, 4), "_place": (1, 3)}
+
+
 def extract():
     """Ordered {key: "file:line"} of all tr()/N_() literals."""
     keys = {}
@@ -38,6 +42,15 @@ def extract():
             if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in ("tr", "N_")
                     and node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str)):
                 keys.setdefault(node.args[0].value, f"{os.path.relpath(path, PY)}:{node.lineno}")
+            # option helpers of the hybrid dialogs translate their label / tooltip / special text with tr(variable)
+            elif (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                  and node.func.attr in OPT_HELPERS):
+                pos = OPT_HELPERS[node.func.attr]
+                texts = [node.args[i] for i in pos if i < len(node.args)]
+                texts += [kw.value for kw in node.keywords if kw.arg in ("tip", "special", "label")]
+                for t in texts:
+                    if isinstance(t, ast.Constant) and isinstance(t.value, str) and t.value:
+                        keys.setdefault(t.value, f"{os.path.relpath(path, PY)}:{node.lineno}")
     return dict(sorted(keys.items(), key=lambda kv: (kv[1].split(":")[0], int(kv[1].split(":")[1]))))
 
 

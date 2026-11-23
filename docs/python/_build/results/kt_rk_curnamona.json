@@ -1,0 +1,568 @@
+{
+ "method": "kt_rk",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "target": {
+  "layer": "geochem_samples",
+  "field": "La",
+  "element": "La",
+  "unit": "ppm",
+  "description": "Surface rock / soil samples, La (ppm)",
+  "zero_is_missing": false,
+  "samples": 615,
+  "samples_valid": 615,
+  "zeros": 0,
+  "cells": 379,
+  "min": 2.0,
+  "median": 45.0,
+  "p95": 150.0,
+  "max": 185.0,
+  "spacing_km": 1.3373071828563776
+ },
+ "knowledge": {
+  "Th + U + granite + silica": [
+   {
+    "layer": "rad_th",
+    "process": "source",
+    "direction": "+"
+   },
+   {
+    "layer": "rad_u",
+    "process": "source",
+    "direction": "+"
+   },
+   {
+    "layer": "dist_granite",
+    "process": "source",
+    "direction": "−"
+   },
+   {
+    "layer": "aster_silica_index",
+    "process": "footprint",
+    "direction": "−"
+   }
+  ],
+  "… + Nb": [
+   {
+    "layer": "rad_th",
+    "process": "source",
+    "direction": "+"
+   },
+   {
+    "layer": "rad_u",
+    "process": "source",
+    "direction": "+"
+   },
+   {
+    "layer": "dist_granite",
+    "process": "source",
+    "direction": "−"
+   },
+   {
+    "layer": "aster_silica_index",
+    "process": "footprint",
+    "direction": "−"
+   },
+   {
+    "layer": "geochem_nb_log_idw",
+    "process": "deposition",
+    "direction": "+"
+   }
+  ]
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "dist_granite",
+   "kind": "continuous",
+   "description": "Distance to felsic granite (m, 0 inside)",
+   "n_values": 421,
+   "min": 0.0,
+   "max": 8411.896484375,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  }
+ ],
+ "protocol": "regression",
+ "search": [
+  {
+   "label": "Th + U + granite + silica, strike 70° (fault grain), 4 × 1.5 km (default)",
+   "cfg": {
+    "label": "Th + U + granite + silica, strike 70° (fault grain), 4 × 1.5 km (default)",
+    "know": "Th + U + granite + silica",
+    "strike": 70,
+    "along": 4000,
+    "across": 1500
+   },
+   "cv_rmse": 0.6810322886263134,
+   "cv_rmse_sd": 0.06326833982727566,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "cv_rmse_kriging_only": 0.7066324452950077,
+   "corr_k_z": 0.09782927566339931,
+   "sill": 0.014290705867625934,
+   "length_scale": 0.7337834317531199,
+   "nugget": 0.48815997237614117,
+   "deposit_auc": 0.5651620194659515,
+   "seconds": 86.09987020492554
+  },
+  {
+   "label": "Th + U + granite + silica, isotropic 3 km",
+   "cfg": {
+    "label": "Th + U + granite + silica, isotropic 3 km",
+    "know": "Th + U + granite + silica",
+    "strike": 0,
+    "along": 3000,
+    "across": 3000
+   },
+   "cv_rmse": 0.6836092464052103,
+   "cv_rmse_sd": 0.0628122946889696,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "cv_rmse_kriging_only": 0.7118220644694787,
+   "corr_k_z": 0.09782927566339931,
+   "sill": 0.009835988782649607,
+   "length_scale": 0.8619010255975937,
+   "nugget": 0.49170459990134796,
+   "deposit_auc": 0.5781927365349258,
+   "seconds": 84.7549569606781
+  },
+  {
+   "label": "Th + U + granite + silica, strike 70°, 8 × 3 km",
+   "cfg": {
+    "label": "Th + U + granite + silica, strike 70°, 8 × 3 km",
+    "know": "Th + U + granite + silica",
+    "strike": 70,
+    "along": 8000,
+    "across": 3000
+   },
+   "cv_rmse": 0.6810311325145189,
+   "cv_rmse_sd": 0.06326853332056152,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "cv_rmse_kriging_only": 0.7066301736774934,
+   "corr_k_z": 0.09782927566339931,
+   "sill": 0.014292659059813447,
+   "length_scale": 0.3668752935227054,
+   "nugget": 0.48815898079064307,
+   "deposit_auc": 0.5651620194659515,
+   "seconds": 83.09146547317505
+  },
+  {
+   "label": "Th + U + granite + silica, strike 160° (across the grain), 4 × 1.5 km",
+   "cfg": {
+    "label": "Th + U + granite + silica, strike 160° (across the grain), 4 × 1.5 km",
+    "know": "Th + U + granite + silica",
+    "strike": 160,
+    "along": 4000,
+    "across": 1500
+   },
+   "cv_rmse": 0.6918539336020102,
+   "cv_rmse_sd": 0.06212119458586247,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "cv_rmse_kriging_only": 0.7290263540675826,
+   "corr_k_z": 0.09782927566339931,
+   "sill": 0.003625425877345841,
+   "length_scale": 1.208633186836968,
+   "nugget": 0.4972421540607362,
+   "deposit_auc": 0.5841472260175767,
+   "seconds": 81.76656579971313
+  },
+  {
+   "label": "… + Nb, strike 70°, 4 × 1.5 km",
+   "cfg": {
+    "label": "… + Nb, strike 70°, 4 × 1.5 km",
+    "know": "… + Nb",
+    "strike": 70,
+    "along": 4000,
+    "across": 1500
+   },
+   "cv_rmse": 0.6172657326872002,
+   "cv_rmse_sd": 0.06661549058352881,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "cv_rmse_kriging_only": 0.6841224976694728,
+   "corr_k_z": 0.3686632102306571,
+   "sill": 0.03151472274585615,
+   "length_scale": 0.7749756017647901,
+   "nugget": 0.376006358199235,
+   "deposit_auc": 0.500210853027006,
+   "seconds": 83.98637342453003
+  }
+ ],
+ "selected": {
+  "label": "… + Nb, strike 70°, 4 × 1.5 km",
+  "know": "… + Nb",
+  "strike": 70,
+  "along": 4000,
+  "across": 1500
+ },
+ "reference": {
+  "seconds": 83.98637342453003,
+  "summary": [
+   {
+    "item": "Observations",
+    "value": "379"
+   },
+   {
+    "item": "Log offset c",
+    "value": "4.5"
+   },
+   {
+    "item": "Correlation of expert K with ln(y + c)",
+    "value": "0.369"
+   },
+   {
+    "item": "Selected α (knowledge trend) / s (forest)",
+    "value": "0 / 0.5 (one-SE rule)"
+   },
+   {
+    "item": "Trend b0 / α·b1",
+    "value": "3.873 / 0.000"
+   },
+   {
+    "item": "CV RMSE (log) selected / mean + kriging only",
+    "value": "0.617 / 0.684"
+   },
+   {
+    "item": "Anisotropy: strike / ranges along × across",
+    "value": "70° / 4000 × 1500"
+   },
+   {
+    "item": "Kernel σ² / ℓ / nugget τ²",
+    "value": "0.0315 / 0.775 / 0.376"
+   },
+   {
+    "item": "Folds",
+    "value": "10 (random over the observations)"
+   }
+  ],
+  "cv": [
+   {
+    "alpha": 0.0,
+    "shrink": 0.0,
+    "cv_rmse": 0.6841224976694728,
+    "cv_rmse_sd": 0.06087138016557896,
+    "selected": false,
+    "within_one_se": false
+   },
+   {
+    "alpha": 0.0,
+    "shrink": 0.5,
+    "cv_rmse": 0.6172657326872002,
+    "cv_rmse_sd": 0.06661549058352881,
+    "selected": true,
+    "within_one_se": true
+   },
+   {
+    "alpha": 0.0,
+    "shrink": 1.0,
+    "cv_rmse": 0.6097368549068167,
+    "cv_rmse_sd": 0.08098215365238842,
+    "selected": false,
+    "within_one_se": true
+   },
+   {
+    "alpha": 0.5,
+    "shrink": 0.0,
+    "cv_rmse": 0.6553345369629803,
+    "cv_rmse_sd": 0.058529326461634376,
+    "selected": false,
+    "within_one_se": false
+   },
+   {
+    "alpha": 0.5,
+    "shrink": 0.5,
+    "cv_rmse": 0.6104456052747936,
+    "cv_rmse_sd": 0.06568315327256861,
+    "selected": false,
+    "within_one_se": true
+   },
+   {
+    "alpha": 0.5,
+    "shrink": 1.0,
+    "cv_rmse": 0.6093416194840431,
+    "cv_rmse_sd": 0.08145094202652109,
+    "selected": false,
+    "within_one_se": true
+   },
+   {
+    "alpha": 1.0,
+    "shrink": 0.0,
+    "cv_rmse": 0.6413275021903042,
+    "cv_rmse_sd": 0.05565940695347819,
+    "selected": false,
+    "within_one_se": false
+   },
+   {
+    "alpha": 1.0,
+    "shrink": 0.5,
+    "cv_rmse": 0.6065631916042947,
+    "cv_rmse_sd": 0.06458966621305072,
+    "selected": false,
+    "within_one_se": true
+   },
+   {
+    "alpha": 1.0,
+    "shrink": 1.0,
+    "cv_rmse": 0.6085218715392166,
+    "cv_rmse_sd": 0.0831626153916095,
+    "selected": false,
+    "within_one_se": true
+   }
+  ],
+  "stats": {
+   "observations": 379,
+   "c": 4.5,
+   "alpha": 0.0,
+   "shrink": 0.5,
+   "b0": 3.8730501779143247,
+   "b1": 0.0,
+   "length_scale": 0.7749756017647901,
+   "sill": 0.03151472274585615,
+   "nugget": 0.376006358199235,
+   "cv_rmse": 0.6172657326872002,
+   "cv_rmse_mean_only": 0.6841224976694728,
+   "corr_k_z": 0.3686632102306571
+  },
+  "messages": [
+   "614 samples fall in 379 cells — values averaged per cell"
+  ],
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.500210853027006,
+    "auc_lo": 0.2596687518773688,
+    "auc_hi": 0.7407529541766433,
+    "sr_auc": 0.5008936475150698,
+    "pa_prediction": 42.85714285714286,
+    "pa_area": 57.14285714285714,
+    "tpr_at": {
+     "0.05": 0.0,
+     "0.1": 0.2857142857142857,
+     "0.2": 0.2857142857142857,
+     "0.3": 0.2857142857142857
+    }
+   }
+  }
+ },
+ "holdout": {
+  "train_cells": 303,
+  "test_cells": 76,
+  "rmse_log": 0.720602664171739,
+  "rmse_trend": 0.7427247917565782,
+  "rmse_mean": 0.8373406510539224,
+  "r2": 0.25862600006558467,
+  "pearson": 0.5637835115259914,
+  "spearman": 0.5452320434669005,
+  "spearman_value": 0.5452320434669005,
+  "seconds": 84.34482765197754,
+  "obs": [
+   3.1986731175506815,
+   5.0401940963378005,
+   2.1102132003465894,
+   4.973279507552487,
+   3.417726683613366,
+   3.1986731175506815,
+   3.1986731175506815,
+   3.5409593240373143,
+   4.246815260241264,
+   3.676300671907076,
+   3.713047538919756,
+   2.90668245672048,
+   2.9841150542138,
+   4.494322420652561,
+   4.080264032455265,
+   4.062300817222972,
+   4.183347519513276,
+   4.6491870714048655,
+   4.222327255916206,
+   4.361696368200631,
+   4.740574822994295,
+   2.4475076097136554,
+   2.523365855119067,
+   3.417726683613366,
+   2.526688183802955,
+   4.2367118035090225,
+   3.417726683613366,
+   4.453823903493457,
+   5.2284312390838705,
+   3.7954891891721947,
+   5.217649463480582,
+   3.9804290380922063,
+   4.127134385045092,
+   4.111447470121763,
+   4.288425410439456,
+   5.161924741642482,
+   4.2227377769905,
+   5.072043922224899,
+   4.133164554071683,
+   3.417726683613366,
+   5.1328529268205045,
+   4.894101477840304,
+   4.436751534363128,
+   4.553876891600541,
+   2.1102132003465894,
+   2.83945850824153,
+   4.605520124752379,
+   4.884013309772668,
+   2.2512917986064953,
+   2.0149030205422647,
+   3.0819099697950434,
+   3.676300671907076,
+   4.859812404361672,
+   3.1570004211501135,
+   2.970414465569701,
+   5.0530560099802075,
+   3.3843902633457743,
+   3.7256934272366524,
+   3.7954891891721947,
+   3.449987545831587,
+   2.8622008809294686,
+   3.3141860046725258,
+   3.1354942159291497,
+   3.417726683613366,
+   3.417726683613366,
+   4.52720864451838,
+   3.449987545831587,
+   3.417726683613366,
+   3.3843902633457743,
+   4.757891273005756,
+   3.9219733362813143,
+   3.9283883595144102,
+   5.225746673713202,
+   4.379836738600845,
+   3.1135153092103742,
+   4.804021044733257
+  ],
+  "pred": [
+   3.596971273422241,
+   3.876952648162842,
+   4.038885593414307,
+   3.5592570304870605,
+   3.5530943870544434,
+   3.950181722640991,
+   3.8938097953796387,
+   3.893740177154541,
+   3.7344613075256348,
+   3.8339054584503174,
+   3.457892656326294,
+   3.46834659576416,
+   3.5655064582824707,
+   3.892533302307129,
+   4.135936737060547,
+   3.6238083839416504,
+   3.516315460205078,
+   4.01575231552124,
+   3.8981969356536865,
+   3.7718605995178223,
+   3.611459970474243,
+   3.4559249877929688,
+   3.368971109390259,
+   3.9222872257232666,
+   3.369774580001831,
+   3.9644453525543213,
+   3.850527048110962,
+   4.274343013763428,
+   4.302390098571777,
+   3.9789302349090576,
+   3.898458242416382,
+   3.992616891860962,
+   3.9005706310272217,
+   3.8853566646575928,
+   4.164785861968994,
+   4.379456996917725,
+   4.235175609588623,
+   4.1754255294799805,
+   3.9944169521331787,
+   4.016279697418213,
+   4.379278659820557,
+   4.369996070861816,
+   4.252304553985596,
+   4.169785976409912,
+   3.5184202194213867,
+   3.3058559894561768,
+   4.217330455780029,
+   4.105850696563721,
+   3.3441123962402344,
+   3.6340384483337402,
+   3.4434139728546143,
+   4.106912612915039,
+   3.6461305618286133,
+   3.7513575553894043,
+   3.83864426612854,
+   3.5662431716918945,
+   3.773923873901367,
+   3.939351797103882,
+   4.079615592956543,
+   3.8267226219177246,
+   3.8774540424346924,
+   3.6740245819091797,
+   3.907888412475586,
+   3.9817616939544678,
+   3.795410633087158,
+   4.111874580383301,
+   3.454294204711914,
+   3.8696770668029785,
+   3.867490768432617,
+   4.12417459487915,
+   3.6933493614196777,
+   3.8297276496887207,
+   4.141945838928223,
+   3.8883774280548096,
+   3.588343858718872,
+   3.7484138011932373
+  ]
+ },
+ "figures": {
+  "map": "kt_rk_curnamona_map.png",
+  "panels": "kt_rk_curnamona_panels.png"
+ },
+ "runtime_s": 507.63755464553833
+}

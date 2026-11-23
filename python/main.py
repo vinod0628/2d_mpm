@@ -208,20 +208,39 @@ def _gui_main(argv, selftest):
     app.setApplicationName(APP_NAME)
     app.setApplicationVersion(VERSION)
     app.setWindowIcon(QIcon(resource_path("gui", "resources", "mpm_studio.ico")))
-    import matplotlib
-    matplotlib.use("Qt5Agg")
 
     import i18n
-    from gui import app_settings, theme
+    from gui import app_settings
     i18n.set_language(app_settings.language())   # before the GUI modules are imported (module-level texts)
-    app._qt_translators = i18n.install_qt_translators(app)
-    theme.apply(app, app_settings.theme_mode())
-    from core.methods import load_builtin_methods
-    load_builtin_methods()
-    from gui.main_window import MainWindow
+    tr = i18n.tr
+    splash = None
+    if not selftest:                        # splash until the main window is ready (at least 2 s)
+        from gui.splash import StartupSplash
+        splash = StartupSplash.create(VERSION)
 
-    win = MainWindow()
-    win.showMaximized()                     # start maximized (the restored normal geometry is kept for un-maximize)
+    def step(text):
+        if splash is not None:
+            splash.message(text)
+
+    try:
+        step(tr("Starting…"))
+        import matplotlib
+        matplotlib.use("Qt5Agg")
+        from gui import theme
+        app._qt_translators = i18n.install_qt_translators(app)
+        theme.apply(app, app_settings.theme_mode())
+        step(tr("Loading methods…"))
+        from core.methods import load_builtin_methods
+        load_builtin_methods()
+        step(tr("Building the main window…"))
+        from gui.main_window import MainWindow
+        win = MainWindow()
+        win.showMaximized()                 # start maximized (the restored normal geometry is kept for un-maximize)
+        app.processEvents()                 # first paint of the main window before the splash goes
+    except BaseException:
+        if splash is not None:              # do not hide the error message behind the splash
+            splash.close()
+        raise
     import logging
     for note in GEO_ENV_NOTES:
         logging.getLogger("mpm").info(note)
@@ -231,8 +250,15 @@ def _gui_main(argv, selftest):
     if selftest:
         return _selftest(win, app, selftest)
     args = argv[1:]
-    if args and os.path.exists(args[0]):     # project folder or *.mpm.json (also used by Settings ▸ restart)
-        win.open_project(args[0])
+
+    def open_arg():
+        if args and os.path.exists(args[0]):     # project folder or *.mpm.json (also used by Settings ▸ restart)
+            win.open_project(args[0])
+    if splash is not None:
+        splash.message(tr("Ready"))
+        splash.finish_when_ready(win, then=open_arg)    # the project opens after the splash (its dialogs stay visible)
+    else:
+        open_arg()
     return app.exec_()
 
 

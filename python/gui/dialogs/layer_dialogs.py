@@ -1,4 +1,4 @@
-"""Layer properties (General / Symbology / Labels) and attribute table dialogs.
+"""Layer properties (General / Statistics / Symbology / Labels) and attribute table dialogs.
 
 Symbology follows ArcMap: a list of renderers on the left (Single symbol, Unique values, Stretched — rasters only,
 Categorized) and the settings of the selected one on the right. The renderer selected when OK is pressed is used.
@@ -554,6 +554,16 @@ class CategorizedPage(QWidget):
 
 
 # ================================================================================================ properties dialog
+def _results_dir(store) -> str:
+    """The project's results folder (else the project folder, else empty) — first folder of file dialogs."""
+    import os
+    from core import project
+    folder = project.project_dir(store) if store is not None else None
+    if folder and os.path.isdir(os.path.join(folder, "results")):
+        return os.path.join(folder, "results")
+    return folder or ""
+
+
 class LayerPropertiesDialog(BaseDialog):
     def __init__(self, layer, store, parent=None, tab: Optional[str] = None):
         super().__init__(tr("Layer properties"), layer.name, parent)
@@ -562,12 +572,16 @@ class LayerPropertiesDialog(BaseDialog):
         self.kind = "raster" if self.is_raster else layer.geom_type
         self.tabs = QTabWidget()
         self.tabs.addTab(self._general_tab(), theme.icon("mdi6.information-outline"), tr("General"))
+        from gui.dialogs.layer_statistics import StatisticsPage, numeric_fields
+        self.statistics = StatisticsPage(layer, self.is_raster, None if self.is_raster else numeric_fields(layer.gdf),
+                                         start_dir=_results_dir(store))
+        self.tabs.addTab(self.statistics, theme.icon("mdi6.chart-histogram"), tr("Statistics"))
         self.tabs.addTab(self._symbology_tab(), theme.icon("mdi6.palette-outline"), tr("Symbology"))
         if not self.is_raster:
             self.tabs.addTab(self._labels_tab(), theme.icon("mdi6.label-outline"), tr("Labels"))
         self.body.addWidget(self.tabs)
         if tab:
-            names = ["general", "symbology", "labels"]
+            names = ["general", "statistics", "symbology", "labels"]
             if tab in names and names.index(tab) < self.tabs.count():
                 self.tabs.setCurrentIndex(names.index(tab))
         self.resize(760, 600)

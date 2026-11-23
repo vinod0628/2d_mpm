@@ -1,0 +1,1173 @@
+{
+ "method": "neuro_fuzzy",
+ "dataset": "curnamona",
+ "dataset_info": {
+  "title": "REE, northern Curnamona Province (South Australia)",
+  "crs": "EPSG:28354",
+  "cell_m": 200.0,
+  "width": 227,
+  "height": 252,
+  "study_cells": 16945,
+  "study_km2": 677.8,
+  "deposit_points": 7,
+  "deposit_cells": 7
+ },
+ "evidence": [
+  {
+   "name": "rad_th",
+   "kind": "continuous",
+   "description": "SA_RAD_TH (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16932,
+   "min": 0.0,
+   "max": 379.9856872558594,
+   "dtype": "float32"
+  },
+  {
+   "name": "rad_u",
+   "kind": "continuous",
+   "description": "SA_RAD_U (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16936,
+   "min": 0.0,
+   "max": 1617.7769775390625,
+   "dtype": "float32"
+  },
+  {
+   "name": "geochem_nb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Nb (ppm), surface samples, IDW (p=2, k=12, r<=6 km)",
+   "n_values": 16920,
+   "min": -1.0259792804718018,
+   "max": 1.6431000232696533,
+   "dtype": "float32"
+  },
+  {
+   "name": "aster_silica_index",
+   "kind": "continuous",
+   "description": "Silica_Index (reprojected to MGA54, 200 m, bilinear)",
+   "n_values": 16920,
+   "min": 0.0,
+   "max": 238.617919921875,
+   "dtype": "float32"
+  }
+ ],
+ "knowledge": [
+  {
+   "layer": "rad_th",
+   "process": "source",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "rad_u",
+   "process": "source",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "geochem_nb_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "aster_silica_index",
+   "process": "footprint",
+   "direction": "−",
+   "weight": 1.0
+  }
+ ],
+ "protocol": "lodo",
+ "search": [
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 1, checking 25 % (default)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 1, checking 25 % (default)"
+   },
+   "mean_test_auc": 0.8528920601184151,
+   "sd_test_auc": 0.22661289246353522,
+   "mean_train_auc": 0.9394901593673658,
+   "seconds": 11.463949305670601,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.952886999645767,
+     "train_auc": 0.9389279178227757,
+     "seconds": 11.5188570022583
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9863029873656867,
+     "train_auc": 0.927986697365055,
+     "seconds": 13.277722120285034
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9482229306883929,
+     "train_auc": 0.928321231084086,
+     "seconds": 10.751061916351318
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9070138150903294,
+     "train_auc": 0.9479406497825531,
+     "seconds": 11.767847299575806
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.351635376077459,
+     "train_auc": 0.9671173032646556,
+     "seconds": 11.540758609771729
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.98293777305467,
+     "train_auc": 0.9162878564259991,
+     "seconds": 10.451157569885254
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8412445389066006,
+     "train_auc": 0.949849459826436,
+     "seconds": 10.940240621566772
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, 2 MFs, zero order (constant rules), κ = 1",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, zero order (constant rules), κ = 1",
+    "consequent": "constant"
+   },
+   "mean_test_auc": 0.880117402965437,
+   "sd_test_auc": 0.12728979018233952,
+   "mean_train_auc": 0.9223460090689563,
+   "seconds": 4.390172958374023,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9385995985358366,
+     "train_auc": 0.9094299151858629,
+     "seconds": 4.2961578369140625
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9838233557680954,
+     "train_auc": 0.919859495838007,
+     "seconds": 4.422403812408447
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9406069193529343,
+     "train_auc": 0.9035657358757896,
+     "seconds": 4.387282371520996
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8646829613885937,
+     "train_auc": 0.9142019402955704,
+     "seconds": 4.3243913650512695
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6265792891722753,
+     "train_auc": 0.9639097152527697,
+     "seconds": 4.437270402908325
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9863029873656867,
+     "train_auc": 0.9146643839659957,
+     "seconds": 4.342388868331909
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8202267091746369,
+     "train_auc": 0.9307908770686975,
+     "seconds": 4.521316051483154
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 0 (data only)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 0 (data only)",
+    "kappa": 0.0
+   },
+   "mean_test_auc": 0.735058954506351,
+   "sd_test_auc": 0.33222775236644797,
+   "mean_train_auc": 0.9898852746128265,
+   "seconds": 10.603358745574951,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9511158342189161,
+     "train_auc": 0.9835586516323278,
+     "seconds": 10.754707098007202
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9097886409257291,
+     "train_auc": 0.9923745990514985,
+     "seconds": 10.406193733215332
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9502892903530523,
+     "train_auc": 0.9942243737331994,
+     "seconds": 10.599762916564941
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.7489077813201086,
+     "train_auc": 0.9944014798197454,
+     "seconds": 10.457553625106812
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.008147360963513992,
+     "train_auc": 0.9900722199264026,
+     "seconds": 10.213369846343994
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.7417050419175818,
+     "train_auc": 0.9915874608890727,
+     "seconds": 11.509809494018555
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8354587318455544,
+     "train_auc": 0.9829781372375387,
+     "seconds": 10.282114505767822
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)",
+    "kappa": 10.0
+   },
+   "mean_test_auc": 0.8923806150161092,
+   "sd_test_auc": 0.13769497755571455,
+   "mean_train_auc": 0.9212946173805729,
+   "seconds": 8.809336185455322,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9328137914747904,
+     "train_auc": 0.9054155105574906,
+     "seconds": 8.855703592300415
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9936238044633369,
+     "train_auc": 0.9087411692937403,
+     "seconds": 9.215163707733154
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.96935883811548,
+     "train_auc": 0.9074915874608891,
+     "seconds": 8.664845943450928
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.9423190459322234,
+     "train_auc": 0.9133754452250231,
+     "seconds": 8.667040824890137
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6053253040500649,
+     "train_auc": 0.9625617411496153,
+     "seconds": 8.623909711837769
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9753808005667729,
+     "train_auc": 0.9179408465670937,
+     "seconds": 8.751483917236328
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8278427205100957,
+     "train_auc": 0.933536021410158,
+     "seconds": 8.887205600738525
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, expert MFs kept (learning rate 0), κ = 1",
+   "cfg": {
+    "label": "one input per layer, expert MFs kept (learning rate 0), κ = 1",
+    "lr": 0.0
+   },
+   "mean_test_auc": 0.8679132297623264,
+   "sd_test_auc": 0.12516467619260188,
+   "mean_train_auc": 0.892393996384787,
+   "seconds": 8.767562287194389,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.914275593340418,
+     "train_auc": 0.8853828443237499,
+     "seconds": 8.900201797485352
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9844137442437123,
+     "train_auc": 0.8818800795009544,
+     "seconds": 8.622980833053589
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9093753689927973,
+     "train_auc": 0.8816242595981659,
+     "seconds": 8.629871606826782
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8328610225528398,
+     "train_auc": 0.8938347403427986,
+     "seconds": 8.81202745437622
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6314204746723344,
+     "train_auc": 0.9364385933841037,
+     "seconds": 8.764711380004883
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9940961152438305,
+     "train_auc": 0.8725524922762068,
+     "seconds": 8.831591367721558
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8089502892903531,
+     "train_auc": 0.8950449652675285,
+     "seconds": 8.811551570892334
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, no checking set (100 epochs)",
+   "cfg": {
+    "label": "one input per layer, no checking set (100 epochs)",
+    "check_pct": 0.0
+   },
+   "mean_test_auc": 0.7977329082536311,
+   "sd_test_auc": 0.31596012982195876,
+   "mean_train_auc": 0.9700648545621684,
+   "seconds": 8.611532654081072,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9351163065296966,
+     "train_auc": 0.9587637995159101,
+     "seconds": 8.500066041946411
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9133309717794309,
+     "train_auc": 0.9635063069445264,
+     "seconds": 8.561063766479492
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9288581886881568,
+     "train_auc": 0.9738670130074581,
+     "seconds": 8.561068773269653
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8820403825717322,
+     "train_auc": 0.9788751795658933,
+     "seconds": 8.608520984649658
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.08430747431810132,
+     "train_auc": 0.9796918354094102,
+     "seconds": 8.70129656791687
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.961801865627583,
+     "train_auc": 0.9701182675089045,
+     "seconds": 8.693216562271118
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8786751682607156,
+     "train_auc": 0.9656315799830766,
+     "seconds": 8.655495882034302
+    }
+   ]
+  },
+  {
+   "label": "one input per layer, 3 MFs (81 rules), first order, κ = 1",
+   "cfg": {
+    "label": "one input per layer, 3 MFs (81 rules), first order, κ = 1",
+    "inputs": "layers",
+    "n_mf": 3
+   },
+   "mean_test_auc": 0.8821753285090163,
+   "sd_test_auc": 0.11471256039317715,
+   "mean_train_auc": 0.9439248395503193,
+   "seconds": 30.477969305855886,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.964694769158106,
+     "train_auc": 0.9490426432099495,
+     "seconds": 29.86304998397827
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9680009446215609,
+     "train_auc": 0.9452643800303049,
+     "seconds": 31.02975821495056
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9730782855118668,
+     "train_auc": 0.924070685006986,
+     "seconds": 30.46554207801819
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8532294249616248,
+     "train_auc": 0.9393706830391404,
+     "seconds": 30.312750339508057
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6997874601487779,
+     "train_auc": 0.9680520298325365,
+     "seconds": 30.044018507003784
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9613295548470894,
+     "train_auc": 0.9222307495523152,
+     "seconds": 30.578558444976807
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.7551068603140867,
+     "train_auc": 0.9594427061810025,
+     "seconds": 31.052107572555542
+    }
+   ]
+  },
+  {
+   "label": "one input per process, 2 MFs, first order, κ = 1",
+   "cfg": {
+    "label": "one input per process, 2 MFs, first order, κ = 1",
+    "inputs": "processes"
+   },
+   "mean_test_auc": 0.8654251640436551,
+   "sd_test_auc": 0.12987366463653868,
+   "mean_train_auc": 0.9154444941091143,
+   "seconds": 5.672920533588955,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9298028102491439,
+     "train_auc": 0.9080819410827086,
+     "seconds": 6.033228635787964
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9597355059629236,
+     "train_auc": 0.9048251569356712,
+     "seconds": 5.611865282058716
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9310426260479395,
+     "train_auc": 0.8973079874845032,
+     "seconds": 5.620095729827881
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.8034006376195537,
+     "train_auc": 0.9325029025719739,
+     "seconds": 5.789020299911499
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6187861612941316,
+     "train_auc": 0.9479701674636442,
+     "seconds": 5.663512945175171
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9959853583658047,
+     "train_auc": 0.8881476671192712,
+     "seconds": 5.5274505615234375
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.8192230487660881,
+     "train_auc": 0.9292756361060276,
+     "seconds": 5.465270280838013
+    }
+   ]
+  },
+  {
+   "label": "one input per process, 3 MFs, first order, κ = 1",
+   "cfg": {
+    "label": "one input per process, 3 MFs, first order, κ = 1",
+    "inputs": "processes",
+    "n_mf": 3
+   },
+   "mean_test_auc": 0.8658890407030684,
+   "sd_test_auc": 0.1251569302314794,
+   "mean_train_auc": 0.9186000747781254,
+   "seconds": 12.13599327632359,
+   "lodo": [
+    {
+     "deposit": 0,
+     "row": 37,
+     "col": 129,
+     "lodo_auc": 0.9779194710119259,
+     "train_auc": 0.9099415549914399,
+     "seconds": 11.890689134597778
+    },
+    {
+     "deposit": 1,
+     "row": 103,
+     "col": 182,
+     "lodo_auc": 0.9409611524383044,
+     "train_auc": 0.9103843202078045,
+     "seconds": 12.525908470153809
+    },
+    {
+     "deposit": 2,
+     "row": 216,
+     "col": 47,
+     "lodo_auc": 0.9336993741882158,
+     "train_auc": 0.9050514591573686,
+     "seconds": 12.044653415679932
+    },
+    {
+     "deposit": 3,
+     "row": 227,
+     "col": 40,
+     "lodo_auc": 0.7827370409729603,
+     "train_auc": 0.9320699765826397,
+     "seconds": 11.98797345161438
+    },
+    {
+     "deposit": 4,
+     "row": 69,
+     "col": 208,
+     "lodo_auc": 0.6701499586728067,
+     "train_auc": 0.9478127398311589,
+     "seconds": 12.149679183959961
+    },
+    {
+     "deposit": 5,
+     "row": 178,
+     "col": 94,
+     "lodo_auc": 0.9912032117133074,
+     "train_auc": 0.8902139047956392,
+     "seconds": 12.389908790588379
+    },
+    {
+     "deposit": 6,
+     "row": 48,
+     "col": 146,
+     "lodo_auc": 0.7645530759239579,
+     "train_auc": 0.9347265678808273,
+     "seconds": 11.963140487670898
+    }
+   ]
+  }
+ ],
+ "selected": {
+  "label": "one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)",
+  "kappa": 10.0
+ },
+ "robust": null,
+ "robust_summary": null,
+ "reference": {
+  "seed": 42,
+  "seconds": 9.909205198287964,
+  "curves": {
+   "training": {
+    "deposits": 7,
+    "negatives": 16938,
+    "auc": 0.9084897862793717,
+    "auc_lo": 0.8229452204127178,
+    "auc_hi": 0.9940343521460256,
+    "sr_auc": 0.9088395228259495,
+    "pa_prediction": 81.67844522968197,
+    "pa_area": 18.32155477031802,
+    "tpr_at": {
+     "0.05": 0.5714285714285714,
+     "0.1": 0.7142857142857143,
+     "0.2": 0.8571428571428571,
+     "0.3": 0.8571428571428571
+    }
+   }
+  },
+  "messages": [],
+  "tables": {
+   "summary": [
+    {
+     "item": "Inputs",
+     "value": "4 — one per evidence layer (expert memberships μ, missing = 0.5)"
+    },
+    {
+     "item": "Membership functions per input",
+     "value": "2 Gaussian (low, high), expert start c = 0, 1"
+    },
+    {
+     "item": "Rules (grid partition)",
+     "value": "16"
+    },
+    {
+     "item": "Consequents",
+     "value": "first order f = p·x + q"
+    },
+    {
+     "item": "Knowledge prior κ",
+     "value": "10 (q → calibrated expert K at the rule prototype, p → 0)"
+    },
+    {
+     "item": "Hybrid learning",
+     "value": "LSE consequents + Adam premises, ≤ 100 epochs, learning rate 0.02"
+    },
+    {
+     "item": "Checking set (early stopping)",
+     "value": "25 % of the samples"
+    },
+    {
+     "item": "Best epoch (mean)",
+     "value": "27.6"
+    },
+    {
+     "item": "Training deposits (cells)",
+     "value": "7"
+    },
+    {
+     "item": "Non-deposit samples per model",
+     "value": "21"
+    },
+    {
+     "item": "Models (bags)",
+     "value": "10"
+    },
+    {
+     "item": "Sample AUC (mean, in-sample)",
+     "value": "0.9122"
+    }
+   ],
+   "rules": [
+    {
+     "rule": 16,
+     "antecedent": "rad_th is high AND rad_u is high AND geochem_nb_log_idw is high AND aster_silica_index is high",
+     "expert_K": 0.99,
+     "output": 1.0338819822613,
+     "constant_q": 1.007602697629514,
+     "firing_area_pct": 5.54321501575733,
+     "firing_deposits_pct": 25.080783409310982,
+     "lift": 4.5245914758881804
+    },
+    {
+     "rule": 8,
+     "antecedent": "rad_th is low AND rad_u is high AND geochem_nb_log_idw is high AND aster_silica_index is high",
+     "expert_K": 0.9166160701281161,
+     "output": 1.0051383925716517,
+     "constant_q": 0.987636469310784,
+     "firing_area_pct": 5.758651921397421,
+     "firing_deposits_pct": 24.13131648837755,
+     "lift": 4.190445405931348
+    },
+    {
+     "rule": 12,
+     "antecedent": "rad_th is high AND rad_u is low AND geochem_nb_log_idw is high AND aster_silica_index is high",
+     "expert_K": 0.9166160701281161,
+     "output": 0.96283982341581,
+     "constant_q": 0.9746361752675089,
+     "firing_area_pct": 4.750346227740024,
+     "firing_deposits_pct": 4.256195931466541,
+     "lift": 0.895975940998184
+    },
+    {
+     "rule": 14,
+     "antecedent": "rad_th is high AND rad_u is high AND geochem_nb_log_idw is low AND aster_silica_index is high",
+     "expert_K": 0.21400477469184925,
+     "output": 0.0778714722226878,
+     "constant_q": 0.044052597796872636,
+     "firing_area_pct": 3.6349678036760578,
+     "firing_deposits_pct": 9.431190718249333,
+     "lift": 2.5945733848623176
+    },
+    {
+     "rule": 15,
+     "antecedent": "rad_th is high AND rad_u is high AND geochem_nb_log_idw is high AND aster_silica_index is low",
+     "expert_K": 0.21400477469184925,
+     "output": 0.04178097219144018,
+     "constant_q": 0.03444591281406712,
+     "firing_area_pct": 2.2984021878442245,
+     "firing_deposits_pct": 6.746549066469281,
+     "lift": 2.9353213733220356
+    },
+    {
+     "rule": 13,
+     "antecedent": "rad_th is high AND rad_u is high AND geochem_nb_log_idw is low AND aster_silica_index is low",
+     "expert_K": 0.04626065009182744,
+     "output": 0.03153304112907351,
+     "constant_q": 0.011348742890728207,
+     "firing_area_pct": 1.7590176637946038,
+     "firing_deposits_pct": 3.619366802559871,
+     "lift": 2.0576068546987005
+    },
+    {
+     "rule": 4,
+     "antecedent": "rad_th is low AND rad_u is low AND geochem_nb_log_idw is high AND aster_silica_index is high",
+     "expert_K": 0.21400477469184925,
+     "output": 0.02640892402554011,
+     "constant_q": 0.027909275868276573,
+     "firing_area_pct": 24.804200305778288,
+     "firing_deposits_pct": 9.253006595086532,
+     "lift": 0.3730419235862641
+    },
+    {
+     "rule": 11,
+     "antecedent": "rad_th is high AND rad_u is low AND geochem_nb_log_idw is high AND aster_silica_index is low",
+     "expert_K": 0.19814163188555128,
+     "output": 0.025204279485088577,
+     "constant_q": 0.025466001274073176,
+     "firing_area_pct": 2.9035590045101913,
+     "firing_deposits_pct": 1.9353230347293082,
+     "lift": 0.6665347705085755
+    },
+    {
+     "rule": 7,
+     "antecedent": "rad_th is low AND rad_u is high AND geochem_nb_log_idw is high AND aster_silica_index is low",
+     "expert_K": 0.19814163188555128,
+     "output": 0.024260148858196967,
+     "constant_q": 0.02494053390760963,
+     "firing_area_pct": 1.9514294172116655,
+     "firing_deposits_pct": 3.4272716199320694,
+     "lift": 1.7562877702382835
+    },
+    {
+     "rule": 10,
+     "antecedent": "rad_th is high AND rad_u is low AND geochem_nb_log_idw is low AND aster_silica_index is high",
+     "expert_K": 0.19814163188555128,
+     "output": 0.019155544604589545,
+     "constant_q": 0.02215311515166277,
+     "firing_area_pct": 2.7707474003765444,
+     "firing_deposits_pct": 0.6701258103552621,
+     "lift": 0.24185741733952076
+    },
+    {
+     "rule": 6,
+     "antecedent": "rad_th is low AND rad_u is high AND geochem_nb_log_idw is low AND aster_silica_index is high",
+     "expert_K": 0.19814163188555128,
+     "output": 0.015995999998748407,
+     "constant_q": 0.0215171336425592,
+     "firing_area_pct": 3.20006951370032,
+     "firing_deposits_pct": 5.292629600145878,
+     "lift": 1.6539108220889482
+    },
+    {
+     "rule": 3,
+     "antecedent": "rad_th is low AND rad_u is low AND geochem_nb_log_idw is high AND aster_silica_index is low",
+     "expert_K": 0.04626065009182744,
+     "output": 0.014396430161953832,
+     "constant_q": 0.006980099245958332,
+     "firing_area_pct": 15.315682916538458,
+     "firing_deposits_pct": 4.188358916561967,
+     "lift": 0.27346863599789056
+    },
+    {
+     "rule": 5,
+     "antecedent": "rad_th is low AND rad_u is high AND geochem_nb_log_idw is low AND aster_silica_index is low",
+     "expert_K": 0.042831570998730036,
+     "output": -0.000279257365646465,
+     "constant_q": 9.542821157691606e-05,
+     "firing_area_pct": 1.5340490830010454,
+     "firing_deposits_pct": 0.8812169242760335,
+     "lift": 0.5744385457029297
+    },
+    {
+     "rule": 9,
+     "antecedent": "rad_th is high AND rad_u is low AND geochem_nb_log_idw is low AND aster_silica_index is low",
+     "expert_K": 0.042831570998730036,
+     "output": -0.0013996435171040075,
+     "constant_q": -0.0007550782215756114,
+     "firing_area_pct": 2.2103761121083374,
+     "firing_deposits_pct": 0.27359139135587135,
+     "lift": 0.12377594467165587
+    },
+    {
+     "rule": 1,
+     "antecedent": "rad_th is low AND rad_u is low AND geochem_nb_log_idw is low AND aster_silica_index is low",
+     "expert_K": 0.010000000000000004,
+     "output": -0.005253758545206594,
+     "constant_q": -0.005597455008911188,
+     "firing_area_pct": 8.933562597124409,
+     "firing_deposits_pct": 0.1790245502804127,
+     "lift": 0.020039547306473036
+    },
+    {
+     "rule": 2,
+     "antecedent": "rad_th is low AND rad_u is low AND geochem_nb_log_idw is low AND aster_silica_index is high",
+     "expert_K": 0.04626065009182744,
+     "output": -0.011780614146720299,
+     "constant_q": -0.008561813928355994,
+     "firing_area_pct": 12.63172282944115,
+     "firing_deposits_pct": 0.6340491408431176,
+     "lift": 0.05019498522919768
+    }
+   ],
+   "membership": [
+    {
+     "input": "rad_th",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": 0.15066442481774686,
+     "centre_sd": 0.25816335449281347,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.49051778233917165
+    },
+    {
+     "input": "rad_th",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 1.1862875913220734,
+     "centre_sd": 0.207737135463045,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.39389477451927835
+    },
+    {
+     "input": "rad_u",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": -0.06682312029248207,
+     "centre_sd": 0.11027039495267331,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.3434383019530366
+    },
+    {
+     "input": "rad_u",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 1.248924032074279,
+     "centre_sd": 0.18740908071247903,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.3186503897860417
+    },
+    {
+     "input": "geochem_nb_log_idw",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": -0.16369054148973922,
+     "centre_sd": 0.172128957641205,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.3356638114923851
+    },
+    {
+     "input": "geochem_nb_log_idw",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 0.8214146058513221,
+     "centre_sd": 0.10209142957788406,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.5137125566886743
+    },
+    {
+     "input": "aster_silica_index",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": -0.1904425684020499,
+     "centre_sd": 0.1271939481616224,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.34678310300527154
+    },
+    {
+     "input": "aster_silica_index",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 0.8171957535781571,
+     "centre_sd": 0.10045174922427623,
+     "sigma_expert": 0.42466090014400953,
+     "sigma": 0.5084285785869322
+    }
+   ],
+   "importance": [
+    {
+     "input": "rad_u",
+     "auc_drop": 0.1108843537414966,
+     "auc_drop_sd": 0.12027741854256695
+    },
+    {
+     "input": "geochem_nb_log_idw",
+     "auc_drop": 0.06598639455782315,
+     "auc_drop_sd": 0.0737742478165001
+    },
+    {
+     "input": "aster_silica_index",
+     "auc_drop": 0.03809523809523811,
+     "auc_drop_sd": 0.04907398312073858
+    },
+    {
+     "input": "rad_th",
+     "auc_drop": 0.033333333333333326,
+     "auc_drop_sd": 0.02711718561631937
+    }
+   ],
+   "bags": [
+    {
+     "bag": 1,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 30,
+     "training_rmse": 0.28504042683696307,
+     "checking_rmse": 0.2174094574162553,
+     "sample_auc": 0.9455782312925171,
+     "platt_a": 7.963285074869107,
+     "platt_b": -3.567855346892933
+    },
+    {
+     "bag": 2,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 7,
+     "training_rmse": 0.3859852359884436,
+     "checking_rmse": 0.2947566476455685,
+     "sample_auc": 0.8843537414965986,
+     "platt_a": 7.775100887473322,
+     "platt_b": -3.3756188615614775
+    },
+    {
+     "bag": 3,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 36,
+     "training_rmse": 0.2626085343352797,
+     "checking_rmse": 0.4199795785094646,
+     "sample_auc": 0.9183673469387755,
+     "platt_a": 5.441273393132122,
+     "platt_b": -3.048670895621996
+    },
+    {
+     "bag": 4,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 100,
+     "training_rmse": 0.3443456226013615,
+     "checking_rmse": 0.2823124233311839,
+     "sample_auc": 0.891156462585034,
+     "platt_a": 6.960402071952603,
+     "platt_b": -3.5544949899539993
+    },
+    {
+     "bag": 5,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 13,
+     "training_rmse": 0.34454223886744006,
+     "checking_rmse": 0.2820411667384135,
+     "sample_auc": 0.9047619047619048,
+     "platt_a": 9.646593738431832,
+     "platt_b": -4.196569988643198
+    },
+    {
+     "bag": 6,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 22,
+     "training_rmse": 0.31266217735762475,
+     "checking_rmse": 0.40465277837570973,
+     "sample_auc": 0.8979591836734694,
+     "platt_a": 6.156343408081132,
+     "platt_b": -3.563313158141898
+    },
+    {
+     "bag": 7,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 12,
+     "training_rmse": 0.32346545042350805,
+     "checking_rmse": 0.2661762566924949,
+     "sample_auc": 0.9387755102040817,
+     "platt_a": 7.6261338576229125,
+     "platt_b": -3.983940123086784
+    },
+    {
+     "bag": 8,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 6,
+     "training_rmse": 0.37987954972091226,
+     "checking_rmse": 0.23368200715628162,
+     "sample_auc": 0.8843537414965986,
+     "platt_a": 7.108754278494713,
+     "platt_b": -3.3027190350850333
+    },
+    {
+     "bag": 9,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 32,
+     "training_rmse": 0.2256385189711716,
+     "checking_rmse": 0.15573013235371147,
+     "sample_auc": 0.9795918367346939,
+     "platt_a": 9.406330044654624,
+     "platt_b": -3.8444027066989883
+    },
+    {
+     "bag": 10,
+     "training_samples": 21,
+     "checking_samples": 7,
+     "best_epoch": 18,
+     "training_rmse": 0.3275078636333495,
+     "checking_rmse": 0.3908077576554498,
+     "sample_auc": 0.8775510204081632,
+     "platt_a": 6.603796747416935,
+     "platt_b": -2.9322797624016013
+    }
+   ],
+   "stats": {
+    "deposits": 7,
+    "non_deposits": 21,
+    "rules": 16,
+    "inputs": 4,
+    "bags": 10,
+    "sample_auc": 0.9122448979591835,
+    "best_epoch": 27.6
+   },
+   "input_mode": "layers"
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "neuro_fuzzy_curnamona_map.png",
+  "curves": "neuro_fuzzy_curnamona_curves.png"
+ },
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 720.087564945221
+}

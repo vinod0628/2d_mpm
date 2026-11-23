@@ -1,0 +1,1445 @@
+{
+ "method": "neuro_fuzzy",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "knowledge": [
+  {
+   "layer": "geology_host",
+   "process": "trap",
+   "direction": "2=0.9; 1=0.1",
+   "weight": 1.0
+  },
+  {
+   "layer": "dist_faults",
+   "process": "pathway",
+   "direction": "−",
+   "weight": 1.0
+  },
+  {
+   "layer": "as_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "sb_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  }
+ ],
+ "protocol": "split",
+ "search": [
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 1, checking 25 % (default)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 1, checking 25 % (default)"
+   },
+   "mean_test_auc": 0.9132289548999408,
+   "sd_test_auc": 0.04584283166991757,
+   "mean_train_auc": 0.9539024404322763,
+   "seconds": 36.40245223045349
+  },
+  {
+   "label": "one input per layer, 2 MFs, zero order (constant rules), κ = 1",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, zero order (constant rules), κ = 1",
+    "consequent": "constant"
+   },
+   "mean_test_auc": 0.9030674725209481,
+   "sd_test_auc": 0.04881018107241626,
+   "mean_train_auc": 0.94757937232205,
+   "seconds": 30.5808096408844
+  },
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 0 (data only)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 0 (data only)",
+    "kappa": 0.0
+   },
+   "mean_test_auc": 0.7584159619839672,
+   "sd_test_auc": 0.09456491337946639,
+   "mean_train_auc": 0.884068178761261,
+   "seconds": 52.276986074447635
+  },
+  {
+   "label": "one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)",
+   "cfg": {
+    "label": "one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)",
+    "kappa": 10.0
+   },
+   "mean_test_auc": 0.9063703022833149,
+   "sd_test_auc": 0.049435122091917416,
+   "mean_train_auc": 0.9417123551373578,
+   "seconds": 36.82783527374268
+  },
+  {
+   "label": "one input per layer, expert MFs kept (learning rate 0), κ = 1",
+   "cfg": {
+    "label": "one input per layer, expert MFs kept (learning rate 0), κ = 1",
+    "lr": 0.0
+   },
+   "mean_test_auc": 0.906520668798948,
+   "sd_test_auc": 0.042974907324576754,
+   "mean_train_auc": 0.9419299583329211,
+   "seconds": 34.13912854194641
+  },
+  {
+   "label": "one input per layer, no checking set (100 epochs)",
+   "cfg": {
+    "label": "one input per layer, no checking set (100 epochs)",
+    "check_pct": 0.0
+   },
+   "mean_test_auc": 0.9059778936153604,
+   "sd_test_auc": 0.05098226177476607,
+   "mean_train_auc": 0.9678052546918069,
+   "seconds": 44.05419082641602
+  },
+  {
+   "label": "one input per layer, 3 MFs (81 rules), first order, κ = 1",
+   "cfg": {
+    "label": "one input per layer, 3 MFs (81 rules), first order, κ = 1",
+    "inputs": "layers",
+    "n_mf": 3
+   },
+   "mean_test_auc": 0.9305519779309981,
+   "sd_test_auc": 0.02240074860636256,
+   "mean_train_auc": 0.9571696585674425,
+   "seconds": 106.4991470336914
+  },
+  {
+   "label": "one input per process, 2 MFs, first order, κ = 1",
+   "cfg": {
+    "label": "one input per process, 2 MFs, first order, κ = 1",
+    "inputs": "processes"
+   },
+   "mean_test_auc": 0.9064320717396492,
+   "sd_test_auc": 0.04607647141244844,
+   "mean_train_auc": 0.9472384748507714,
+   "seconds": 22.25031714439392
+  },
+  {
+   "label": "one input per process, 3 MFs, first order, κ = 1",
+   "cfg": {
+    "label": "one input per process, 3 MFs, first order, κ = 1",
+    "inputs": "processes",
+    "n_mf": 3
+   },
+   "mean_test_auc": 0.9294551797614321,
+   "sd_test_auc": 0.017589060220481366,
+   "mean_train_auc": 0.9490410689553691,
+   "seconds": 40.85233626365662
+  }
+ ],
+ "selected": {
+  "label": "one input per layer, 3 MFs (81 rules), first order, κ = 1",
+  "inputs": "layers",
+  "n_mf": 3
+ },
+ "robust": [
+  {
+   "seed": 0,
+   "train_auc": 0.9548343835313702,
+   "test_auc": 0.9379608382966231,
+   "test_sr": 0.9387133127003062,
+   "test_pa": 87.06574323706204,
+   "seconds": 100.70046257972717
+  },
+  {
+   "seed": 1,
+   "train_auc": 0.9595463477993486,
+   "test_auc": 0.9500913128043531,
+   "test_sr": 0.9506639583528027,
+   "test_pa": 90.0,
+   "seconds": 102.37653493881226
+  },
+  {
+   "seed": 2,
+   "train_auc": 0.9577807470168035,
+   "test_auc": 0.9560579256325651,
+   "test_sr": 0.9565907129388871,
+   "test_pa": 89.01928318379504,
+   "seconds": 108.64150929450989
+  },
+  {
+   "seed": 3,
+   "train_auc": 0.9692173871454001,
+   "test_auc": 0.9011643069737474,
+   "test_sr": 0.9015727644041801,
+   "test_pa": 80.0,
+   "seconds": 101.47913026809692
+  },
+  {
+   "seed": 4,
+   "train_auc": 0.9654076018138685,
+   "test_auc": 0.9048616234438066,
+   "test_sr": 0.905271097087005,
+   "test_pa": 80.0,
+   "seconds": 102.76125621795654
+  },
+  {
+   "seed": 5,
+   "train_auc": 0.9623608638781352,
+   "test_auc": 0.9240174115541208,
+   "test_sr": 0.9245302321490415,
+   "test_pa": 85.46319047069365,
+   "seconds": 101.94594693183899
+  },
+  {
+   "seed": 6,
+   "train_auc": 0.961510177813499,
+   "test_auc": 0.8948845038707612,
+   "test_sr": 0.8956787184801192,
+   "test_pa": 80.0,
+   "seconds": 99.87970113754272
+  },
+  {
+   "seed": 7,
+   "train_auc": 0.9671572599635042,
+   "test_auc": 0.9213724737798663,
+   "test_sr": 0.9220355782286748,
+   "test_pa": 80.0,
+   "seconds": 100.74044895172119
+  },
+  {
+   "seed": 8,
+   "train_auc": 0.9457508851826237,
+   "test_auc": 0.934709860573429,
+   "test_sr": 0.9352653249701774,
+   "test_pa": 85.85528268389159,
+   "seconds": 100.26771187782288
+  },
+  {
+   "seed": 9,
+   "train_auc": 0.9538944324660907,
+   "test_auc": 0.9572934247084423,
+   "test_sr": 0.9580860760050355,
+   "test_pa": 90.0,
+   "seconds": 102.02347207069397
+  }
+ ],
+ "robust_summary": {
+  "train_auc_mean": 0.9597460086610645,
+  "train_auc_sd": 0.007029838454292982,
+  "test_auc_mean": 0.9282413681637716,
+  "test_auc_sd": 0.022825414817264817,
+  "test_auc_min": 0.8948845038707612,
+  "test_auc_max": 0.9572934247084423,
+  "test_sr_mean": 0.928840777531623,
+  "test_pa_mean": 84.74034995754423,
+  "seconds_mean": 102.08161742687226
+ },
+ "reference": {
+  "seed": 42,
+  "seconds": 103.50215363502502,
+  "curves": {
+   "training": {
+    "deposits": 24,
+    "negatives": 909511,
+    "auc": 0.9598201212886193,
+    "auc_lo": 0.9402624868575308,
+    "auc_hi": 0.9793777557197075,
+    "sr_auc": 0.9602332759786487,
+    "pa_prediction": 89.67092421717479,
+    "pa_area": 10.329075782825218,
+    "tpr_at": {
+     "0.05": 0.7083333333333334,
+     "0.1": 0.875,
+     "0.2": 1.0,
+     "0.3": 1.0
+    }
+   },
+   "test": {
+    "deposits": 10,
+    "negatives": 909511,
+    "auc": 0.9079297556599096,
+    "auc_lo": 0.8122542921677032,
+    "auc_hi": 1.0,
+    "sr_auc": 0.9084458712872918,
+    "pa_prediction": 81.67521330573912,
+    "pa_area": 18.324786694260876,
+    "tpr_at": {
+     "0.05": 0.7,
+     "0.1": 0.8,
+     "0.2": 0.9,
+     "0.3": 0.9
+    }
+   }
+  },
+  "messages": [],
+  "tables": {
+   "summary": [
+    {
+     "item": "Inputs",
+     "value": "4 — one per evidence layer (expert memberships μ, missing = 0.5)"
+    },
+    {
+     "item": "Membership functions per input",
+     "value": "3 Gaussian (low, medium, high), expert start c = 0, 0.5, 1"
+    },
+    {
+     "item": "Rules (grid partition)",
+     "value": "81"
+    },
+    {
+     "item": "Consequents",
+     "value": "first order f = p·x + q"
+    },
+    {
+     "item": "Knowledge prior κ",
+     "value": "1 (q → calibrated expert K at the rule prototype, p → 0)"
+    },
+    {
+     "item": "Hybrid learning",
+     "value": "LSE consequents + Adam premises, ≤ 100 epochs, learning rate 0.02"
+    },
+    {
+     "item": "Checking set (early stopping)",
+     "value": "25 % of the samples"
+    },
+    {
+     "item": "Best epoch (mean)",
+     "value": "29.9"
+    },
+    {
+     "item": "Training deposits (cells)",
+     "value": "24"
+    },
+    {
+     "item": "Non-deposit samples per model",
+     "value": "72"
+    },
+    {
+     "item": "Models (bags)",
+     "value": "10"
+    },
+    {
+     "item": "Sample AUC (mean, in-sample)",
+     "value": "0.9670"
+    }
+   ],
+   "rules": [
+    {
+     "rule": 69,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.7398547679258574,
+     "output": 1.2063460188296076,
+     "constant_q": 1.0158074828940968,
+     "firing_area_pct": 1.395741929387615,
+     "firing_deposits_pct": 22.965143266132905,
+     "lift": 16.453717397605814
+    },
+    {
+     "rule": 66,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.7299600130583792,
+     "output": 1.0767651937820142,
+     "constant_q": 0.9676101635880807,
+     "firing_area_pct": 0.16795662196373817,
+     "firing_deposits_pct": 5.027613144885736,
+     "lift": 29.93399775551093
+    },
+    {
+     "rule": 78,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.929040985410131,
+     "output": 1.0038534659503013,
+     "constant_q": 0.9999326037539882,
+     "firing_area_pct": 0.018736197722581834,
+     "firing_deposits_pct": 0.42071949606616416,
+     "lift": 22.45490265931018
+    },
+    {
+     "rule": 75,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.9166160701281161,
+     "output": 0.998586216448869,
+     "constant_q": 0.9974508268197804,
+     "firing_area_pct": 0.001480779558746267,
+     "firing_deposits_pct": 0.022068491662713356,
+     "lift": 14.903293020466942
+    },
+    {
+     "rule": 79,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.9166160701281161,
+     "output": 0.9963762600938798,
+     "constant_q": 0.9967328508681568,
+     "firing_area_pct": 0.0015211544629937209,
+     "firing_deposits_pct": 0.004923761891090584,
+     "lift": 3.2368585905472957
+    },
+    {
+     "rule": 80,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.929040985410131,
+     "output": 0.9953062351628889,
+     "constant_q": 0.9972239210251692,
+     "firing_area_pct": 0.014365533169312734,
+     "firing_deposits_pct": 0.13535639372835537,
+     "lift": 9.422302126418813
+    },
+    {
+     "rule": 81,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.99,
+     "output": 0.9939703134803544,
+     "constant_q": 0.9985067620979476,
+     "firing_area_pct": 0.009770630102574186,
+     "firing_deposits_pct": 0.22563097949562871,
+     "lift": 23.092776732606385
+    },
+    {
+     "rule": 71,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.7398547679258574,
+     "output": 0.9718293601299685,
+     "constant_q": 0.93263602391043,
+     "firing_area_pct": 0.5472231399699565,
+     "firing_deposits_pct": 3.664278516500656,
+     "lift": 6.69613225183027
+    },
+    {
+     "rule": 72,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.7884003308242115,
+     "output": 0.959520177204379,
+     "constant_q": 0.9449907220689949,
+     "firing_area_pct": 0.6147911524725771,
+     "firing_deposits_pct": 8.668543829831169,
+     "lift": 14.09998142453397
+    },
+    {
+     "rule": 54,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.7884003308242116,
+     "output": 0.9466372169144381,
+     "constant_q": 0.9521636425544973,
+     "firing_area_pct": 0.012937211914500509,
+     "firing_deposits_pct": 0.04024186157856866,
+     "lift": 3.1105513185158613
+    },
+    {
+     "rule": 77,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.7884003308242116,
+     "output": 0.9430343319975053,
+     "constant_q": 0.9502096704712623,
+     "firing_area_pct": 0.09354094510153817,
+     "firing_deposits_pct": 0.47107439960198844,
+     "lift": 5.036023519867581
+    },
+    {
+     "rule": 51,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.7398547679258574,
+     "output": 0.9099074722897382,
+     "constant_q": 0.9115693353883048,
+     "firing_area_pct": 0.02554622299379436,
+     "firing_deposits_pct": 0.07273502119342888,
+     "lift": 2.847192761571741
+    },
+    {
+     "rule": 53,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.7398547679258574,
+     "output": 0.9093042824919199,
+     "constant_q": 0.9113020154940659,
+     "firing_area_pct": 0.017034761223876226,
+     "firing_deposits_pct": 0.024604110094149347,
+     "lift": 1.4443472245248608
+    },
+    {
+     "rule": 48,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.7299600130583792,
+     "output": 0.9015468571272114,
+     "constant_q": 0.9013534499685093,
+     "firing_area_pct": 0.0035532304461298224,
+     "firing_deposits_pct": 0.005776444143294556,
+     "lift": 1.625688012885924
+    },
+    {
+     "rule": 52,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.7299600130583792,
+     "output": 0.9010805262822916,
+     "constant_q": 0.9011573494899455,
+     "firing_area_pct": 0.0022414776511128186,
+     "firing_deposits_pct": 0.0008805184668268898,
+     "lift": 0.39282946514757433
+    },
+    {
+     "rule": 74,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.729960578320035,
+     "output": 0.899462302463443,
+     "constant_q": 0.9005111721546987,
+     "firing_area_pct": 0.030437962521369568,
+     "firing_deposits_pct": 0.05292459134724367,
+     "lift": 1.7387691870008357
+    },
+    {
+     "rule": 76,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.729960578320035,
+     "output": 0.8925016782998234,
+     "constant_q": 0.8978332243608429,
+     "firing_area_pct": 0.03415008100459254,
+     "firing_deposits_pct": 0.017190275340691907,
+     "lift": 0.5033743650089773
+    },
+    {
+     "rule": 70,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.7299600130583792,
+     "output": 0.8846133357241162,
+     "constant_q": 0.895438764317644,
+     "firing_area_pct": 0.0447814150549448,
+     "firing_deposits_pct": 0.09013340934875454,
+     "lift": 2.0127414294113946
+    },
+    {
+     "rule": 65,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.581314304480958,
+     "output": 0.8425859233015487,
+     "constant_q": 0.713882971223125,
+     "firing_area_pct": 3.0103429520962344,
+     "firing_deposits_pct": 10.213512369241155,
+     "lift": 3.3928069099665326
+    },
+    {
+     "rule": 50,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.6278536178219457,
+     "output": 0.7144625916096603,
+     "constant_q": 0.7193512540183071,
+     "firing_area_pct": 0.13693623023100054,
+     "firing_deposits_pct": 0.11433897303329014,
+     "lift": 0.8349797043515027
+    },
+    {
+     "rule": 47,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.581314304480958,
+     "output": 0.6065152624414839,
+     "constant_q": 0.6059668585785852,
+     "firing_area_pct": 0.07892024276723549,
+     "firing_deposits_pct": 0.045739063463154754,
+     "lift": 0.5795606026967745
+    },
+    {
+     "rule": 49,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.581314304480958,
+     "output": 0.6006289242045624,
+     "constant_q": 0.6030488896596841,
+     "firing_area_pct": 0.07219768284534524,
+     "firing_deposits_pct": 0.0057537045389369195,
+     "lift": 0.07969375625616598
+    },
+    {
+     "rule": 43,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.5813138543269413,
+     "output": 0.6000316560284936,
+     "constant_q": 0.6029557287580553,
+     "firing_area_pct": 0.08705072103258274,
+     "firing_deposits_pct": 0.015201274785057669,
+     "lift": 0.17462548965410513
+    },
+    {
+     "rule": 39,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.5813138543269413,
+     "output": 0.5960939426771834,
+     "constant_q": 0.6015942278619374,
+     "firing_area_pct": 0.23343425422425293,
+     "firing_deposits_pct": 0.20244026152113687,
+     "lift": 0.8672260298467546
+    },
+    {
+     "rule": 44,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.5891936806006224,
+     "output": 0.5464492507771004,
+     "constant_q": 0.5945755224396055,
+     "firing_area_pct": 0.7070027678479263,
+     "firing_deposits_pct": 0.4230581154570823,
+     "lift": 0.5983825448729793
+    },
+    {
+     "rule": 45,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.6278536178219457,
+     "output": 0.5410482654016044,
+     "constant_q": 0.664656416625072,
+     "firing_area_pct": 0.5660551501216214,
+     "firing_deposits_pct": 0.6773392972491954,
+     "lift": 1.1965959449422263
+    },
+    {
+     "rule": 68,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.6278536178219457,
+     "output": 0.5365840794107435,
+     "constant_q": 0.6364141142508496,
+     "firing_area_pct": 4.697537147575295,
+     "firing_deposits_pct": 17.16056992904634,
+     "lift": 3.653099356096424
+    },
+    {
+     "rule": 42,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.5891936806006224,
+     "output": 0.4655205472881194,
+     "constant_q": 0.5659654425429014,
+     "firing_area_pct": 1.5311732828924707,
+     "firing_deposits_pct": 1.4635961230930847,
+     "lift": 0.9558657661060224
+    },
+    {
+     "rule": 59,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.17042569208587355,
+     "output": 0.4631261231180628,
+     "constant_q": 0.188585426570899,
+     "firing_area_pct": 1.6009751223348863,
+     "firing_deposits_pct": 6.046258702283053,
+     "lift": 3.7766100284338573
+    },
+    {
+     "rule": 56,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.15779297888617283,
+     "output": 0.39610627376312174,
+     "constant_q": 0.18714443771744707,
+     "firing_area_pct": 0.7578043224747383,
+     "firing_deposits_pct": 3.9714840204536714,
+     "lift": 5.240777734658623
+    },
+    {
+     "rule": 67,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.581314304480958,
+     "output": 0.3881283063008262,
+     "constant_q": 0.5136161491726547,
+     "firing_area_pct": 1.039483856415135,
+     "firing_deposits_pct": 0.9151410178903443,
+     "lift": 0.8803802120086679
+    },
+    {
+     "rule": 38,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.46293776764205424,
+     "output": 0.320636580091481,
+     "constant_q": 0.2979786198571228,
+     "firing_area_pct": 4.261719299518836,
+     "firing_deposits_pct": 1.7978012226201803,
+     "lift": 0.4218488117749001
+    },
+    {
+     "rule": 57,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.19814163188555128,
+     "output": 0.26259807965104864,
+     "constant_q": 0.11129634499049501,
+     "firing_area_pct": 0.0395056062045232,
+     "firing_deposits_pct": 1.4891225095090843,
+     "lift": 37.69395416437343
+    },
+    {
+     "rule": 62,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.20082748157796837,
+     "output": 0.20590029697562856,
+     "constant_q": 0.07984119169938471,
+     "firing_area_pct": 0.17059092992316224,
+     "firing_deposits_pct": 0.9322991522847003,
+     "lift": 5.465115599666568
+    },
+    {
+     "rule": 40,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.46293776764205424,
+     "output": 0.16346485200146096,
+     "constant_q": 0.21519180432839877,
+     "firing_area_pct": 2.766404394715959,
+     "firing_deposits_pct": 0.20901310136977072,
+     "lift": 0.07555406641523614
+    },
+    {
+     "rule": 41,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.5,
+     "output": 0.11451919056767175,
+     "constant_q": 0.2428044683961057,
+     "firing_area_pct": 6.511594010153557,
+     "firing_deposits_pct": 2.805077541975773,
+     "lift": 0.4307820078465892
+    },
+    {
+     "rule": 55,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.04626065009182744,
+     "output": 0.06862884481518976,
+     "constant_q": 0.03585064648325807,
+     "firing_area_pct": 0.6956869972254429,
+     "firing_deposits_pct": 1.311277117066673,
+     "lift": 1.8848665021717277
+    },
+    {
+     "rule": 58,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.15779297888617283,
+     "output": 0.06465932034341845,
+     "constant_q": 0.036501257556470997,
+     "firing_area_pct": 0.4353819308499687,
+     "firing_deposits_pct": 0.8734133921085778,
+     "lift": 2.006085531394167
+    },
+    {
+     "rule": 60,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.20082748157796837,
+     "output": 0.04827225060452389,
+     "constant_q": 0.027792111045304706,
+     "firing_area_pct": 0.33351106798827973,
+     "firing_deposits_pct": 1.8136654373330514,
+     "lift": 5.438096697278986
+    },
+    {
+     "rule": 63,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.21400477469184925,
+     "output": 0.03798933171392713,
+     "constant_q": 0.022655460090393934,
+     "firing_area_pct": 0.08979337297397086,
+     "firing_deposits_pct": 0.5045081530564944,
+     "lift": 5.618545515633324
+    },
+    {
+     "rule": 61,
+     "antecedent": "geology_host is high AND dist_faults is low AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.19814163188555128,
+     "output": 0.018667871320481547,
+     "constant_q": 0.014874464318151656,
+     "firing_area_pct": 0.021475689051758513,
+     "firing_deposits_pct": 0.03712943904382308,
+     "lift": 1.728905598993238
+    },
+    {
+     "rule": 30,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.15779285669557352,
+     "output": 0.01597219143584991,
+     "constant_q": 0.010503792729567578,
+     "firing_area_pct": 0.2226417178020508,
+     "firing_deposits_pct": 0.09492940177346093,
+     "lift": 0.4263774224822591
+    },
+    {
+     "rule": 27,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.21400477469184925,
+     "output": 0.015313197182934946,
+     "constant_q": 0.01594400477837153,
+     "firing_area_pct": 0.009813202933932723,
+     "firing_deposits_pct": 6.242885621776302e-05,
+     "lift": 0.006361720697927536
+    },
+    {
+     "rule": 35,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.15993177062087224,
+     "output": 0.013735967011734226,
+     "constant_q": 0.008443831168644809,
+     "firing_area_pct": 0.696991414356896,
+     "firing_deposits_pct": 0.1442925833680362,
+     "lift": 0.20702203842951622
+    },
+    {
+     "rule": 73,
+     "antecedent": "geology_host is high AND dist_faults is high AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.21400477469184925,
+     "output": 0.013666413403067065,
+     "constant_q": 0.015148312591729367,
+     "firing_area_pct": 0.033242782368600135,
+     "firing_deposits_pct": 0.013415483835728242,
+     "lift": 0.40356079966398956
+    },
+    {
+     "rule": 26,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.20082748157796837,
+     "output": 0.012618069766174866,
+     "constant_q": 0.012935224836821963,
+     "firing_area_pct": 0.011484334989869144,
+     "firing_deposits_pct": 3.8279903256238946e-05,
+     "lift": 0.0033332276783990884
+    },
+    {
+     "rule": 21,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.19814163188555128,
+     "output": 0.01252230145552256,
+     "constant_q": 0.012545433866748331,
+     "firing_area_pct": 0.0018549041757059733,
+     "firing_deposits_pct": 0.0001715211191651793,
+     "lift": 0.09246899188196536
+    },
+    {
+     "rule": 25,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.19814163188555128,
+     "output": 0.01252211454661899,
+     "constant_q": 0.012544632714017772,
+     "firing_area_pct": 0.0015911290843337081,
+     "firing_deposits_pct": 1.6992212146999212e-06,
+     "lift": 0.0010679342307487749
+    },
+    {
+     "rule": 24,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.20082748157796837,
+     "output": 0.012442590536943294,
+     "constant_q": 0.012875139343591472,
+     "firing_area_pct": 0.019259529636196482,
+     "firing_deposits_pct": 0.00031940142960478076,
+     "lift": 0.016584072178195654
+    },
+    {
+     "rule": 23,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.17042569208587355,
+     "output": 0.006434212798802079,
+     "constant_q": 0.007073273028559791,
+     "firing_area_pct": 0.0808206586958402,
+     "firing_deposits_pct": 0.002450590475503002,
+     "lift": 0.030321337576887784
+    },
+    {
+     "rule": 22,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.15779297888617283,
+     "output": 0.00564735212567859,
+     "constant_q": 0.005815986585429097,
+     "firing_area_pct": 0.03926928887908768,
+     "firing_deposits_pct": 0.0001976553372735935,
+     "lift": 0.005033331209082631
+    },
+    {
+     "rule": 20,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.15779297888617283,
+     "output": 0.005636507007906367,
+     "constant_q": 0.005811171032413437,
+     "firing_area_pct": 0.04119731704607322,
+     "firing_deposits_pct": 0.0027499850740070413,
+     "lift": 0.06675155741165334
+    },
+    {
+     "rule": 16,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.15779285669557352,
+     "output": 0.004311705119283772,
+     "constant_q": 0.005171492644504954,
+     "firing_area_pct": 0.06296887597679342,
+     "firing_deposits_pct": 4.176669884633714e-05,
+     "lift": 0.0006632911608860521
+    },
+    {
+     "rule": 34,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.15779285669557352,
+     "output": 0.0040639881852174735,
+     "constant_q": 0.004962948299889693,
+     "firing_area_pct": 0.12848841418365498,
+     "firing_deposits_pct": 0.006449475841569137,
+     "lift": 0.05019499915650431
+    },
+    {
+     "rule": 46,
+     "antecedent": "geology_host is medium AND dist_faults is high AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.17042569208587355,
+     "output": 0.003589682262267398,
+     "constant_q": 0.005398976220490024,
+     "firing_area_pct": 0.11365310196461477,
+     "firing_deposits_pct": 0.005662881366345545,
+     "lift": 0.049826016786665886
+    },
+    {
+     "rule": 12,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.15779285669557352,
+     "output": 0.0008209506237556216,
+     "constant_q": 0.003736083004076909,
+     "firing_area_pct": 0.5653429976689668,
+     "firing_deposits_pct": 0.03652320991604979,
+     "lift": 0.06460363012656564
+    },
+    {
+     "rule": 19,
+     "antecedent": "geology_host is low AND dist_faults is high AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.04626065009182744,
+     "output": 4.315273019963442e-05,
+     "constant_q": 9.408646661544548e-05,
+     "firing_area_pct": 0.06912255347608616,
+     "firing_deposits_pct": 0.00024532088735274655,
+     "lift": 0.003549071540559023
+    },
+    {
+     "rule": 7,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is high AND sb_log_idw is low",
+     "expert_K": 0.042831570998730036,
+     "output": -0.00025503593750976435,
+     "constant_q": -7.352557399533112e-05,
+     "firing_area_pct": 0.03745016581145265,
+     "firing_deposits_pct": 1.1231002437657516e-05,
+     "lift": 0.000299891928228071
+    },
+    {
+     "rule": 3,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is low AND sb_log_idw is high",
+     "expert_K": 0.042831570998730036,
+     "output": -0.0005339341275313,
+     "constant_q": -0.00023394035633066056,
+     "firing_area_pct": 0.09958293599464062,
+     "firing_deposits_pct": 0.0054743934102977785,
+     "lift": 0.05497320756432007
+    },
+    {
+     "rule": 4,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.03410954635807187,
+     "output": -0.0009105154399796391,
+     "constant_q": -0.0007069995692152787,
+     "firing_area_pct": 0.8699849842354486,
+     "firing_deposits_pct": 0.000877671961932077,
+     "lift": 0.0010088357590486274
+    },
+    {
+     "rule": 1,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.010000000000000004,
+     "output": -0.0009800940282152077,
+     "constant_q": -0.000903612259391149,
+     "firing_area_pct": 2.139692906163701,
+     "firing_deposits_pct": 0.0017484510009572844,
+     "lift": 0.00081715044057052
+    },
+    {
+     "rule": 9,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.04626065009182744,
+     "output": -0.0054136436957794255,
+     "constant_q": -0.0019035803658866222,
+     "firing_area_pct": 0.14183347193372042,
+     "firing_deposits_pct": 0.0013131093687323218,
+     "lift": 0.009258106361141221
+    },
+    {
+     "rule": 11,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.12566064318747117,
+     "output": -0.006052934289891368,
+     "constant_q": -0.01207700676335182,
+     "firing_area_pct": 9.492386250632832,
+     "firing_deposits_pct": 1.2755548585190906,
+     "lift": 0.13437662826184013
+    },
+    {
+     "rule": 5,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.03684031498640388,
+     "output": -0.006748219494171391,
+     "constant_q": -0.00426436850856777,
+     "firing_area_pct": 2.350870923310805,
+     "firing_deposits_pct": 0.017059118501686402,
+     "lift": 0.007256510058689871
+    },
+    {
+     "rule": 8,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.04341216156265116,
+     "output": -0.007547853995983782,
+     "constant_q": -0.0036032109696378795,
+     "firing_area_pct": 0.22970245495241864,
+     "firing_deposits_pct": 0.0014528996337412731,
+     "lift": 0.006325137596122914
+    },
+    {
+     "rule": 29,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.12566064318747117,
+     "output": -0.008157546449592787,
+     "constant_q": -0.010182178375030899,
+     "firing_area_pct": 3.8700964246012535,
+     "firing_deposits_pct": 0.43531078846796034,
+     "lift": 0.11248060531536022
+    },
+    {
+     "rule": 6,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.04341216156265116,
+     "output": -0.009115341546318444,
+     "constant_q": -0.004297997833780016,
+     "firing_area_pct": 0.6640414593489802,
+     "firing_deposits_pct": 0.005234741698992204,
+     "lift": 0.0078831549224717
+    },
+    {
+     "rule": 10,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.03684031498640388,
+     "output": -0.0095470392140273,
+     "constant_q": -0.007534371620412097,
+     "firing_area_pct": 7.553172954206996,
+     "firing_deposits_pct": 0.012432126052715962,
+     "lift": 0.0016459474883057546
+    },
+    {
+     "rule": 28,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.03684031498640388,
+     "output": -0.010330012603653897,
+     "constant_q": -0.00927764377949915,
+     "firing_area_pct": 4.670517807538122,
+     "firing_deposits_pct": 0.10030098223068622,
+     "lift": 0.021475345210931956
+    },
+    {
+     "rule": 2,
+     "antecedent": "geology_host is low AND dist_faults is low AND as_log_idw is low AND sb_log_idw is medium",
+     "expert_K": 0.03410954635807187,
+     "output": -0.010495169536843738,
+     "constant_q": -0.008859649200207199,
+     "firing_area_pct": 1.6540579453353201,
+     "firing_deposits_pct": 0.021766357636564947,
+     "lift": 0.01315936826635922
+    },
+    {
+     "rule": 13,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.12566064318747117,
+     "output": -0.010990423788850314,
+     "constant_q": -0.005616921474258108,
+     "firing_area_pct": 1.5198509200656063,
+     "firing_deposits_pct": 0.005491061662884054,
+     "lift": 0.003612894916461297
+    },
+    {
+     "rule": 31,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is low",
+     "expert_K": 0.12566064318747117,
+     "output": -0.011162786573133094,
+     "constant_q": -0.007636676694711917,
+     "firing_area_pct": 2.7043836427631476,
+     "firing_deposits_pct": 0.1427699750660775,
+     "lift": 0.05279205686964046
+    },
+    {
+     "rule": 64,
+     "antecedent": "geology_host is high AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.17042569208587355,
+     "output": -0.013454811577985499,
+     "constant_q": -0.0025638184405862396,
+     "firing_area_pct": 1.9136841317799316,
+     "firing_deposits_pct": 1.2850196078028726,
+     "lift": 0.671489921697614
+    },
+    {
+     "rule": 17,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is medium",
+     "expert_K": 0.15993177062087224,
+     "output": -0.01683990759300269,
+     "constant_q": -0.004231863239969512,
+     "firing_area_pct": 0.8055971963446028,
+     "firing_deposits_pct": 0.006658257055323183,
+     "lift": 0.008264995317182116
+    },
+    {
+     "rule": 36,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.17042569208587355,
+     "output": -0.018191782881666264,
+     "constant_q": -0.00132977551163314,
+     "firing_area_pct": 0.360974051455783,
+     "firing_deposits_pct": 0.06561427025293959,
+     "lift": 0.181770046872682
+    },
+    {
+     "rule": 18,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is high AND sb_log_idw is high",
+     "expert_K": 0.17042569208587355,
+     "output": -0.01982603000791867,
+     "constant_q": -0.0021579843537276318,
+     "firing_area_pct": 1.1433610939104646,
+     "firing_deposits_pct": 0.023719757393893575,
+     "lift": 0.02074563978101484
+    },
+    {
+     "rule": 33,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.15993177062087224,
+     "output": -0.04049043802644392,
+     "constant_q": -0.013476273812950398,
+     "firing_area_pct": 1.5596494181385228,
+     "firing_deposits_pct": 0.16383095017766253,
+     "lift": 0.10504344647734906
+    },
+    {
+     "rule": 32,
+     "antecedent": "geology_host is medium AND dist_faults is low AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.13572088082974537,
+     "output": -0.043267699331341565,
+     "constant_q": -0.028045066087077998,
+     "firing_area_pct": 6.8494865386333235,
+     "firing_deposits_pct": 0.7617727204987546,
+     "lift": 0.11121603293941956
+    },
+    {
+     "rule": 15,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is high",
+     "expert_K": 0.15993177062087224,
+     "output": -0.04931817595194014,
+     "constant_q": -0.016872466366737938,
+     "firing_area_pct": 2.568865077265483,
+     "firing_deposits_pct": 0.07331160048777635,
+     "lift": 0.02853851731513101
+    },
+    {
+     "rule": 14,
+     "antecedent": "geology_host is low AND dist_faults is medium AND as_log_idw is medium AND sb_log_idw is medium",
+     "expert_K": 0.13572088082974537,
+     "output": -0.059721947193531036,
+     "constant_q": -0.032320989910059855,
+     "firing_area_pct": 6.676521146461015,
+     "firing_deposits_pct": 0.11058045810888009,
+     "lift": 0.01656258636542997
+    },
+    {
+     "rule": 37,
+     "antecedent": "geology_host is medium AND dist_faults is medium AND as_log_idw is low AND sb_log_idw is low",
+     "expert_K": 0.13572088082974534,
+     "output": -0.07842357032291344,
+     "constant_q": -0.05232131404132887,
+     "firing_area_pct": 5.146106397691448,
+     "firing_deposits_pct": 0.23756449717052078,
+     "lift": 0.04616393032159082
+    }
+   ],
+   "membership": [
+    {
+     "input": "geology_host",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": 0.08161552131672559,
+     "centre_sd": 0.08727099293268473,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.20997206548803238
+    },
+    {
+     "input": "geology_host",
+     "mf": "medium",
+     "centre_expert": 0.5,
+     "centre": 0.34672026283248486,
+     "centre_sd": 0.23174467150462608,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.16872175121886124
+    },
+    {
+     "input": "geology_host",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 0.996157798375872,
+     "centre_sd": 0.061007132803576766,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.1818330324999177
+    },
+    {
+     "input": "dist_faults",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": -0.13141424545013303,
+     "centre_sd": 0.20554002136396377,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.1807690043899664
+    },
+    {
+     "input": "dist_faults",
+     "mf": "medium",
+     "centre_expert": 0.5,
+     "centre": 0.45920486319712167,
+     "centre_sd": 0.2683493131734338,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.23283907181084076
+    },
+    {
+     "input": "dist_faults",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 1.1368161065688764,
+     "centre_sd": 0.14976778187141743,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.1859908481871569
+    },
+    {
+     "input": "as_log_idw",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": 0.017411065772949715,
+     "centre_sd": 0.11131407437789272,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.1829130143961672
+    },
+    {
+     "input": "as_log_idw",
+     "mf": "medium",
+     "centre_expert": 0.5,
+     "centre": 0.5791050490676332,
+     "centre_sd": 0.08546537022188824,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.16635655789913817
+    },
+    {
+     "input": "as_log_idw",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 1.0055968963146837,
+     "centre_sd": 0.14697316761771015,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.16840461204363918
+    },
+    {
+     "input": "sb_log_idw",
+     "mf": "low",
+     "centre_expert": 0.0,
+     "centre": -0.03031145980804547,
+     "centre_sd": 0.11481396795394454,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.17342341557277757
+    },
+    {
+     "input": "sb_log_idw",
+     "mf": "medium",
+     "centre_expert": 0.5,
+     "centre": 0.4345560062840911,
+     "centre_sd": 0.07748206669371721,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.16073517121487785
+    },
+    {
+     "input": "sb_log_idw",
+     "mf": "high",
+     "centre_expert": 1.0,
+     "centre": 0.9797321156853291,
+     "centre_sd": 0.06506603591797705,
+     "sigma_expert": 0.21233045007200477,
+     "sigma": 0.17645852053825445
+    }
+   ],
+   "importance": [
+    {
+     "input": "geology_host",
+     "auc_drop": 0.3182291666666667,
+     "auc_drop_sd": 0.08749244054769595
+    },
+    {
+     "input": "sb_log_idw",
+     "auc_drop": 0.0791087962962963,
+     "auc_drop_sd": 0.06513440655726338
+    },
+    {
+     "input": "dist_faults",
+     "auc_drop": 0.03321759259259259,
+     "auc_drop_sd": 0.05321318227983599
+    },
+    {
+     "input": "as_log_idw",
+     "auc_drop": 0.024884259259259255,
+     "auc_drop_sd": 0.023312495288083764
+    }
+   ],
+   "bags": [
+    {
+     "bag": 1,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 1,
+     "training_rmse": 0.2798726488589421,
+     "checking_rmse": 0.2591425263001476,
+     "sample_auc": 0.9577546296296297,
+     "platt_a": 8.55307558669177,
+     "platt_b": -4.265504263127987
+    },
+    {
+     "bag": 2,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 100,
+     "training_rmse": 0.22591373771541345,
+     "checking_rmse": 0.16123511995575507,
+     "sample_auc": 0.984375,
+     "platt_a": 8.314225093454573,
+     "platt_b": -4.331744746700611
+    },
+    {
+     "bag": 3,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 36,
+     "training_rmse": 0.2444468535383404,
+     "checking_rmse": 0.2881743962420663,
+     "sample_auc": 0.9716435185185185,
+     "platt_a": 7.527934556152193,
+     "platt_b": -3.828557807650233
+    },
+    {
+     "bag": 4,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 1,
+     "training_rmse": 0.2479610697103486,
+     "checking_rmse": 0.23208936049821885,
+     "sample_auc": 0.9728009259259259,
+     "platt_a": 8.919337331374873,
+     "platt_b": -4.465003515031685
+    },
+    {
+     "bag": 5,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 97,
+     "training_rmse": 0.2212598478365639,
+     "checking_rmse": 0.28411634288050747,
+     "sample_auc": 0.9699074074074074,
+     "platt_a": 7.348459607703636,
+     "platt_b": -4.223271173980103
+    },
+    {
+     "bag": 6,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 1,
+     "training_rmse": 0.21982951946461435,
+     "checking_rmse": 0.4298710738349451,
+     "sample_auc": 0.9496527777777778,
+     "platt_a": 6.49340482525075,
+     "platt_b": -3.7654576752672733
+    },
+    {
+     "bag": 7,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 3,
+     "training_rmse": 0.24640920652428,
+     "checking_rmse": 0.3091073625458862,
+     "sample_auc": 0.9646990740740741,
+     "platt_a": 8.557800248273903,
+     "platt_b": -4.284968245553355
+    },
+    {
+     "bag": 8,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 1,
+     "training_rmse": 0.2330271070142828,
+     "checking_rmse": 0.3879264767925817,
+     "sample_auc": 0.9484953703703703,
+     "platt_a": 6.961457420894012,
+     "platt_b": -3.642791267463665
+    },
+    {
+     "bag": 9,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 6,
+     "training_rmse": 0.21655034947268123,
+     "checking_rmse": 0.30808296412299124,
+     "sample_auc": 0.9797453703703703,
+     "platt_a": 10.677436537194907,
+     "platt_b": -5.7530155354167976
+    },
+    {
+     "bag": 10,
+     "training_samples": 72,
+     "checking_samples": 24,
+     "best_epoch": 53,
+     "training_rmse": 0.19653837016253836,
+     "checking_rmse": 0.3330327020557147,
+     "sample_auc": 0.9704861111111112,
+     "platt_a": 8.498157115852987,
+     "platt_b": -3.824307910663017
+    }
+   ],
+   "stats": {
+    "deposits": 24,
+    "non_deposits": 72,
+    "rules": 81,
+    "inputs": 4,
+    "bags": 10,
+    "sample_auc": 0.9669560185185185,
+    "best_epoch": 29.9
+   },
+   "input_mode": "layers"
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "neuro_fuzzy_carlin_map.png",
+  "curves": "neuro_fuzzy_carlin_curves.png"
+ },
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 3148.4080929756165
+}

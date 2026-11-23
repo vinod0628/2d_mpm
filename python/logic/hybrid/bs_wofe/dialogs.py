@@ -13,6 +13,7 @@ class BSWofEDialog(HybridDialog):
                   "the data, classes with few keep the expert value. Correlated layers are deflated. Use fewer "
                   "classes below 10 deposits.")
     PREFIX = "bswofe"
+    USES_NEGATIVES = False
 
     def build_options(self):
         self.opt_spin("n_classes", "Classes per continuous layer Q", 2, 20, 5, integer=True)

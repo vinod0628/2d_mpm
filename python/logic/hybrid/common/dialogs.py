@@ -220,6 +220,7 @@ class HybridDialog(BaseDialog):
     PREFIX = "hybrid"
     NEED_DEPOSITS = True
     REGRESSION = False         # continuous target: deposits only validate (no split / non-deposit samples)
+    USES_NEGATIVES = True      # False: the method counts all cells (WofE family) — no non-deposit sampling
     TEST_DEFAULT = 20
     WIDTH, HEIGHT = 1080, 940
 
@@ -286,7 +287,12 @@ class HybridDialog(BaseDialog):
             f1.addRow(tr("Study area mask"), self.mask)
             f1.addRow(tr("Hold out for testing"), row)
             f1.addRow(tr("Thin deposits (min. distance)"), self.thin)
-            f1.addRow(tr("Min. distance of non-deposits"), self.min_dist)
+            if self.USES_NEGATIVES:
+                f1.addRow(tr("Min. distance of non-deposits"), self.min_dist)
+            else:                                      # kept (and passed on), but not shown
+                self._unused = QWidget(self)
+                QVBoxLayout(self._unused).addWidget(self.min_dist)
+                self._unused.hide()
             f1.addRow(tr("Absence points (ROC)"), self.negatives)
         self.body.addWidget(g1)
 

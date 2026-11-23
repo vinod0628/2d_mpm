@@ -50,6 +50,7 @@
    "dtype": "float32"
   }
  ],
+ "knowledge": null,
  "protocol": "expert",
  "search": [
   {
@@ -60,9 +61,15 @@
    "mean_test_auc": 0.8503686091985598,
    "sd_test_auc": null,
    "mean_train_auc": 0.8503686091985598,
-   "seconds": 1.4006283283233643,
+   "seconds": 1.0777642726898193,
    "pa_prediction": 75.0,
-   "pa_area": 24.999999999999996
+   "pa_area": 24.999999999999996,
+   "weights": {
+    "geology_host": 1.0,
+    "dist_faults": 1.0,
+    "as_log_idw": 1.0,
+    "sb_log_idw": 1.0
+   }
   },
   {
    "label": "all layers, 2–98 % range, equal weights",
@@ -73,9 +80,15 @@
    "mean_test_auc": 0.8371935117987435,
    "sd_test_auc": null,
    "mean_train_auc": 0.8371935117987435,
-   "seconds": 1.3459603786468506,
+   "seconds": 1.0659074783325195,
    "pa_prediction": 75.0,
-   "pa_area": 24.999999999999996
+   "pa_area": 24.999999999999996,
+   "weights": {
+    "geology_host": 1.0,
+    "dist_faults": 1.0,
+    "as_log_idw": 1.0,
+    "sb_log_idw": 1.0
+   }
   },
   {
    "label": "all layers, data range, P–A weights",
@@ -86,9 +99,15 @@
    "mean_test_auc": 0.7799801655870721,
    "sd_test_auc": null,
    "mean_train_auc": 0.7799801655870721,
-   "seconds": 3.242063045501709,
+   "seconds": 2.3381476402282715,
    "pa_prediction": 71.875,
-   "pa_area": 28.125
+   "pa_area": 28.125,
+   "weights": {
+    "geology_host": 0.0,
+    "dist_faults": 0.014861920119577139,
+    "as_log_idw": 0.5108256237659907,
+    "sb_log_idw": 1.2729656758128876
+   }
   },
   {
    "label": "all layers, 2–98 % range, P–A weights",
@@ -100,9 +119,15 @@
    "mean_test_auc": 0.7792858503690707,
    "sd_test_auc": null,
    "mean_train_auc": 0.7792858503690707,
-   "seconds": 3.1668641567230225,
+   "seconds": 2.379223346710205,
    "pa_prediction": 71.875,
-   "pa_area": 28.125
+   "pa_area": 28.125,
+   "weights": {
+    "geology_host": 0.0,
+    "dist_faults": 0.014861920119577139,
+    "as_log_idw": 0.5108256237659907,
+    "sb_log_idw": 1.2729656758128876
+   }
   }
  ],
  "selected": {
@@ -112,7 +137,7 @@
  "robust_summary": null,
  "reference": {
   "seed": 42,
-  "seconds": 1.5306804180145264,
+  "seconds": 1.0912013053894043,
   "curves": {
    "training": {
     "deposits": 32,
@@ -170,5 +195,7 @@
   "map": "logistic_geometric_carlin_map.png",
   "curves": "logistic_geometric_carlin_curves.png"
  },
- "runtime_s": 14.536645889282227
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 10.97163987159729
 }

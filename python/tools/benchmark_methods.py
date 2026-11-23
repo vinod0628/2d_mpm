@@ -168,6 +168,25 @@ def _bn(layers, **opts):
     return make
 
 
+def _hybrid(table, prefix, **opts):
+    """Hybrid methods: knowledge table [(layer, process, direction or 'cls=score; …')]."""
+    def make(d: Demo) -> dict:
+        ev = []
+        for n, proc, dirn in table:
+            cat = isinstance(dirn, str)
+            ev.append(d.evidence(n, kind="categorical" if cat else "continuous", process=proc,
+                                 direction=1 if cat else dirn, scores=dirn if cat else None, weight=1.0))
+        p = dict(evidence=ev, process_weights={}, prefix=prefix)
+        p.update(opts)
+        return p
+    return make
+
+
+CARLIN_KNOW = [("geology_host", "trap", "2=0.9; 1=0.1"), ("dist_faults", "pathway", -1),
+               ("as_log_idw", "deposition", 1), ("sb_log_idw", "deposition", 1)]
+CURNAMONA_KNOW = [("rad_th", "source", 1), ("rad_u", "source", 1), ("geochem_nb_log_idw", "deposition", 1),
+                  ("aster_silica_index", "footprint", -1)]
+
 CARLIN_LR = [("geology_host", "categorical", "none"), ("dist_faults", "continuous", "none"),
              ("as_log_idw", "continuous", "none"), ("sb_log_idw", "continuous", "none")]
 CURNAMONA_LR = [("geology_units", "categorical", "none"), ("dist_faults", "continuous", "none"),
@@ -190,6 +209,7 @@ CONFIGS = {
         "Extreme Learning Machine": ("elm", _elm(CARLIN_LR, neg_ratio=3, min_distance=1000.0)),
         "Convolutional Neural Network": ("cnn", _cnn(CARLIN_LR, neg_ratio=3, min_distance=1000.0)),
         "Bayesian Network (TAN)": ("bayesian_network", _bn(CARLIN_LR)),
+        "Fuzzy WofE (modified)": ("fuzzy_wofe", _hybrid(CARLIN_KNOW, "fwofe", model="modified", n_classes=10)),
     },
     "curnamona": {
         "Weights of Evidence": ("wofe", _wofe([("geology_units", "categorical"), ("dist_faults_class", "ascending"),
@@ -207,6 +227,7 @@ CONFIGS = {
         "Extreme Learning Machine": ("elm", _elm(CURNAMONA_LR, neg_ratio=5, min_distance=800.0)),
         "Convolutional Neural Network": ("cnn", _cnn(CURNAMONA_LR, neg_ratio=5, min_distance=800.0)),
         "Bayesian Network (TAN)": ("bayesian_network", _bn(CURNAMONA_LR, n_classes=3)),
+        "Fuzzy WofE (classic)": ("fuzzy_wofe", _hybrid(CURNAMONA_KNOW, "fwofe", model="classic", n_classes=10)),
     },
 }
 

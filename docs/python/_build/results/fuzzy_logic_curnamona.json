@@ -59,6 +59,7 @@
    "dtype": "float32"
   }
  ],
+ "knowledge": null,
  "protocol": "expert",
  "search": [
   {
@@ -69,7 +70,7 @@
    "mean_test_auc": 0.9079415684091562,
    "sd_test_auc": null,
    "mean_train_auc": 0.9079415684091562,
-   "seconds": 0.06125497817993164,
+   "seconds": 0.04744672775268555,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   },
@@ -82,7 +83,7 @@
    "mean_test_auc": 0.9064824654622741,
    "sd_test_auc": null,
    "mean_train_auc": 0.9064824654622741,
-   "seconds": 0.05541372299194336,
+   "seconds": 0.11424827575683594,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   },
@@ -95,7 +96,7 @@
    "mean_test_auc": 0.9094259737192786,
    "sd_test_auc": null,
    "mean_train_auc": 0.9094259737192786,
-   "seconds": 0.0579075813293457,
+   "seconds": 0.07363462448120117,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   },
@@ -108,7 +109,7 @@
    "mean_test_auc": 0.8931228176711704,
    "sd_test_auc": null,
    "mean_train_auc": 0.8931228176711704,
-   "seconds": 0.047531843185424805,
+   "seconds": 0.04274392127990723,
    "pa_prediction": 85.15427563914193,
    "pa_area": 14.845724360858064
   },
@@ -121,7 +122,7 @@
    "mean_test_auc": 0.9054535026904846,
    "sd_test_auc": null,
    "mean_train_auc": 0.9054535026904846,
-   "seconds": 0.050110816955566406,
+   "seconds": 0.045569419860839844,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   },
@@ -134,7 +135,7 @@
    "mean_test_auc": 0.9054535026904846,
    "sd_test_auc": null,
    "mean_train_auc": 0.9054535026904846,
-   "seconds": 0.0478968620300293,
+   "seconds": 0.04065752029418945,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   },
@@ -147,7 +148,7 @@
    "mean_test_auc": 0.9131791575999866,
    "sd_test_auc": null,
    "mean_train_auc": 0.9131791575999866,
-   "seconds": 0.05886363983154297,
+   "seconds": 0.05007624626159668,
    "pa_prediction": 85.71428571428572,
    "pa_area": 14.285714285714281
   }
@@ -160,7 +161,7 @@
  "robust_summary": null,
  "reference": {
   "seed": 42,
-  "seconds": 0.055318355560302734,
+  "seconds": 0.04709506034851074,
   "curves": {
    "training": {
     "deposits": 7,
@@ -260,5 +261,7 @@
   "map": "fuzzy_logic_curnamona_map.png",
   "curves": "fuzzy_logic_curnamona_curves.png"
  },
- "runtime_s": 2.739165782928467
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 2.338886260986328
 }

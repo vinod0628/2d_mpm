@@ -172,6 +172,8 @@ class MainWindow(QMainWindow):
         self.a_align = A(tr("Align raster to grid…"), self.tool_align, "mdi6.grid")
         self.a_clip = A(tr("Clip raster by mask…"), self.tool_clip, "mdi6.content-cut",
                         tip=tr("Keep the raster cells inside (or outside) the polygons of a mask layer"))
+        self.a_poly2ras = A(tr("Polygon to raster…"), self.tool_polygon_to_raster, "mdi6.vector-square",
+                            tip=tr("Polygons (e.g. a geological map) to a categorical raster with a class table"))
         self.a_dist = A(tr("Distance to features…"), self.tool_distance, "mdi6.map-marker-distance")
         self.a_validate = A(tr("ROC / AUC validation…"), self.tool_validate, "mdi6.chart-bell-curve-cumulative",
                             tip=tr("Validate any prospectivity raster against deposits (ROC, AUC, success-rate, P-A)"))
@@ -214,7 +216,7 @@ class MainWindow(QMainWindow):
         m = mb.addMenu(tr("&Data"))
         m.addActions([self.a_add_r, self.a_add_v])
         m.addSeparator()
-        m.addActions([self.a_convert, self.a_reclass, self.a_align, self.a_clip, self.a_dist])
+        m.addActions([self.a_convert, self.a_reclass, self.a_align, self.a_clip, self.a_poly2ras, self.a_dist])
 
         self.method_actions = {}
         for cat in reg.CATEGORIES:                      # Knowledge-driven, Data-driven, Hybrid
@@ -452,7 +454,7 @@ class MainWindow(QMainWindow):
 
     def _project_actions(self):
         return [self.a_save, self.a_save_as, self.a_proj_props, self.a_add_r, self.a_add_v, self.a_export_map, self.a_convert,
-                self.a_reclass, self.a_align, self.a_clip, self.a_dist, self.a_validate, self.a_targets] + list(self.method_actions.values())
+                self.a_reclass, self.a_align, self.a_clip, self.a_poly2ras, self.a_dist, self.a_validate, self.a_targets] + list(self.method_actions.values())
 
     def _update_project_state(self):
         """Everything except New / Open / demo / view / help needs an open project."""
@@ -822,6 +824,27 @@ class MainWindow(QMainWindow):
         if dlg.add.isChecked():
             self.store.add(lyr)
         log.info(tr("Clipped {src} -> {path}", src=dlg.src.layer().name, path=lyr.source))
+
+    def tool_polygon_to_raster(self):
+        from gui.dialogs.data_dialogs import PolygonToRasterDialog
+        title = tr("Polygon to raster")
+        if not self.store.vectors("polygon"):
+            QMessageBox.information(self, title, tr("Add a polygon layer first (Data ▸ Add vector…)."))
+            return
+        r = self._run_dialog_tool(PolygonToRasterDialog, title)
+        if not r:
+            return
+        dlg, lyr = r
+        if dlg.add.isChecked():
+            self.store.add(lyr)
+        res = dlg.result_info
+        log.info(tr("Rasterised {src} -> {path} ({k} classes)", src=dlg.src.layer().name, path=lyr.source,
+                    k=len(res.table)))
+        if res.empty:
+            log.warning(tr("Classes without cells (polygons smaller than a cell or outside the grid): {names} — "
+                           "use the maximum-area rule or a smaller cell size", names=", ".join(res.empty[:20])))
+        if res.skipped:
+            log.warning(tr("{n} features without a label or polygon geometry were skipped", n=res.skipped))
 
     def tool_distance(self):
         from gui.dialogs.data_dialogs import DistanceDialog

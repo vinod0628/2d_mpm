@@ -59,14 +59,18 @@ EVIDENCE = {
         wofe=[("geology_host", "categorical"), ("dist_faults_class", "ascending"), ("as_q8", "descending"),
               ("sb_q8", "descending")],
         cont=[("geology_host", "categorical"), ("dist_faults", "continuous"), ("as_log_idw", "continuous"),
-              ("sb_log_idw", "continuous")]),
+              ("sb_log_idw", "continuous")],
+        ebf=[("geology_host", "values"), ("dist_faults_class", "values"), ("as_log_idw", "quantile"),
+             ("sb_log_idw", "quantile")]),
     # Curnamona REE: chosen from the single-layer AUCs (univariate.py) — radiometric U / Th / K highs, Nb, low silica;
     # "<layer>@q8" = the layer reclassified into 8 quantile classes (Data ▸ Reclassify raster), as WofE needs classes
     "curnamona": dict(
         wofe=[("rad_th@q8", "descending"), ("rad_u@q8", "descending"), ("geochem_nb_log_idw@q8", "descending"),
               ("aster_silica_index@q8", "ascending")],
         cont=[("rad_th", "continuous"), ("rad_u", "continuous"), ("rad_k", "continuous"),
-              ("geochem_nb_log_idw", "continuous"), ("aster_silica_index", "continuous")]),
+              ("geochem_nb_log_idw", "continuous"), ("aster_silica_index", "continuous")],
+        ebf=[("rad_th", "quantile"), ("rad_u", "quantile"), ("geochem_nb_log_idw", "quantile"),
+             ("aster_silica_index", "quantile")]),
 }
 
 
@@ -137,6 +141,13 @@ def wofe_params(d, cfg):
                criterion=cfg["criterion"], min_stud=cfg["min_stud"]) for n, t in EVIDENCE[d.key]["wofe"]]
     return dict(evidence=ev, missing=cfg.get("missing", "zero"), zero_deposit=cfg["zero_deposit"], out_std=True,
                 out_conf=True, out_weights=False, prefix="wofe")
+
+
+def ebf_params(d, cfg):
+    ev = [dict(name=n, data=d.raster(n)[0], grid=d.raster(n)[1], labels=d.raster(n)[2], classing=c,
+               n_classes=cfg.get("n_classes", 10)) for n, c in EVIDENCE[d.key]["ebf"]]
+    return dict(evidence=ev, missing=cfg.get("missing", "vacuous"), zero_deposit=cfg.get("zero_deposit", "zero"),
+                score=cfg.get("score", "bel"), out_maps=True, out_layers=False, prefix="ebf")
 
 
 def lr_params(d, cfg):
@@ -236,7 +247,7 @@ def bn_params(d, cfg):
 
 
 # ------------------------------------------------------------------ knowledge-driven methods (no training)
-KNOWLEDGE = ("fuzzy_logic", "boolean_logic", "logistic_geometric")
+KNOWLEDGE = ("fuzzy_logic", "boolean_logic", "logistic_geometric", "index_overlay", "topsis")
 # deposit-model layers: (layer, mineral-system group)
 KD_LAYERS = {
     "carlin": [("geology_host", "trap"), ("dist_faults", "pathway"), ("as_log_idw", "footprint"),
@@ -306,7 +317,192 @@ def lg_params(d, cfg):
     return dict(evidence=ev, weighting=cfg.get("weighting", "equal"), out_fuzzy=False, prefix="lgfa")
 
 
+# index overlay: AHP judgements (upper triangle, KD_LAYERS order) from the importance of each mineral-system proxy
+AHP_JUDGEMENTS = {
+    # host (trap) ≥ Sb > As > faults: reactive host and the Sb halo are the strongest Carlin criteria
+    "carlin": {(0, 1): 3, (0, 2): 2, (0, 3): 1, (1, 2): 1 / 2, (1, 3): 1 / 3, (2, 3): 1 / 2},
+    # Th = U (U–Th–REE granite source) > Nb (co-enrichment) > silica (cover)
+    "curnamona": {(0, 1): 1, (0, 2): 2, (0, 3): 3, (1, 2): 2, (1, 3): 3, (2, 3): 2},
+}
+
+
+def ahp_info(key):
+    """AHP and fuzzy-AHP weights of the demo judgement matrix (for the document)."""
+    from logic.knowledge_driven.index_overlay.model import ahp_weights, fuzzy_ahp_weights, reciprocal_matrix
+    names = [n for n, _ in KD_LAYERS[key]]
+    A = reciprocal_matrix(AHP_JUDGEMENTS[key], len(names))
+    a, f1, f2 = ahp_weights(A), fuzzy_ahp_weights(A, 1.0), fuzzy_ahp_weights(A, 2.0)
+    return dict(layers=names, matrix=A.tolist(), ahp=a.weights.tolist(), lambda_max=a.lambda_max, ci=a.ci, cr=a.cr,
+                fuzzy1=f1.weights.tolist(), fuzzy1_tfn=f1.fuzzy.tolist(), fuzzy2=f2.weights.tolist())
+
+
+def io_params(d, cfg):
+    from logic.knowledge_driven.index_overlay.model import reciprocal_matrix
+    ev = []
+    for n, g in KD_LAYERS[d.key]:
+        v = _vals(d, n)
+        if n == "geology_host":
+            rule, spec = "classes", "2=1; 1=0"
+        elif cfg.get("binary"):
+            q = np.percentile(v, 25 if n in KD_NEGATIVE else 75)
+            rule, spec = ("le" if n in KD_NEGATIVE else "ge"), f"{q:.6g}"
+        else:
+            lo, hi = (np.percentile(v, [2, 98]) if cfg.get("robust", True) else (v.min(), v.max()))
+            rule, spec = ("negative" if n in KD_NEGATIVE else "positive"), f"{lo:.6g}, {hi:.6g}"
+        ev.append(dict(name=n, data=d.raster(n)[0], grid=d.raster(n)[1], rule=rule, spec=spec, weight=1.0))
+    w = cfg.get("weighting", "equal")
+    P = reciprocal_matrix(AHP_JUDGEMENTS[d.key], len(ev)).tolist() if w in ("ahp", "fuzzy_ahp") else None
+    return dict(evidence=ev, weighting=w, pairwise=P, delta=cfg.get("delta", 1.0),
+                missing=cfg.get("missing", "renormalise"), out_scores=False, prefix="index")
+
+
+def topsis_params(d, cfg):
+    p = io_params(d, cfg)
+    method = cfg.get("method", "topsis")
+    p.update(method=method, normalisation=cfg.get("normalisation", "vector"), v=cfg.get("v", 0.5),
+             out_parts=False, prefix=method)
+    return p
+
+
+def topsis_vector_weights(key):
+    """Effective layer weights of TOPSIS vector normalisation, w_j / sqrt(sum x_j^2), normalised (for the document)."""
+    from logic.knowledge_driven.index_overlay.model import IOLayer, layer_scores
+    from logic.knowledge_driven.index_overlay.plugin import parse_spec
+    d = Demo(key)
+    study = ~np.ma.getmaskarray(d.mask()[0])
+    out = []
+    for label, cfg in (("equal weights, 2–98 % ranges", {}), ("equal weights, min–max ranges", dict(robust=False)),
+                       ("AHP weights, min–max ranges", dict(robust=False, weighting="ahp"))):
+        p = io_params(d, cfg)
+        w = (np.array(ahp_info(key)["ahp"]) if cfg.get("weighting") == "ahp" else np.ones(len(p["evidence"])))
+        w = w / w.sum()
+        norms = []
+        for e in p["evidence"]:
+            s = layer_scores(IOLayer(e["name"], e["data"], e["rule"], parse_spec(e["rule"], e["spec"])))
+            v = np.ma.getdata(s)[study & ~np.ma.getmaskarray(s)]
+            norms.append(np.sqrt((v ** 2).sum()))
+        eff = w / np.array(norms)
+        out.append(dict(label=label, layers=[e["name"] for e in p["evidence"]], weights=w.tolist(),
+                        effective=(eff / eff.sum()).tolist()))
+    return out
+
+
+# hybrid methods: mineral-system knowledge table per project: (layer, process, direction or class scores, weight)
+HYBRID_KNOWLEDGE = {
+    "carlin": [("geology_host", "trap", "2=0.9; 1=0.1", 1.0), ("dist_faults", "pathway", -1, 1.0),
+               ("as_log_idw", "deposition", 1, 1.0), ("sb_log_idw", "deposition", 1, 1.0)],
+    "curnamona": [("rad_th", "source", 1, 1.0), ("rad_u", "source", 1, 1.0),
+                  ("geochem_nb_log_idw", "deposition", 1, 1.0), ("aster_silica_index", "footprint", -1, 1.0)],
+}
+
+
+def hybrid_evidence(d):
+    ev = []
+    for n, proc, dirn, w in HYBRID_KNOWLEDGE[d.key]:
+        data, grid, labels = d.raster(n)
+        cat = isinstance(dirn, str)
+        ev.append(dict(name=n, data=data, grid=grid, labels=labels, kind="categorical" if cat else "continuous",
+                       process=proc, direction=1 if cat else dirn, scores=dirn if cat else None, weight=w))
+    return ev
+
+
+def fwofe_params(d, cfg):
+    return dict(evidence=hybrid_evidence(d), process_weights={}, model=cfg.get("model", "modified"),
+                membership=cfg.get("membership", "expert"), pattern=cfg.get("pattern", "max_contrast"),
+                n_classes=cfg.get("n_classes", 10), nonnegative=cfg.get("nonnegative", True), min_distance=3 * d.raster(HYBRID_KNOWLEDGE[d.key][0][0])[1].res[0],
+                out_processes=False, prefix="fwofe")
+
+
+
+def nf_params(d, cfg):
+    return dict(evidence=hybrid_evidence(d), process_weights={}, inputs=cfg.get("inputs", "auto"),
+                n_mf=cfg.get("n_mf", 2), consequent=cfg.get("consequent", "linear"), kappa=cfg.get("kappa", 1.0),
+                epochs=cfg.get("epochs", 100), lr=cfg.get("lr", 0.02), check_pct=cfg.get("check_pct", 25.0),
+                neg_ratio=cfg.get("neg_ratio", 3.0), n_bags=cfg.get("n_bags", 10),
+                min_distance=3 * d.raster(HYBRID_KNOWLEDGE[d.key][0][0])[1].res[0], out_processes=False,
+                prefix="neurofuzzy")
+
+
+
+def dcf_params(d, cfg):
+    return dict(evidence=hybrid_evidence(d), process_weights={}, calibration=cfg.get("calibration", "wofe"),
+                scaling=cfg.get("scaling", "weight"), monotone=cfg.get("monotone", True),
+                n_classes=cfg.get("n_classes", 10), kappa=cfg.get("kappa", 0.0),
+                combination=cfg.get("combination", "network"), gamma=cfg.get("gamma", 0.9),
+                min_distance=3 * d.raster(HYBRID_KNOWLEDGE[d.key][0][0])[1].res[0], out_processes=False,
+                out_memberships=False, prefix="dcfuzzy")
+
+
 CANDIDATES = {
+    "ebf": [
+        dict(label="10 quantile classes, Bel = 0 without deposits (original EBF), score Bel (default)"),
+        dict(label="10 quantile classes, 0.5-deposit correction, score Bel", zero_deposit="haldane"),
+        dict(label="5 quantile classes, Bel = 0 without deposits", n_classes=5),
+        dict(label="5 quantile classes, 0.5-deposit correction", n_classes=5, zero_deposit="haldane"),
+        dict(label="8 quantile classes, 0.5-deposit correction", n_classes=8, zero_deposit="haldane"),
+        dict(label="20 quantile classes, 0.5-deposit correction", n_classes=20, zero_deposit="haldane"),
+        dict(label="10 quantile classes, 0.5-deposit correction, score Pls", zero_deposit="haldane", score="pls"),
+        dict(label="10 quantile classes, 0.5-deposit correction, score (Bel + Pls) / 2", zero_deposit="haldane",
+             score="mid"),
+    ],
+    "dc_fuzzy": [
+        dict(label="WofE, μ = σ(W), monotone, 10 classes, inference network (default)"),
+        dict(label="WofE, stretched 0.01–0.99, monotone, 10 classes", scaling="stretch"),
+        dict(label="WofE, μ = σ(W), not monotone, 10 classes", monotone=False),
+        dict(label="WofE, μ = σ(W), monotone, 5 classes", n_classes=5),
+        dict(label="WofE, μ = σ(W), monotone, 20 classes", n_classes=20),
+        dict(label="LR, μ = σ(W), monotone", calibration="lr"),
+        dict(label="LR, stretched 0.01–0.99, monotone", calibration="lr", scaling="stretch"),
+        dict(label="WofE, μ = σ(W), monotone, pooled with the expert (κ = 20)", kappa=20.0),
+        dict(label="WofE, μ = σ(W), monotone, fuzzy γ = 0.9", combination="gamma", gamma=0.9),
+        dict(label="LR, μ = σ(W), monotone, fuzzy γ = 0.9", calibration="lr", combination="gamma", gamma=0.9),
+    ],
+    "neuro_fuzzy": [
+        dict(label="one input per layer, 2 MFs, first order, κ = 1, checking 25 % (default)"),
+        dict(label="one input per layer, 2 MFs, zero order (constant rules), κ = 1", consequent="constant"),
+        dict(label="one input per layer, 2 MFs, first order, κ = 0 (data only)", kappa=0.0),
+        dict(label="one input per layer, 2 MFs, first order, κ = 10 (strong expert prior)", kappa=10.0),
+        dict(label="one input per layer, expert MFs kept (learning rate 0), κ = 1", lr=0.0),
+        dict(label="one input per layer, no checking set (100 epochs)", check_pct=0.0),
+        dict(label="one input per layer, 3 MFs (81 rules), first order, κ = 1", inputs="layers", n_mf=3),
+        dict(label="one input per process, 2 MFs, first order, κ = 1", inputs="processes"),
+        dict(label="one input per process, 3 MFs, first order, κ = 1", inputs="processes", n_mf=3),
+    ],
+    "topsis": [
+        dict(label="TOPSIS, vector normalisation, equal weights, 2–98 % ranges (default)"),
+        dict(label="TOPSIS, no normalisation, equal weights", normalisation="linear"),
+        dict(label="TOPSIS, vector normalisation, AHP weights", weighting="ahp"),
+        dict(label="TOPSIS, vector normalisation, fuzzy AHP weights (δ = 1)", weighting="fuzzy_ahp", delta=1.0),
+        dict(label="TOPSIS, vector normalisation, entropy weights", weighting="entropy"),
+        dict(label="TOPSIS, vector normalisation, equal weights, min–max ranges", robust=False),
+        dict(label="TOPSIS, vector normalisation, AHP weights, min–max ranges", weighting="ahp", robust=False),
+        dict(label="TOPSIS, vector normalisation, entropy weights, min–max ranges", weighting="entropy",
+             robust=False),
+        dict(label="VIKOR, v = 0.5, equal weights", method="vikor", v=0.5),
+        dict(label="VIKOR, v = 1 (group utility only), equal weights", method="vikor", v=1.0),
+        dict(label="VIKOR, v = 0 (regret only), equal weights", method="vikor", v=0.0),
+        dict(label="VIKOR, v = 0.5, AHP weights", method="vikor", v=0.5, weighting="ahp"),
+        dict(label="VIKOR, v = 0.5, entropy weights", method="vikor", v=0.5, weighting="entropy"),
+        dict(label="VIKOR, v = 0.5, equal weights, min–max ranges", method="vikor", v=0.5, robust=False),
+    ],
+    "index_overlay": [
+        dict(label="multi-class, equal weights, 2–98 % ranges (default)"),
+        dict(label="multi-class, AHP weights", weighting="ahp"),
+        dict(label="multi-class, fuzzy AHP weights (δ = 1)", weighting="fuzzy_ahp", delta=1.0),
+        dict(label="multi-class, fuzzy AHP weights (δ = 2)", weighting="fuzzy_ahp", delta=2.0),
+        dict(label="multi-class, equal weights, min–max ranges", robust=False),
+        dict(label="binary (upper / lower quartile), equal weights", binary=True),
+        dict(label="binary (upper / lower quartile), AHP weights", binary=True, weighting="ahp"),
+    ],
+    "fuzzy_wofe": [
+        dict(label="modified, expert memberships, max. contrast pattern, 10 classes (default)"),
+        dict(label="classic, expert memberships, max. contrast pattern, 10 classes", model="classic"),
+        dict(label="modified, data memberships, 10 classes", membership="data"),
+        dict(label="modified, expert memberships, 5 classes", n_classes=5),
+        dict(label="modified, expert memberships, 20 classes", n_classes=20),
+        dict(label="modified, expert memberships, μ ≥ 0.5 pattern", pattern="half"),
+        dict(label="modified, unconstrained β", nonnegative=False),
+    ],
     "wofe": [
         dict(label="max C, Stud(C) ≥ 1.0", criterion="max_contrast", min_stud=1.0, zero_deposit="zero"),
         dict(label="max C, Stud(C) ≥ 1.5", criterion="max_contrast", min_stud=1.5, zero_deposit="zero"),
@@ -418,7 +614,10 @@ CANDIDATES = {
 BUILD = {"wofe": wofe_params, "logistic_regression": lr_params, "random_forest": rf_params, "svm": svm_params,
          "xgboost": xgb_params, "rvm": rvm_params, "mlp": mlp_params, "elm": elm_params, "cnn": cnn_params,
          "bayesian_network": bn_params, "fuzzy_logic": fuzzy_params, "boolean_logic": boolean_params,
-         "logistic_geometric": lg_params}
+         "logistic_geometric": lg_params, "fuzzy_wofe": fwofe_params, "index_overlay": io_params,
+         "topsis": topsis_params, "neuro_fuzzy": nf_params, "dc_fuzzy": dcf_params,
+         "ebf": ebf_params}
+HYBRID = ("fuzzy_wofe", "neuro_fuzzy", "dc_fuzzy")
 
 
 def run(method, d, cfg, test_fraction, seed, deposits=None):
@@ -489,6 +688,10 @@ def fig_map(d, res, method, path, title):
         else:
             ax.scatter(xs, ys, s=34, marker="^", c="#29b6f6", edgecolors="#102027", linewidths=0.6,
                        label=f"test ({len(xs)})")
+    if not any(len(v.gdf) for v in res.vectors):           # nothing trained (knowledge-driven): show all deposits
+        pts = d.deposits.to_crs(g.crs) if (d.deposits.crs is not None and g.crs is not None) else d.deposits
+        ax.scatter([p.x for p in pts.geometry], [p.y for p in pts.geometry], s=30, marker="^", c="#29b6f6",
+                   edgecolors="#102027", linewidths=0.6, label=f"deposits ({len(pts)})")
     ax.set_title(title, fontsize=9)
     ax.tick_params(labelsize=6)
     ax.ticklabel_format(style="plain", useOffset=False)
@@ -706,7 +909,90 @@ def extra_kd(res):
     return draw
 
 
-EXTRA = {"fuzzy_logic": extra_kd, "boolean_logic": extra_kd, "logistic_geometric": extra_kd, "wofe": extra_wofe, "logistic_regression": extra_lr, "random_forest": extra_rf, "svm": extra_svm,
+def extra_fwofe(res):
+    w = res.tables["weights"]
+
+    def draw(ax):
+        for i, (lay, t) in enumerate(w.groupby("layer", sort=False)):
+            t = t.sort_values("membership")
+            ax.plot(t.membership, t.fuzzy_weight, "o-", ms=3, lw=1.2, label=lay)
+        ax.axhline(0, c="grey", lw=0.8)
+        ax.set(xlabel="class membership μ", ylabel="fuzzy weight W(μ)", title="(d) Fuzzy weights")
+        ax.legend(fontsize=6)
+    return draw
+
+
+def extra_nf(res):
+    mf = res.tables["membership"]
+
+    def draw(ax):
+        x = np.linspace(0, 1, 201)
+        for i, (inp, t) in enumerate(mf.groupby("input", sort=False)):
+            col = f"C{i}"
+            for _, r in t.iterrows():
+                ax.plot(x, np.exp(-(x - r.centre) ** 2 / (2 * r.sigma ** 2)), c=col, lw=1.3,
+                        label=inp if r.mf == t.mf.iloc[0] else None)
+        e = mf.iloc[: mf.mf.nunique()]
+        for _, r in e.iterrows():
+            ax.plot(x, np.exp(-(x - r.centre_expert) ** 2 / (2 * r.sigma_expert ** 2)), c="grey", ls="--", lw=1.0)
+        ax.set(xlabel="input (expert membership / process score)", ylabel="membership A(x)", ylim=(0, 1.05),
+               title="(d) Learnt MFs (dashed: expert start)")
+        ax.legend(fontsize=6)
+    return draw
+
+
+def extra_dcf(res):
+    mem = res.tables["memberships"]
+
+    def draw(ax):
+        for i, (lay, t) in enumerate(mem.groupby("layer", sort=False)):
+            k = np.arange(len(t))
+            ax.plot(k, t.mu_data.values, "o-", ms=3, lw=1.3, c=f"C{i}", label=lay)
+            ax.plot(k, t.mu_expert.values, ls="--", lw=0.9, c=f"C{i}")
+        ax.axhline(0.5, c="grey", lw=0.8)
+        ax.set(xlabel="class (ascending value / category)", ylabel="membership μ", ylim=(0, 1),
+               title="(d) Calibrated μ (dashed: expert)")
+        ax.legend(fontsize=6)
+    return draw
+
+
+def extra_ebf(res):
+    r = res.extra["ebf"]
+
+    def draw(ax):
+        for i, l in enumerate(r.layers):
+            t = l.table
+            k = np.arange(len(t)) / max(len(t) - 1, 1)
+            ax.plot(k, t.Bel.values, "o-", ms=3, lw=1.3, c=f"C{i}", label=l.name)
+            ax.plot(k, t.Pls.values, ls="--", lw=0.9, c=f"C{i}")
+        ax.set(xlabel="class (ascending value / category), scaled 0–1", ylabel="Bel (solid), Pls (dashed)",
+               ylim=(0, 1.02), title="(d) Class belief functions")
+        ax.legend(fontsize=6)
+    return draw
+
+
+def fig_ebf_maps(d, res, path):
+    """Uncertainty and plausibility of the reference run (the other two EBF maps)."""
+    outs = {o.name: o for o in res.outputs}
+    fig, axs = plt.subplots(1, 2, figsize=(9.6, 4.4), dpi=200)
+    for ax, (k, title, cmap) in zip(axs, (("unc", "(a) Uncertainty Unc", "cividis"),
+                                          ("pls" if "pls" in outs else "bel", "(b) Plausibility Pls" if "pls" in outs
+                                           else "(b) Belief Bel", "magma"))):
+        o = outs[k]
+        im = ax.imshow(np.ma.asarray(o.data), extent=o.grid.extent, cmap=cmap, interpolation="nearest", vmin=0, vmax=1)
+        fig.colorbar(im, ax=ax, fraction=0.04, pad=0.02)
+        pts = d.deposits.to_crs(o.grid.crs) if (d.deposits.crs is not None and o.grid.crs is not None) else d.deposits
+        ax.scatter([p.x for p in pts.geometry], [p.y for p in pts.geometry], s=16, marker="^", c="#29b6f6",
+                   edgecolors="#102027", linewidths=0.5)
+        ax.set_title(title, fontsize=9)
+        ax.tick_params(labelsize=6)
+        ax.ticklabel_format(style="plain", useOffset=False)
+    fig.tight_layout()
+    fig.savefig(path)
+    plt.close(fig)
+
+
+EXTRA = {"ebf": extra_ebf, "dc_fuzzy": extra_dcf, "neuro_fuzzy": extra_nf, "fuzzy_wofe": extra_fwofe, "index_overlay": extra_kd, "topsis": extra_kd, "fuzzy_logic": extra_kd, "boolean_logic": extra_kd, "logistic_geometric": extra_kd, "wofe": extra_wofe, "logistic_regression": extra_lr, "random_forest": extra_rf, "svm": extra_svm,
          "xgboost": extra_xgb, "rvm": extra_rvm, "mlp": extra_mlp, "elm": extra_elm, "cnn": extra_cnn,
          "bayesian_network": extra_bn}
 
@@ -730,8 +1016,22 @@ def method_tables(method, res):
         return dict(coefficients=r.coefficients.to_dict("records"), variables=r.variables.to_dict("records"),
                     fit=r.fit_table.to_dict("records"), hl=r.hosmer_lemeshow.to_dict("records"),
                     sample_validation=r.sample_validation.to_dict("records"), stats=r.stats)
-    if method in KNOWLEDGE:
-        return {k: v.to_dict("records") for k, v in res.tables.items()}
+    if method == "ebf":
+        out = {k: v.to_dict("records") for k, v in res.tables.items()}
+        out["stats"] = res.extra["ebf"].stats
+        out["messages"] = res.messages
+        return out
+    if method in KNOWLEDGE or method in HYBRID:
+        out = {k: v.to_dict("records") for k, v in res.tables.items()}
+        if method == "fuzzy_wofe":
+            out["stats"] = res.extra["fwofe"].stats
+        if method == "dc_fuzzy":
+            out["stats"] = res.extra["dcfuzzy"].stats
+            out["messages"] = res.extra["dcfuzzy"].messages
+        if method == "neuro_fuzzy":
+            out["stats"] = res.extra["neurofuzzy"].stats
+            out["input_mode"] = res.extra["neurofuzzy"].input_mode
+        return out
     if method == "cnn":
         r = res.extra["cnn"]
         return dict(importance=r.importance.to_dict("records"), curve=r.curve.to_dict("records"),
@@ -803,6 +1103,8 @@ def experiment(method, key, quick=False, log=print):
             row = dict(label=cfg["label"], cfg=cfg, mean_test_auc=c_.auc, sd_test_auc=None, mean_train_auc=c_.auc,
                        seconds=dt_, pa_prediction=(c_.pa_intersection or {}).get("prediction"),
                        pa_area=(c_.pa_intersection or {}).get("area"))
+            if "evidence" in r_.tables and "weight" in r_.tables["evidence"]:
+                row["weights"] = dict(zip(r_.tables["evidence"].layer, r_.tables["evidence"].weight.astype(float)))
             if method == "boolean_logic":
                 comb = r_.tables["conditions"].set_index("layer").loc["FAVOURABLE (combined)"]
                 row.update(fav_area_pct=float(comb.area_pct), fav_deposits_pct=float(comb.deposits_pct),
@@ -860,11 +1162,20 @@ def experiment(method, key, quick=False, log=print):
              "mlp": "MLP prospectivity score", "elm": "ELM prospectivity score",
              "cnn": "CNN prospectivity score", "bayesian_network": "Bayesian network posterior probability",
              "fuzzy_logic": "Fuzzy favourability", "boolean_logic": "Boolean favourable area",
-             "logistic_geometric": "Geometric average of logistic memberships"}[method]
+             "logistic_geometric": "Geometric average of logistic memberships",
+             "fuzzy_wofe": "Fuzzy WofE posterior probability", "index_overlay": "Index overlay",
+             "topsis": "TOPSIS / VIKOR prospectivity", "neuro_fuzzy": "Neuro-fuzzy calibrated score",
+             "dc_fuzzy": "Data-calibrated fuzzy favourability", "ebf": "EBF integrated score"}[method]
     fig_map(d, ref, method, os.path.join(FIG, f"{tag}_map.png"), f"{title} — {DATASETS[key]['title']}")
     fig_curves(ref, method, os.path.join(FIG, f"{tag}_curves.png"), EXTRA[method](ref))
+    if method == "ebf":
+        fig_ebf_maps(d, ref, os.path.join(FIG, f"{tag}_unc.png"))
     out = dict(method=method, dataset=key, dataset_info=d.describe(),
-               evidence=d.layer_info(EVIDENCE[key]["wofe" if method == "wofe" else "cont"]),
+               evidence=d.layer_info([(n, "categorical" if isinstance(x, str) else "continuous")
+                                      for n, _, x, _ in HYBRID_KNOWLEDGE[key]] if method in HYBRID
+                                     else EVIDENCE[key][method if method in ("wofe", "ebf") else "cont"]),
+               knowledge=[dict(layer=n, process=pr, direction=x if isinstance(x, str) else ("+" if x > 0 else "−"),
+                               weight=w) for n, pr, x, w in HYBRID_KNOWLEDGE[key]] if method in HYBRID else None,
                protocol=protocol, search=search, selected=cfg,
                robust=robust.to_dict("records") if robust is not None else None,
                robust_summary=None if robust is None else dict(
@@ -875,6 +1186,8 @@ def experiment(method, key, quick=False, log=print):
                reference=dict(seed=42, seconds=dt, curves={k: curve_stats(c) for k, c in ref.evaluation.curves.items()},
                               messages=ref.messages, tables=method_tables(method, ref)),
                sensitivity=sens, figures=dict(map=f"{tag}_map.png", curves=f"{tag}_curves.png"),
+               ahp=ahp_info(key) if method in ("index_overlay", "topsis") else None,
+               vector_weights=topsis_vector_weights(key) if method == "topsis" else None,
                runtime_s=time.time() - t0)
     with open(os.path.join(OUT, f"{tag}.json"), "w", encoding="utf-8") as fh:
         json.dump(clean(out), fh, ensure_ascii=False, indent=1)

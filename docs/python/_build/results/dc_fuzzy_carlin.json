@@ -1,0 +1,825 @@
+{
+ "method": "dc_fuzzy",
+ "dataset": "carlin",
+ "dataset_info": {
+  "title": "Carlin-type Au, north-central Nevada (USA)",
+  "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the Clarke 1866 ellipsoid\",DAT",
+  "cell_m": 250.0,
+  "width": 1008,
+  "height": 1112,
+  "study_cells": 909545,
+  "study_km2": 56846.5625,
+  "deposit_points": 35,
+  "deposit_cells": 34
+ },
+ "evidence": [
+  {
+   "name": "geology_host",
+   "kind": "categorical",
+   "description": "Favourable host rocks for Carlin-type Au (Inside/Outside; 'Missing' units = nodata)",
+   "n_values": 2,
+   "min": 1.0,
+   "max": 2.0,
+   "dtype": "uint8"
+  },
+  {
+   "name": "dist_faults",
+   "kind": "continuous",
+   "description": "Distance to nearest fault (m)",
+   "n_values": 2349,
+   "min": 0.0,
+   "max": 32350.619140625,
+   "dtype": "float32"
+  },
+  {
+   "name": "as_log_idw",
+   "kind": "continuous",
+   "description": "log10 As (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 223996,
+   "min": 0.24004584550857544,
+   "max": 2.900967597961426,
+   "dtype": "float32"
+  },
+  {
+   "name": "sb_log_idw",
+   "kind": "continuous",
+   "description": "log10 Sb (ppm), NURE stream sediments, IDW (p=2, k=12, r<=15 km)",
+   "n_values": 226126,
+   "min": -1.0916517972946167,
+   "max": 3.223062515258789,
+   "dtype": "float32"
+  }
+ ],
+ "knowledge": [
+  {
+   "layer": "geology_host",
+   "process": "trap",
+   "direction": "2=0.9; 1=0.1",
+   "weight": 1.0
+  },
+  {
+   "layer": "dist_faults",
+   "process": "pathway",
+   "direction": "−",
+   "weight": 1.0
+  },
+  {
+   "layer": "as_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  },
+  {
+   "layer": "sb_log_idw",
+   "process": "deposition",
+   "direction": "+",
+   "weight": 1.0
+  }
+ ],
+ "protocol": "split",
+ "search": [
+  {
+   "label": "WofE, μ = σ(W), monotone, 10 classes, inference network (default)",
+   "cfg": {
+    "label": "WofE, μ = σ(W), monotone, 10 classes, inference network (default)"
+   },
+   "mean_test_auc": 0.8695970801892445,
+   "sd_test_auc": 0.03763177253349683,
+   "mean_train_auc": 0.9041377912599922,
+   "seconds": 7.085360431671143
+  },
+  {
+   "label": "WofE, stretched 0.01–0.99, monotone, 10 classes",
+   "cfg": {
+    "label": "WofE, stretched 0.01–0.99, monotone, 10 classes",
+    "scaling": "stretch"
+   },
+   "mean_test_auc": 0.8862051805860514,
+   "sd_test_auc": 0.04061225718231357,
+   "mean_train_auc": 0.9205261169646839,
+   "seconds": 6.298629093170166
+  },
+  {
+   "label": "WofE, μ = σ(W), not monotone, 10 classes",
+   "cfg": {
+    "label": "WofE, μ = σ(W), not monotone, 10 classes",
+    "monotone": false
+   },
+   "mean_test_auc": 0.8442633788926137,
+   "sd_test_auc": 0.050442982710240516,
+   "mean_train_auc": 0.9246226818587131,
+   "seconds": 6.898486518859864
+  },
+  {
+   "label": "WofE, μ = σ(W), monotone, 5 classes",
+   "cfg": {
+    "label": "WofE, μ = σ(W), monotone, 5 classes",
+    "n_classes": 5
+   },
+   "mean_test_auc": 0.8593035818148433,
+   "sd_test_auc": 0.047287401214978826,
+   "mean_train_auc": 0.8908149177598366,
+   "seconds": 5.6857274055480955
+  },
+  {
+   "label": "WofE, μ = σ(W), monotone, 20 classes",
+   "cfg": {
+    "label": "WofE, μ = σ(W), monotone, 20 classes",
+    "n_classes": 20
+   },
+   "mean_test_auc": 0.8775910681673998,
+   "sd_test_auc": 0.04655765166863535,
+   "mean_train_auc": 0.9166215096170728,
+   "seconds": 7.36302547454834
+  },
+  {
+   "label": "LR, μ = σ(W), monotone",
+   "cfg": {
+    "label": "LR, μ = σ(W), monotone",
+    "calibration": "lr"
+   },
+   "mean_test_auc": 0.8668739905289765,
+   "sd_test_auc": 0.05327886718767538,
+   "mean_train_auc": 0.881468792021207,
+   "seconds": 10.222340869903565
+  },
+  {
+   "label": "LR, stretched 0.01–0.99, monotone",
+   "cfg": {
+    "label": "LR, stretched 0.01–0.99, monotone",
+    "calibration": "lr",
+    "scaling": "stretch"
+   },
+   "mean_test_auc": 0.8898043124272274,
+   "sd_test_auc": 0.04061913840866809,
+   "mean_train_auc": 0.9094649441659677,
+   "seconds": 10.433747243881225
+  },
+  {
+   "label": "WofE, μ = σ(W), monotone, pooled with the expert (κ = 20)",
+   "cfg": {
+    "label": "WofE, μ = σ(W), monotone, pooled with the expert (κ = 20)",
+    "kappa": 20.0
+   },
+   "mean_test_auc": 0.8822876578732968,
+   "sd_test_auc": 0.039688582501027685,
+   "mean_train_auc": 0.902303174453085,
+   "seconds": 7.652587985992431
+  },
+  {
+   "label": "WofE, μ = σ(W), monotone, fuzzy γ = 0.9",
+   "cfg": {
+    "label": "WofE, μ = σ(W), monotone, fuzzy γ = 0.9",
+    "combination": "gamma",
+    "gamma": 0.9
+   },
+   "mean_test_auc": 0.8516702821626128,
+   "sd_test_auc": 0.01490880277156297,
+   "mean_train_auc": 0.8720791172399235,
+   "seconds": 6.905267953872681
+  },
+  {
+   "label": "LR, μ = σ(W), monotone, fuzzy γ = 0.9",
+   "cfg": {
+    "label": "LR, μ = σ(W), monotone, fuzzy γ = 0.9",
+    "calibration": "lr",
+    "combination": "gamma",
+    "gamma": 0.9
+   },
+   "mean_test_auc": 0.8706027414731652,
+   "sd_test_auc": 0.026387291410440075,
+   "mean_train_auc": 0.8685325777624827,
+   "seconds": 11.317294788360595
+  }
+ ],
+ "selected": {
+  "label": "WofE, stretched 0.01–0.99, monotone, 10 classes",
+  "scaling": "stretch"
+ },
+ "robust": [
+  {
+   "seed": 0,
+   "train_auc": 0.9068339103833452,
+   "test_auc": 0.8461421577089228,
+   "test_sr": 0.8464729067830619,
+   "test_pa": 75.89394663283855,
+   "seconds": 6.6735405921936035
+  },
+  {
+   "seed": 1,
+   "train_auc": 0.90217788276704,
+   "test_auc": 0.9395288787051503,
+   "test_sr": 0.9396408643882381,
+   "test_pa": 86.05774941831002,
+   "seconds": 6.231936931610107
+  },
+  {
+   "seed": 2,
+   "train_auc": 0.8996054839725229,
+   "test_auc": 0.8848447682325997,
+   "test_sr": 0.885070502284109,
+   "test_pa": 75.82802322480941,
+   "seconds": 6.437940359115601
+  },
+  {
+   "seed": 3,
+   "train_auc": 0.9146280024833858,
+   "test_auc": 0.8108549539257909,
+   "test_sr": 0.8110603103749676,
+   "test_pa": 73.85717288321935,
+   "seconds": 6.687126398086548
+  },
+  {
+   "seed": 4,
+   "train_auc": 0.9395669302881806,
+   "test_auc": 0.8736700820550825,
+   "test_sr": 0.8737448394526934,
+   "test_pa": 80.0,
+   "seconds": 6.647335052490234
+  },
+  {
+   "seed": 5,
+   "train_auc": 0.9200111378531981,
+   "test_auc": 0.8842921086166082,
+   "test_sr": 0.8843613015298859,
+   "test_pa": 80.0,
+   "seconds": 6.321051836013794
+  },
+  {
+   "seed": 6,
+   "train_auc": 0.9137626794325009,
+   "test_auc": 0.8360018185596436,
+   "test_sr": 0.8360995882556663,
+   "test_pa": 70.0,
+   "seconds": 6.462950229644775
+  },
+  {
+   "seed": 7,
+   "train_auc": 0.9175536588709023,
+   "test_auc": 0.8777107148786547,
+   "test_sr": 0.8779364407478465,
+   "test_pa": 81.17717023029456,
+   "seconds": 6.377263784408569
+  },
+  {
+   "seed": 8,
+   "train_auc": 0.9055967758132301,
+   "test_auc": 0.8491034742845331,
+   "test_sr": 0.8493168562303128,
+   "test_pa": 70.0,
+   "seconds": 6.346579551696777
+  },
+  {
+   "seed": 9,
+   "train_auc": 0.9194394249583933,
+   "test_auc": 0.9153865098937781,
+   "test_sr": 0.9155497528984273,
+   "test_pa": 89.22070049514245,
+   "seconds": 6.306487560272217
+  }
+ ],
+ "robust_summary": {
+  "train_auc_mean": 0.9139175886822699,
+  "train_auc_sd": 0.011553411686980684,
+  "test_auc_mean": 0.8717535466860763,
+  "test_auc_sd": 0.03803635888562606,
+  "test_auc_min": 0.8108549539257909,
+  "test_auc_max": 0.9395288787051503,
+  "test_sr_mean": 0.8719253362945208,
+  "test_pa_mean": 78.20347628846143,
+  "seconds_mean": 6.449221229553222
+ },
+ "reference": {
+  "seed": 42,
+  "seconds": 6.849329233169556,
+  "curves": {
+   "training": {
+    "deposits": 24,
+    "negatives": 909511,
+    "auc": 0.9324856525466249,
+    "auc_lo": 0.8932458941139734,
+    "auc_hi": 0.9717254109792763,
+    "sr_auc": 0.9326445273919011,
+    "pa_prediction": 84.26099787280589,
+    "pa_area": 15.739002127194103,
+    "tpr_at": {
+     "0.05": 0.6666666666666666,
+     "0.1": 0.75,
+     "0.2": 0.9583333333333334,
+     "0.3": 0.9583333333333334
+    }
+   },
+   "test": {
+    "deposits": 10,
+    "negatives": 909511,
+    "auc": 0.8877887678103948,
+    "auc_lo": 0.7792066010978633,
+    "auc_hi": 0.9963709345229261,
+    "sr_auc": 0.887899884007938,
+    "pa_prediction": 84.22676391609771,
+    "pa_area": 15.773236083902287,
+    "tpr_at": {
+     "0.05": 0.4,
+     "0.1": 0.6,
+     "0.2": 0.9,
+     "0.3": 0.9
+    }
+   }
+  },
+  "messages": [],
+  "tables": {
+   "summary": [
+    {
+     "item": "Calibration",
+     "value": "weights of evidence per class"
+    },
+    {
+     "item": "Classes per continuous layer",
+     "value": "10"
+    },
+    {
+     "item": "Monotone in the expert direction",
+     "value": "yes"
+    },
+    {
+     "item": "Membership scaling",
+     "value": "weights stretched to 0.01 … 0.99 per layer"
+    },
+    {
+     "item": "Pooling with the expert memberships",
+     "value": "none (data memberships only)"
+    },
+    {
+     "item": "Combination",
+     "value": "expert inference network (power mean p = 3 within a process, weighted geometric mean between)"
+    },
+    {
+     "item": "Training deposits (cells)",
+     "value": "24"
+    },
+    {
+     "item": "Layers against the expert direction",
+     "value": "0"
+    },
+    {
+     "item": "Training AUC (all cells)",
+     "value": "0.9325"
+    }
+   ],
+   "layers": [
+    {
+     "layer": "geology_host",
+     "process": "trap",
+     "calibration": "WofE, 2 classes",
+     "contrast": 4.04734006786835,
+     "slope": null,
+     "slope_se": null,
+     "trend_z": null,
+     "agrees_with_expert": true,
+     "single_layer_auc": 0.7772288925317148,
+     "deposits": 23
+    },
+    {
+     "layer": "dist_faults",
+     "process": "pathway",
+     "calibration": "WofE, 10 classes, monotone in the expert direction",
+     "contrast": 2.1900232981280547,
+     "slope": null,
+     "slope_se": null,
+     "trend_z": 1.7587153651872105,
+     "agrees_with_expert": true,
+     "single_layer_auc": 0.6704505952400586,
+     "deposits": 24
+    },
+    {
+     "layer": "as_log_idw",
+     "process": "deposition",
+     "calibration": "WofE, 10 classes, monotone in the expert direction",
+     "contrast": 2.1770297268849514,
+     "slope": null,
+     "slope_se": null,
+     "trend_z": 2.5915061798963617,
+     "agrees_with_expert": true,
+     "single_layer_auc": 0.6854216741561292,
+     "deposits": 24
+    },
+    {
+     "layer": "sb_log_idw",
+     "process": "deposition",
+     "calibration": "WofE, 10 classes, monotone in the expert direction",
+     "contrast": 2.8904707226153232,
+     "slope": null,
+     "slope_se": null,
+     "trend_z": 4.211928696718478,
+     "agrees_with_expert": true,
+     "single_layer_auc": 0.8125080178074128,
+     "deposits": 24
+    }
+   ],
+   "memberships": [
+    {
+     "layer": "geology_host",
+     "cls": "1",
+     "cells": 187720,
+     "deposits": 0,
+     "weight": -3.2388767898634825,
+     "weight_sd": 1.4142154457800584,
+     "weight_used": -3.2388767898634825,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.10000000000000003,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "geology_host",
+     "cls": "2",
+     "cells": 150868,
+     "deposits": 23,
+     "weight": 0.8084632780048676,
+     "weight_sd": 0.208530310005654,
+     "weight_used": 0.8084632780048676,
+     "mu_data": 0.99,
+     "mu_expert": 0.9,
+     "mu": 0.99
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "0 – 353.6",
+     "cells": 86804,
+     "deposits": 3,
+     "weight": 0.2698584032841873,
+     "weight_sd": 0.577360246239672,
+     "weight_used": 0.6186525832453474,
+     "mu_data": 0.9900000000000001,
+     "mu_expert": 0.5385061728895295,
+     "mu": 0.9900000000000001
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "353.6 – 750",
+     "cells": 82800,
+     "deposits": 5,
+     "weight": 0.827934496292999,
+     "weight_sd": 0.44722709893748086,
+     "weight_used": 0.6186525832453474,
+     "mu_data": 0.99,
+     "mu_expert": 0.504049046855613,
+     "mu": 0.99
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "750 – 1250",
+     "cells": 83291,
+     "deposits": 4,
+     "weight": 0.598866143504417,
+     "weight_sd": 0.5000120065315549,
+     "weight_used": 0.598866143504417,
+     "mu_data": 0.9891436327492846,
+     "mu_expert": 0.4661034003756257,
+     "mu": 0.9891436327492846
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "1250 – 1904",
+     "cells": 109440,
+     "deposits": 5,
+     "weight": 0.548971403691398,
+     "weight_sd": 0.4472238118038691,
+     "weight_used": 0.548971403691398,
+     "mu_data": 0.9866488137160675,
+     "mu_expert": 0.4128212992122436,
+     "mu": 0.9866488137160675
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "1904 – 2574",
+     "cells": 91491,
+     "deposits": 1,
+     "weight": -0.8813654197380979,
+     "weight_sd": 1.000005465063217,
+     "weight_used": -0.3031522141672822,
+     "mu_data": 0.6741130496646929,
+     "mu_expert": 0.3508492339616624,
+     "mu": 0.6741130496646929
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "2574 – 3400",
+     "cells": 89016,
+     "deposits": 1,
+     "weight": -0.8539406379034798,
+     "weight_sd": 1.000005617015062,
+     "weight_used": -0.3031522141672822,
+     "mu_data": 0.6741130496646929,
+     "mu_expert": 0.2898299908446947,
+     "mu": 0.6741130496646929
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "3400 – 4451",
+     "cells": 93297,
+     "deposits": 2,
+     "weight": -0.20775507833592108,
+     "weight_sd": 0.7071143604029214,
+     "weight_used": -0.3031522141672822,
+     "mu_data": 0.6741130496646929,
+     "mu_expert": 0.22479195423474302,
+     "mu": 0.6741130496646929
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "4451 – 5815",
+     "cells": 91019,
+     "deposits": 0,
+     "weight": -1.5693511995383895,
+     "weight_sd": 1.4142174467588282,
+     "weight_used": -0.3031522141672822,
+     "mu_data": 0.6741130496646929,
+     "mu_expert": 0.15760975411461342,
+     "mu": 0.6741130496646929
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "5815 – 7977",
+     "cells": 91184,
+     "deposits": 3,
+     "weight": 0.22063000357890677,
+     "weight_sd": 0.5773597669828118,
+     "weight_used": -0.3031522141672822,
+     "mu_data": 0.6741130496646929,
+     "mu_expert": 0.09140745981094818,
+     "mu": 0.6741130496646929
+    },
+    {
+     "layer": "dist_faults",
+     "cls": "7977 – 3.235e+04",
+     "cells": 91203,
+     "deposits": 0,
+     "weight": -1.5713707148827072,
+     "weight_sd": 1.4142174389221782,
+     "weight_used": -1.5713707148827072,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.028045354593564296,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "0.24 – 0.8521",
+     "cells": 90908,
+     "deposits": 1,
+     "weight": -0.8754852378695414,
+     "weight_sd": 1.0000055001113772,
+     "weight_used": -1.1065388120029487,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.09395943164946399,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "0.8521 – 0.9382",
+     "cells": 90908,
+     "deposits": 0,
+     "weight": -1.5686434186219902,
+     "weight_sd": 1.4142174515017136,
+     "weight_used": -1.1065388120029487,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.15028122137395436,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "0.9382 – 1.006",
+     "cells": 90908,
+     "deposits": 1,
+     "weight": -0.8754852378695414,
+     "weight_sd": 1.0000055001113772,
+     "weight_used": -0.8754852378695414,
+     "mu_data": 0.026090760303309708,
+     "mu_expert": 0.18904563868195154,
+     "mu": 0.026090760303309708
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.006 – 1.08",
+     "cells": 90908,
+     "deposits": 1,
+     "weight": -0.8754852378695414,
+     "weight_sd": 1.0000055001113772,
+     "weight_used": -0.8754852378695414,
+     "mu_data": 0.026090760303309708,
+     "mu_expert": 0.23278724832369313,
+     "mu": 0.026090760303309708
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.08 – 1.16",
+     "cells": 90907,
+     "deposits": 4,
+     "weight": 0.5108531252304453,
+     "weight_sd": 0.5000110006160359,
+     "weight_used": 0.18949772002101697,
+     "mu_data": 0.70600177498632,
+     "mu_expert": 0.28927895876716064,
+     "mu": 0.70600177498632
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.16 – 1.244",
+     "cells": 90908,
+     "deposits": 2,
+     "weight": -0.18232705699608717,
+     "weight_sd": 0.7071145595828251,
+     "weight_used": 0.18949772002101697,
+     "mu_data": 0.7060017749863199,
+     "mu_expert": 0.3558580090597486,
+     "mu": 0.7060017749863199
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.244 – 1.326",
+     "cells": 90908,
+     "deposits": 3,
+     "weight": 0.2231490515465946,
+     "weight_sd": 0.5773597958191716,
+     "weight_used": 0.18949772002101697,
+     "mu_data": 0.7060017749863199,
+     "mu_expert": 0.43082733075176566,
+     "mu": 0.7060017749863199
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.326 – 1.42",
+     "cells": 90908,
+     "deposits": 3,
+     "weight": 0.2231490515465946,
+     "weight_sd": 0.5773597958191716,
+     "weight_used": 0.18949772002101697,
+     "mu_data": 0.7060017749863199,
+     "mu_expert": 0.5111210208025305,
+     "mu": 0.7060017749863199
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.42 – 1.558",
+     "cells": 90908,
+     "deposits": 2,
+     "weight": -0.18232705699608717,
+     "weight_sd": 0.7071145595828251,
+     "weight_used": 0.18949772002101697,
+     "mu_data": 0.7060017749863199,
+     "mu_expert": 0.6128573672606007,
+     "mu": 0.7060017749863199
+    },
+    {
+     "layer": "as_log_idw",
+     "cls": "1.558 – 2.901",
+     "cells": 90908,
+     "deposits": 7,
+     "weight": 1.0704909148820028,
+     "weight_sd": 0.3779790256564906,
+     "weight_used": 1.0704909148820028,
+     "mu_data": 0.99,
+     "mu_expert": 0.7730725458425303,
+     "mu": 0.99
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "-1.092 – 0.1559",
+     "cells": 90946,
+     "deposits": 0,
+     "weight": -1.5686445067156136,
+     "weight_sd": 1.4142174498767197,
+     "weight_used": -1.5686445067156136,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.07575160406487444,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.1559 – 0.2623",
+     "cells": 90946,
+     "deposits": 0,
+     "weight": -1.5686445067156136,
+     "weight_sd": 1.4142174498767197,
+     "weight_used": -1.5686445067156136,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.13586402985931043,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.2623 – 0.3445",
+     "cells": 90946,
+     "deposits": 0,
+     "weight": -1.5686445067156136,
+     "weight_sd": 1.4142174498767197,
+     "weight_used": -1.5686445067156136,
+     "mu_data": 0.010000000000000007,
+     "mu_expert": 0.1837237108996914,
+     "mu": 0.010000000000000007
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.3445 – 0.4192",
+     "cells": 90945,
+     "deposits": 2,
+     "weight": -0.1823171584442156,
+     "weight_sd": 0.7071145564182156,
+     "weight_used": -0.6444290975321628,
+     "mu_data": 0.16022152047776791,
+     "mu_expert": 0.23172132891821096,
+     "mu": 0.16022152047776791
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.4192 – 0.4981",
+     "cells": 90946,
+     "deposits": 0,
+     "weight": -1.5686445067156136,
+     "weight_sd": 1.4142174498767197,
+     "weight_used": -0.6444290975321628,
+     "mu_data": 0.16022152047776791,
+     "mu_expert": 0.2888819450765257,
+     "mu": 0.16022152047776791
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.4981 – 0.5734",
+     "cells": 90946,
+     "deposits": 1,
+     "weight": -0.8754863305594045,
+     "weight_sd": 1.0000054978132449,
+     "weight_used": -0.6444290975321628,
+     "mu_data": 0.16022152047776791,
+     "mu_expert": 0.3531998386970803,
+     "mu": 0.16022152047776791
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.5734 – 0.6543",
+     "cells": 90945,
+     "deposits": 1,
+     "weight": -0.8754753348422362,
+     "weight_sd": 1.0000054978736974,
+     "weight_used": -0.6444290975321628,
+     "mu_data": 0.16022152047776791,
+     "mu_expert": 0.4244955096401777,
+     "mu": 0.16022152047776791
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.6543 – 0.7428",
+     "cells": 90946,
+     "deposits": 4,
+     "weight": 0.510841018074715,
+     "weight_sd": 0.5000109958985312,
+     "weight_used": 0.510841018074715,
+     "mu_data": 0.8825285454084265,
+     "mu_expert": 0.503491900288833,
+     "mu": 0.8825285454084265
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.7428 – 0.8962",
+     "cells": 90946,
+     "deposits": 7,
+     "weight": 1.0704897946125786,
+     "weight_sd": 0.3779790195756017,
+     "weight_used": 1.0704897946125786,
+     "mu_data": 0.9780328851491921,
+     "mu_expert": 0.6113884904089022,
+     "mu": 0.9780328851491921
+    },
+    {
+     "layer": "sb_log_idw",
+     "cls": "0.8962 – 3.223",
+     "cells": 90946,
+     "deposits": 9,
+     "weight": 1.3218262158997096,
+     "weight_sd": 0.33334982786128375,
+     "weight_used": 1.3218262158997096,
+     "mu_data": 0.9900000000000001,
+     "mu_expert": 0.8003487226122958,
+     "mu": 0.9900000000000001
+    }
+   ],
+   "stats": {
+    "deposits": 24,
+    "lam": 1.0,
+    "kappa": 0.0,
+    "layers": 4,
+    "mean_layer_auc": 0.7364022949338288,
+    "against_expert": 0,
+    "training_auc": 0.9324819511222574
+   },
+   "messages": []
+  }
+ },
+ "sensitivity": [],
+ "figures": {
+  "map": "dc_fuzzy_carlin_map.png",
+  "curves": "dc_fuzzy_carlin_curves.png"
+ },
+ "ahp": null,
+ "vector_weights": null,
+ "runtime_s": 475.31686663627625
+}

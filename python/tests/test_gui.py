@@ -733,6 +733,67 @@ def test_bayesian_network_workflow(app, monkeypatch, tmp_path):
 
 
 @need_data
+def test_ebf_workflow(app, monkeypatch, tmp_path):
+    """Evidential belief functions: menu entry, dialog defaults, run, run files (Bel, Dis, Unc, Pls, tables), results."""
+    from PyQt5.QtWidgets import QMessageBox
+    from core.methods import REGISTRY
+    from gui.main_window import MainWindow
+    from logic.data_driven.ebf.dialogs import EBFDialog, EBFResultsDialog
+
+    errors = []
+    monkeypatch.setattr(QMessageBox, "critical", lambda *a, **k: errors.append(a[2] if len(a) > 2 else a))
+    win = MainWindow()
+    win.resize(1500, 920)
+    win.show()
+    win.open_project(demo_copy(tmp_path))
+    assert win.method_actions["ebf"].isEnabled()
+
+    dlg = EBFDialog(win.store, win)
+    rows = {r["layer"].name: r for r in dlg._rows}
+    assert rows["geology_host"]["classing"].currentData() == "values"          # class raster
+    assert rows["as_log_idw"]["classing"].currentData() == "quantile"          # real values
+    assert not rows["geology_host"]["n"].isEnabled() and rows["as_log_idw"]["n"].isEnabled()
+    assert dlg.score.currentData() == "bel" and dlg.zero.currentData() == "zero"
+    assert dlg.validate() is not None
+    for n in ("geology_host", "dist_faults_class", "as_log_idw", "sb_log_idw"):
+        rows[n]["use"].setChecked(True)
+    rows["as_log_idw"]["n"].setValue(8)
+    rows["as_log_idw"]["classing"].setCurrentIndex(0)                          # class values of real data: refused
+    assert "quantile" in dlg.validate()
+    rows["as_log_idw"]["classing"].setCurrentIndex(1)
+    dlg.zero.setCurrentIndex(1)
+    dlg.o_layers.setChecked(True)
+    assert dlg.validate() is None
+    shot(dlg, "58_ebf_dialog")
+    params = dlg.params()
+    assert [e["classing"] for e in params["evidence"]] == ["values", "values", "quantile", "quantile"]
+    assert params["zero_deposit"] == "haldane" and params["evidence"][2]["n_classes"] == 8
+
+    method = REGISTRY["ebf"]
+    runs = []
+    win.run_task(method.run, lambda res: runs.append(win.method_finished(method, res)), "EBF", params)
+    wait_tasks(win, app, timeout=300)
+    assert not errors, errors
+    run_id, run_dir = runs[0]
+    files = set(os.listdir(run_dir))
+    assert {"bel.tif", "dis.tif", "unc.tif", "pls.tif", "bel_sb_log_idw.tif", "summary.csv", "layers.csv",
+            "pairwise.csv", "classes_geology_host.csv", "validation.csv", "training_points.shp"} <= files
+    rd = [d for d in win._dialogs if isinstance(d, EBFResultsDialog)][-1]
+    assert rd.result.evaluation.curves["training"].auc > 0.85 and "test" in rd.result.evaluation.curves
+    assert rd.tabs.count() == 7 and len(rd.canvases) == 5                    # layers + 4 class charts
+    rd.tabs.setCurrentIndex(2)
+    if SHOTS:
+        rd.show()
+        app.processEvents()
+        for c in rd.canvases:
+            c.draw()
+    shot(rd, "58_ebf_results")
+    rd.close()
+    win.store.dirty = False
+    win.close()
+
+
+@need_data
 def test_fuzzy_and_boolean_workflows(app, monkeypatch, tmp_path):
     """Knowledge-driven overlays: dialogs (defaults from the data), runs, run files, results dialogs, ROC."""
     from PyQt5.QtWidgets import QMessageBox
@@ -857,6 +918,141 @@ def test_logistic_geometric_workflow(app, monkeypatch, tmp_path):
     assert t.loc["sb_log_idw", "weight"] > 0 and rd.result.evaluation.curves["training"].auc > 0.7
     rd.tabs.setCurrentIndex(1)
     shot(rd, "38_lgfa_results")
+    win.store.dirty = False
+    win.close()
+
+
+@need_data
+def test_index_overlay_workflow(app, monkeypatch, tmp_path):
+    """Index overlay: scoring rules, AHP matrix editing with live CR, run, run files, results dialog."""
+    from PyQt5.QtWidgets import QMessageBox
+    from core.methods import PLANNED, REGISTRY
+    from gui.main_window import MainWindow
+    from logic.knowledge_driven.index_overlay.dialogs import IndexOverlayDialog, IndexOverlayResultsDialog
+
+    errors = []
+    monkeypatch.setattr(QMessageBox, "critical", lambda *a, **k: errors.append(a[2] if len(a) > 2 else a))
+    assert not any(p[2] in ("Index overlay", "AHP", "Fuzzy AHP", "Dempster-Shafer (expert)") for p in PLANNED)
+    win = MainWindow()
+    win.resize(1500, 920)
+    win.show()
+    win.open_project(demo_copy(tmp_path))
+    assert win.method_actions["index_overlay"].isEnabled()
+    dlg = IndexOverlayDialog(win.store, win)
+    assert dlg.validate() is not None
+    setup = {"geology_host": ("classes", "2=1; 1=0"), "dist_faults": ("negative", "0, 6000"),
+             "as_log_idw": ("positive", None), "sb_log_idw": ("positive", None)}
+    for r in dlg._rows:
+        if r["layer"].name in setup:
+            rule, spec = setup[r["layer"].name]
+            r["use"].setChecked(True)
+            r["rule"].setCurrentIndex(r["rule"].findData(rule))
+            if spec:
+                r["spec"].setText(spec)
+            assert "," in r["spec"].text() or "=" in r["spec"].text()
+    dlg.weighting.setCurrentIndex(dlg.weighting.findData("ahp"))
+    assert not dlg.matrix.isHidden() and dlg.matrix.rowCount() == 4
+    names = [dlg.matrix.verticalHeaderItem(i).text() for i in range(4)]
+    want = {("geology_host", "dist_faults"): "3", ("geology_host", "as_log_idw"): "2",
+            ("dist_faults", "as_log_idw"): "1/2", ("dist_faults", "sb_log_idw"): "1/3",
+            ("as_log_idw", "sb_log_idw"): "1/2"}
+    for (a, b), v in want.items():
+        i, j = names.index(a), names.index(b)
+        dlg.matrix.item(min(i, j), max(i, j)).setText(v if i < j else f"1/{v}" if "/" not in v else v.split("/")[1])
+    app.processEvents()
+    assert "CR" in dlg.cr_label.text() and "✓" in dlg.cr_label.text()
+    i, j = names.index("dist_faults"), names.index("geology_host")
+    assert dlg.matrix.item(max(i, j), min(i, j)).text() in ("1/3", "3")       # reciprocal filled in
+    assert dlg.validate() is None
+    shot(dlg, "49_index_overlay_dialog")
+    params = dlg.params()
+    assert params["weighting"] == "ahp" and np.array(params["pairwise"]).shape == (4, 4)
+    method = REGISTRY["index_overlay"]
+    runs = []
+    win.run_task(method.run, lambda res: runs.append(win.method_finished(method, res)), "IO", params)
+    wait_tasks(win, app, timeout=300)
+    assert not errors, errors
+    run_id, run_dir = runs[0]
+    assert {"index.tif", "evidence.csv", "ahp.csv", "validation.csv"} <= set(os.listdir(run_dir))
+    rd = [d for d in win._dialogs if isinstance(d, IndexOverlayResultsDialog)][-1]
+    assert rd.result.evaluation.curves["training"].auc > 0.8 and rd.tabs.count() == 2
+    w = rd.result.tables["evidence"].set_index("layer").weight
+    assert w["geology_host"] == pytest.approx(w.max())
+    shot(rd, "50_index_overlay_results")
+    win.store.dirty = False
+    win.close()
+
+@need_data
+def test_topsis_workflow(app, monkeypatch, tmp_path):
+    """TOPSIS / VIKOR: evidence scores, entropy and AHP weights, method switch, run files, results dialog."""
+    from PyQt5.QtWidgets import QMessageBox
+    from core.methods import PLANNED, REGISTRY
+    from gui.main_window import MainWindow
+    from logic.knowledge_driven.index_overlay.dialogs import IndexOverlayDialog
+    from logic.knowledge_driven.topsis.dialogs import TopsisDialog, TopsisResultsDialog
+
+    errors = []
+    monkeypatch.setattr(QMessageBox, "critical", lambda *a, **k: errors.append(a[2] if len(a) > 2 else a))
+    assert not any(p[2] == "TOPSIS" for p in PLANNED)
+    win = MainWindow()
+    win.resize(1500, 920)
+    win.show()
+    win.open_project(demo_copy(tmp_path))
+    assert win.method_actions["topsis"].isEnabled()
+    dlg = TopsisDialog(win.store, win)
+    assert dlg.validate() is not None and dlg.weighting.findData("entropy") >= 0
+    assert IndexOverlayDialog(win.store, win).weighting.findData("entropy") < 0      # TOPSIS-only option
+    setup = {"geology_host": ("classes", "2=1; 1=0"), "dist_faults": ("negative", None),
+             "as_log_idw": ("positive", None), "sb_log_idw": ("positive", None)}
+    for r in dlg._rows:
+        if r["layer"].name in setup:
+            rule, spec = setup[r["layer"].name]
+            r["use"].setChecked(True)
+            r["rule"].setCurrentIndex(r["rule"].findData(rule))
+            if spec:
+                r["spec"].setText(spec)
+    # VIKOR: v enabled, normalisation disabled, prefix follows the method
+    dlg.method.setCurrentIndex(dlg.method.findData("vikor"))
+    assert dlg.v.isEnabled() and not dlg.normalisation.isEnabled() and dlg.prefix.text() == "vikor"
+    dlg.method.setCurrentIndex(dlg.method.findData("topsis"))
+    assert dlg.normalisation.isEnabled() and not dlg.v.isEnabled() and dlg.prefix.text() == "topsis"
+    dlg.weighting.setCurrentIndex(dlg.weighting.findData("ahp"))
+    assert not dlg.matrix.isHidden() and dlg.matrix.rowCount() == 4
+    names = [dlg.matrix.verticalHeaderItem(i).text() for i in range(4)]
+    want = {("geology_host", "dist_faults"): 3, ("geology_host", "as_log_idw"): 2, ("geology_host", "sb_log_idw"): 1,
+            ("dist_faults", "as_log_idw"): 1 / 2, ("dist_faults", "sb_log_idw"): 1 / 3, ("as_log_idw", "sb_log_idw"): 1 / 2}
+    for (a, b), v in want.items():
+        i, j = names.index(a), names.index(b)
+        v = v if i < j else 1 / v
+        dlg.matrix.item(min(i, j), max(i, j)).setText(f"{v:g}" if v >= 1 else f"1/{1 / v:g}")
+    app.processEvents()
+    assert "✓" in dlg.cr_label.text()
+    dlg.o_parts.setChecked(True)
+    assert dlg.validate() is None
+    shot(dlg, "51_topsis_dialog")
+    params = dlg.params()
+    assert params["method"] == "topsis" and params["normalisation"] == "vector" and params["out_parts"]
+    method = REGISTRY["topsis"]
+    runs = []
+    win.run_task(method.run, lambda res: runs.append(win.method_finished(method, res)), "TOPSIS", params)
+    wait_tasks(win, app, timeout=300)
+    assert not errors, errors
+    run_id, run_dir = runs[0]
+    assert {"topsis.tif", "d_plus.tif", "d_minus.tif", "evidence.csv", "ahp.csv", "validation.csv"} <= set(
+        os.listdir(run_dir))
+    rd = [d for d in win._dialogs if isinstance(d, TopsisResultsDialog)][-1]
+    assert rd.result.evaluation.curves["training"].auc > 0.8 and rd.tabs.count() == 2
+    shot(rd, "52_topsis_results")
+    # VIKOR with entropy weights (no AHP tab)
+    dlg2 = TopsisDialog(win.store, win)
+    assert dlg2.method.currentData() == "topsis" and dlg2.weighting.currentData() == "ahp"     # remembered
+    dlg2.method.setCurrentIndex(dlg2.method.findData("vikor"))
+    dlg2.weighting.setCurrentIndex(dlg2.weighting.findData("entropy"))
+    assert dlg2.matrix.isHidden() and dlg2.validate() is None
+    p2 = dlg2.params()
+    res = method.run(p2, lambda *a: None)
+    assert {o.name for o in res.outputs} >= {"vikor", "S", "R", "Q"} and "ahp" not in res.tables
+    assert res.tables["evidence"].weight.sum() == pytest.approx(1.0)
     win.store.dirty = False
     win.close()
 
@@ -1008,6 +1204,63 @@ def test_pt_hurdle_workflow(app, monkeypatch, tmp_path):
 
 
 @need_data
+def test_fuzzy_wofe_workflow(app, monkeypatch, tmp_path):
+    from core.methods import PLANNED
+    from logic.hybrid.fuzzy_wofe.dialogs import FuzzyWofEDialog
+    assert not any(p[2] == "Fuzzy weights of evidence" for p in PLANNED)
+
+    def checks(rd):
+        res = rd.result.extra["fwofe"]
+        lay = rd.result.tables["layers"]
+        assert set(lay.layer) == set(HYBRID_SETUP) and lay.beta.notna().all()
+        assert res.prob.sum() == pytest.approx(res.stats["deposits"], rel=0.02)     # modified: Σ P = N
+        assert rd.tabs.count() == 4
+
+    _hybrid_workflow(app, monkeypatch, tmp_path, "fuzzy_wofe", FuzzyWofEDialog, {"n_classes": 8},
+                     {"post.tif", "post_classic.tif", "logit_sd.tif", "expert.tif", "weights.csv", "layers.csv",
+                      "ci_test.csv", "validation.csv"}, "47_fuzzy_wofe", checks)
+
+@need_data
+def test_neuro_fuzzy_workflow(app, monkeypatch, tmp_path):
+    from core.methods import PLANNED
+    from logic.hybrid.neuro_fuzzy.dialogs import NeuroFuzzyDialog
+    assert not any("ANFIS" in p[2] for p in PLANNED)
+
+    def checks(rd):
+        res = rd.result.extra["neurofuzzy"]
+        assert res.input_mode == "layers" and len(rd.result.tables["rules"]) == 16      # 2^4 rules, 4 layers
+        mf = rd.result.tables["membership"]
+        assert set(mf.input) == set(HYBRID_SETUP) and len(mf) == 8
+        assert set(rd.result.tables["importance"].input) == set(HYBRID_SETUP)
+        assert rd.tabs.count() >= 5
+
+    rd = _hybrid_workflow(app, monkeypatch, tmp_path, "neuro_fuzzy", NeuroFuzzyDialog, {"n_bags": 2, "epochs": 40},
+                          {"prob.tif", "prob_sd.tif", "expert.tif", "rules.csv", "membership.csv", "validation.csv"},
+                          "56_neuro_fuzzy", checks)
+    assert rd.result.extra["neurofuzzy"].stats["bags"] == 2
+
+
+@need_data
+def test_dc_fuzzy_workflow(app, monkeypatch, tmp_path):
+    from core.methods import PLANNED
+    from logic.hybrid.dc_fuzzy.dialogs import DCFuzzyDialog
+    assert not any("Data-calibrated" in p[2] for p in PLANNED)
+
+    def checks(rd):
+        lay = rd.result.tables["layers"]
+        assert set(lay.layer) == set(HYBRID_SETUP) and lay.agrees_with_expert.all()
+        mem = rd.result.tables["memberships"]
+        assert set(mem.layer) == set(HYBRID_SETUP) and mem.mu_data.between(0.01, 0.99).all()
+        assert rd.tabs.count() >= 3
+
+    rd = _hybrid_workflow(app, monkeypatch, tmp_path, "dc_fuzzy", DCFuzzyDialog,
+                          {"calibration": "lr", "out_memberships": True},
+                          {"fuzzy.tif", "expert.tif", "mu_sb_log_idw.tif", "layers.csv", "memberships.csv",
+                           "validation.csv"}, "57_dc_fuzzy", checks)
+    assert not rd.result.extra["dcfuzzy"].messages
+
+
+@need_data
 def test_kt_rk_workflow(app, monkeypatch, tmp_path):
     """KT-RK on the Curnamona demo: La of the surface samples estimated from a knowledge trend + forest + kriging."""
     from PyQt5.QtWidgets import QMessageBox
@@ -1142,6 +1395,56 @@ def test_identify_dialog_and_coordinates(app, tmp_path):
     win.store.dirty = False                   # discard (no modal "save changes?" prompt in tests)
     win.close()
 
+
+@need_data
+def test_layer_draw_order_follows_toc(app, tmp_path):
+    """The map draws layers in the TOC order: a vector layer below a raster in the TOC is hidden by it, above it is
+    drawn on top; labels stay above every layer."""
+    from matplotlib.collections import LineCollection, PathCollection
+    from gui.main_window import MainWindow
+
+    win = MainWindow()
+    win.resize(1400, 900)
+    win.show()
+    win.store.load_project(demo_copy(tmp_path))
+    st = win.store
+    geo, dep, flt, area = (st.by_name(n) for n in ("geology", "deposits", "faults", "study_area"))
+    for l in st.layers:
+        l.visible = l in (geo, dep, flt, area)
+    dep.labels = dict(enabled=True, field=next(c for c in dep.gdf.columns if c != "geometry"), size=8)
+    assert geo.data is not None and geo.loaded                             # read now (lazy loading otherwise)
+
+    def zorders():
+        win.canvas.redraw()
+        win.canvas.draw()
+        app.processEvents()
+        ax = win.canvas.ax
+        img = [a.get_zorder() for a in ax.images]
+        pts = [a.get_zorder() for a in ax.collections if isinstance(a, PathCollection) and len(a.get_offsets()) > 1]
+        lines = [a.get_zorder() for a in ax.collections if isinstance(a, LineCollection)]
+        polys = [a.get_zorder() for a in ax.collections if isinstance(a, PathCollection) and len(a.get_offsets()) <= 1]
+        labels = [t.get_zorder() for t in win.canvas._label_artists]
+        return img, pts, lines, polys, labels
+
+    others = [l for l in st.layers if l not in (geo, dep, flt, area)]
+    # TOC (top first): geology raster above the three vector layers
+    st.reorder([geo.id, dep.id, flt.id, area.id] + [l.id for l in others])
+    img, pts, lines, polys, labels = zorders()
+    assert len(img) == 1 and pts and lines and polys
+    assert max(pts + lines + polys) < img[0], (img, pts, lines, polys)     # vectors hidden by the raster
+    assert min(pts) > max(lines) > max(polys)                              # deposits > faults > study area
+    assert labels and min(labels) > img[0]                                 # labels on top of every layer
+    shot(win, "48_order_raster_on_top")
+    # vectors above the raster
+    st.reorder([dep.id, flt.id, geo.id, area.id] + [l.id for l in others])
+    img, pts, lines, polys, labels = zorders()
+    assert min(pts + lines) > img[0] > max(polys)
+    # the TOC move buttons give the same result
+    st.move(area, -3)                                                      # study area to the top
+    img, pts, lines, polys, labels = zorders()
+    assert min(polys) > max(pts + lines + img)
+    win.store.dirty = False
+    win.close()
 
 @need_data
 def test_middle_button_pan(app, tmp_path):
@@ -1373,7 +1676,8 @@ def test_small_display_1366x768(app, tmp_path, monkeypatch):
     win.open_project(demo_copy(tmp_path))
     app.processEvents()
 
-    from gui.dialogs.data_dialogs import AlignDialog, ClipDialog, ConvertDialog, DistanceDialog, ReclassDialog
+    from gui.dialogs.data_dialogs import (AlignDialog, ClipDialog, ConvertDialog, DistanceDialog,
+                                          PolygonToRasterDialog, ReclassDialog)
     from gui.dialogs.evaluation_dialogs import EvaluationDialog, ValidationDialog
     from gui.dialogs.layer_dialogs import LayerPropertiesDialog
     from gui.dialogs.target_dialog import TargetDialog
@@ -1396,6 +1700,12 @@ def test_small_display_1366x768(app, tmp_path, monkeypatch):
     from logic.hybrid.bs_wofe.dialogs import BSWofEDialog
     from logic.hybrid.pt_hurdle.dialogs import PTHurdleDialog
     from logic.hybrid.kt_rk.dialogs import KTRKDialog
+    from logic.hybrid.fuzzy_wofe.dialogs import FuzzyWofEDialog
+    from logic.knowledge_driven.index_overlay.dialogs import IndexOverlayDialog
+    from logic.knowledge_driven.topsis.dialogs import TopsisDialog
+    from logic.hybrid.neuro_fuzzy.dialogs import NeuroFuzzyDialog
+    from logic.hybrid.dc_fuzzy.dialogs import DCFuzzyDialog
+    from logic.data_driven.ebf.dialogs import EBFDialog
     from evaluation.metrics import evaluate
     lyr = win.store.by_name("as_log_idw")
     ev = evaluate(lyr.data, [10, 20], [10, 20], score_name="x")
@@ -1407,10 +1717,12 @@ def test_small_display_1366x768(app, tmp_path, monkeypatch):
                BooleanLogicDialog(win.store, win), LogisticGeometricDialog(win.store, win),
                KPRBDialog(win.store, win), KPRFDialog(win.store, win), KWSVMDialog(win.store, win),
                BSWofEDialog(win.store, win), PTHurdleDialog(win.store, win), KTRKDialog(win.store, win),
+               FuzzyWofEDialog(win.store, win), IndexOverlayDialog(win.store, win), TopsisDialog(win.store, win),
+               NeuroFuzzyDialog(win.store, win), DCFuzzyDialog(win.store, win), EBFDialog(win.store, win),
                TargetDialog(win.store, win),
                ReclassDialog(win.store, win),
                ConvertDialog(win.store, win), AlignDialog(win.store, win), ClipDialog(win.store, win),
-               DistanceDialog(win.store, win),
+               DistanceDialog(win.store, win), PolygonToRasterDialog(win.store, win),
                ValidationDialog(win.store, win), EvaluationDialog(ev, "t", win),
                LayerPropertiesDialog(lyr, win.store, win), LayerPropertiesDialog(win.store.vectors()[0], win.store, win)]
     for d in dialogs:
@@ -1431,6 +1743,67 @@ def test_small_display_1366x768(app, tmp_path, monkeypatch):
     fg = win.identify_dlg.frameGeometry()
     assert fg.right() + 1 == 1366 - 80                   # right border 80 px from the display edge
     assert avail.contains(fg)
+    win.store.dirty = False
+    win.close()
+
+
+@need_data
+def test_polygon_to_raster(app, tmp_path):
+    """Data ▸ Polygon to raster: map units -> categorical raster on a reference grid or a study-area polygon grid."""
+    from gui.dialogs.data_dialogs import PolygonToRasterDialog
+    from gui.main_window import DEMO_PROJECTS, MainWindow
+    from utils.raster_tools import read_class_table, read_raster
+
+    if not os.path.isfile(list(DEMO_PROJECTS.values())[1]):
+        pytest.skip("Curnamona demo not built")
+    win = MainWindow()
+    win.resize(1200, 800)
+    win.show()
+    win.open_project(demo_copy(tmp_path, 1))
+    s = win.store
+    assert win.a_poly2ras in win.menuBar().actions()[[a.text() for a in win.menuBar().actions()].index("&Data")].menu().actions()
+    meso = s.by_name("mesoproterozoic")
+    d = PolygonToRasterDialog(s, win)
+    d.src.set_layer(meso)
+    assert d.field.currentData() == "STRATNAME"                     # first text attribute
+    d.field.setCurrentIndex(d.field.findData("MAPUNIT"))
+    assert not d.codes.model().item(1).isEnabled()                   # text labels: sequential codes only
+    assert d.grid_from.currentData() == "raster" and d.ref.layer().name == "study_mask"
+    assert d.study.currentText() == "study_area" and d.path.text().endswith("mesoproterozoic_MAPUNIT.tif")
+    assert d.name.text() == "mesoproterozoic_MAPUNIT" and "project grid" not in d.summary.text()
+    shot(d, "55_polygon_to_raster")
+    assert d.validate() is None
+    lyr = d.run()
+    assert lyr.categorical and lyr.grid.same_as(s.project_grid())
+    t = lyr.class_table
+    assert t.label.iloc[-1] == "Other" and "STRATNAME" in t.columns and t["count"].sum() == lyr.data.count()
+    data, grid, _ = read_raster(lyr.source)                          # GeoTIFF + class table written
+    assert grid.same_as(lyr.grid) and np.ma.count(data) == lyr.data.count()
+    assert list(read_class_table(lyr.source).label) == list(t.label)
+    study = s.by_name("study_area")
+    from utils.raster_tools import rasterize_vector
+    inside = rasterize_vector(study.gdf, grid, dtype="uint8") == 1
+    assert (~np.ma.getmaskarray(lyr.data) == inside).all()           # every study cell classed, nothing outside
+    s.add(lyr)
+
+    d = PolygonToRasterDialog(s, win)                                # study-area polygon + coarser cell size
+    d.src.set_layer(meso)
+    d.grid_from.setCurrentIndex(d.grid_from.findData("polygon"))
+    assert not d.study.model().item(1).isEnabled() and d.study.currentText() == "study_area"
+    assert d.cell.value() == pytest.approx(s.cell_size) and d.cell.isEnabled()
+    d.cell.setValue(s.cell_size * 2)
+    d.extent.setCurrentIndex(d.extent.findData("study"))
+    d.assign.setCurrentIndex(d.assign.findData("max_area"))
+    d.gap.setCurrentIndex(d.gap.findData("nodata"))
+    assert not d.gap_label.isEnabled() and "project grid" in d.summary.text()
+    g = d.output_grid()
+    pg = s.project_grid()
+    assert g.res[0] == pytest.approx(2 * s.cell_size)
+    assert ((g.bounds[0] - pg.bounds[0]) / g.res[0]) % 1 == pytest.approx(0, abs=1e-9)   # aligned to the project grid
+    d.path.setText(str(tmp_path / "meso_coarse.tif"))
+    assert d.validate() is None
+    lyr2 = d.run()
+    assert "Other" not in set(lyr2.class_table.label) and lyr2.data.count() < inside.sum()
     win.store.dirty = False
     win.close()
 
@@ -1628,7 +2001,7 @@ def test_layer_properties_symbology_and_labels(app, tmp_path):
     pts = s.vectors("point")[0]                                   # vector: General / Symbology / Labels
     pts.visible = True
     d = LayerPropertiesDialog(pts, s, win)
-    assert [d.tabs.tabText(i) for i in range(d.tabs.count())] == ["General", "Symbology", "Labels"]
+    assert [d.tabs.tabText(i) for i in range(d.tabs.count())] == ["General", "Statistics", "Symbology", "Labels"]
     assert d._modes == ["single", "unique", "categorized"]
     d.renderers.setCurrentRow(1)                                  # unique: every feature its own symbol
     assert d.u_model.rowCount() == len(pts.gdf)
@@ -1676,7 +2049,7 @@ def test_layer_properties_symbology_and_labels(app, tmp_path):
     ras = [r for r in s.rasters() if not r.categorical][0]        # raster: four renderers, no Labels tab
     ras.visible = True
     d = LayerPropertiesDialog(ras, s, win)
-    assert d.tabs.count() == 2 and d._modes == ["single", "unique", "stretch", "categorized"]
+    assert d.tabs.count() == 3 and d._modes == ["single", "unique", "stretch", "categorized"]
     assert d.renderers.currentRow() == 2                          # continuous raster: stretched
     d.renderers.setCurrentRow(3)
     d.cat.method.setCurrentIndex(d.cat.method.findData("quantile"))
@@ -1708,6 +2081,87 @@ def test_layer_properties_symbology_and_labels(app, tmp_path):
         w.store.dirty = False
         w.close()
 
+
+
+@need_data
+def test_layer_properties_statistics(app, tmp_path):
+    """Statistics tab: histogram by number of intervals / interval width, cumulative curve, statistics box."""
+    from PyQt5.QtWidgets import QApplication
+    from gui.dialogs.layer_dialogs import LayerPropertiesDialog
+    from gui.main_window import MainWindow
+    from utils.statistics import describe
+
+    win = MainWindow()
+    win.resize(1200, 800)
+    win.show()
+    win.open_project(demo_copy(tmp_path))
+    s = win.store
+    ras = s.by_name("as_log_idw")                                  # raster: cell values
+    d = LayerPropertiesDialog(ras, s, win, tab="statistics")
+    d.show()
+    QApplication.processEvents()
+    assert d.tabs.tabText(1) == "Statistics" and d.tabs.currentWidget() is d.statistics
+    p = d.statistics
+    assert p._loaded and not p.field.isVisible()
+    v = np.ma.compressed(ras.data).astype(float)
+    assert p.stats["count"] == v.size and p.stats["nulls"] == ras.data.size - v.size
+    assert p.stats["mean"] == pytest.approx(v.mean()) and p.stats["max"] == pytest.approx(v.max())
+    counts, edges = p.hist
+    assert counts.sum() == v.size and len(counts) == p.count.value()
+    p.count.setValue(25)
+    assert len(p.hist[0]) == 25
+    p.mode.setCurrentIndex(p.mode.findData("width"))                # interval values
+    assert p.width.isVisible() and not p.count.isVisible()
+    p.width.setValue(0.1)
+    e = p.hist[1]
+    assert np.allclose(np.diff(e), 0.1) and e[0] <= v.min() and e[-1] >= v.max() and p.hist[0].sum() == v.size
+    ax = p.chart.fig.axes
+    assert len(ax) == 2 and ax[1].get_ylabel() == "Cumulative probability"     # ECDF on a second axis
+    assert ax[1].lines[0].get_ydata()[-1] == pytest.approx(1.0)
+    rows = dict(p.stat_rows())
+    assert {"Minimum", "Maximum", "Mean", "Median", "Skewness", "Kurtosis", "NoData"} <= set(rows)
+    assert p.stats_artist in ax[1].artists
+    p.show_stats.setChecked(False)
+    assert p.stats_artist is None and not p.chart.fig.axes[1].artists
+    p.show_stats.setChecked(True)
+    p.cumulative.setChecked(False)
+    assert len(p.chart.fig.axes) == 1
+    p.cumulative.setChecked(True)
+    p.copy_statistics()
+    assert "Kurtosis\t" in QApplication.clipboard().text()
+    from PIL import Image
+    assert p.save.isEnabled() and p.start_dir.endswith("results")
+    assert p.default_png_name() == "as_log_idw_histogram.png"
+    out = p.save_histogram(str(tmp_path / "hist"))                 # ".png" added; 300 dpi on white
+    im = Image.open(out)
+    assert out.endswith("hist.png") and im.size == (2100, 1260)
+    assert all(abs(x - 300) < 0.01 for x in im.info["dpi"])
+    assert im.convert("RGB").getpixel((5, 5)) == (255, 255, 255)
+    assert len(p.chart.fig.axes) == 2 and p.stats_artist in p.chart.fig.axes[1].artists   # screen chart unchanged
+    shot(d, "53_layer_statistics_raster")
+    d.close()
+
+    dep = s.by_name("deposits")                                     # vector: numeric attributes, first by default
+    d = LayerPropertiesDialog(dep, s, win)
+    d.show()
+    d.tabs.setCurrentIndex(1)
+    QApplication.processEvents()
+    p = d.statistics
+    names = [p.field.itemText(i) for i in range(p.field.count())]
+    num = [c for c in dep.gdf.columns if c != "geometry" and np.issubdtype(dep.gdf[c].dtype, np.number)]
+    assert names == num and p.field.currentIndex() == 0
+    for i, name in enumerate(names):
+        p.field.setCurrentIndex(i)
+        ref = describe(dep.gdf[name].to_numpy(float))
+        assert p.stats["count"] == ref["count"] and p.hist[0].sum() == ref["count"]
+        assert p.chart.fig.axes[0].get_xlabel() == name
+    p.field.setCurrentIndex(0)
+    assert p.default_png_name() == f"deposits_{names[0]}_histogram.png"
+    assert os.path.isfile(p.save_histogram(str(tmp_path / p.default_png_name())))
+    shot(d, "54_layer_statistics_vector")
+    d.close()
+    win.store.dirty = False
+    win.close()
 
 
 @need_data
