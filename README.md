@@ -1,8 +1,8 @@
-<img src="python/gui/resources/mpm_studio.png" alt="MPM Studio icon" width="96" align="right">
+<img src="python/gui/resources/mpm_studio.png" alt="2D MPM icon" width="96" align="right">
 
-# MPM Studio
+# 2D MPM
 
-**MPM Studio** is a Windows desktop application for **2D mineral prospectivity mapping (MPM)**. In one program you can:
+**2D MPM** is a Windows desktop application for **2D mineral prospectivity mapping (MPM)**. In one program you can:
 
 - prepare evidence layers;
 - run knowledge-driven, data-driven and hybrid prospectivity models;
@@ -85,10 +85,10 @@ What the data-driven and hybrid tools share:
 ## 2. Quick start: release zip (no Python)
 
 1. Unzip `MPM_Studio_1.0.0_win64.zip` anywhere (about 1.5 GB unpacked). It needs no installation, no admin rights and no Python.
-2. Double-click `MPM Studio.exe`.
+2. Double-click `2D MPM.exe`.
 3. Choose **Project ▸ Open demo project** and pick Carlin Au or Curnamona REE. Then run, for example, *Data-driven ▸ Statistical ▸ Weights of Evidence…*, and check the result with *Validation ▸ ROC / AUC validation…*.
 
-The log file is `%LOCALAPPDATA%\MPM Studio\mpm_studio.log`; look there first if something goes wrong.
+The log file is `%LOCALAPPDATA%\2D MPM\mpm_studio.log`; look there first if something goes wrong.
 Unsigned exe files can trigger Windows SmartScreen: choose *More info ▸ Run anyway*.
 
 ---
@@ -157,7 +157,7 @@ Package choices and versions are explained in [docs/python/python_packages.md](.
 ## 4. Running and testing from source
 
 ```bat
-python\run_mpm.bat                          :: start MPM Studio
+python\run_mpm.bat                          :: start 2D MPM
 python\run_mpm.bat D:\mpm\my_project        :: open a project folder (or its *.mpm.json)
 ```
 
@@ -183,7 +183,7 @@ What each test module covers is listed in [docs/python/how_to_test.md](../docs/p
 
 ## 5. Build and release
 
-The release is a **one-folder PyInstaller build**: `MPM Studio.exe` plus `_internal\`. It runs on PCs without Python.
+The release is a **one-folder PyInstaller build**: `2D MPM.exe` plus `_internal\`. It runs on PCs without Python.
 
 ```bat
 python\build_release.bat                    :: options: --skip-build  --no-zip  --keep-work
@@ -191,7 +191,7 @@ python\build_release.bat                    :: options: --skip-build  --no-zip  
 
 | Step | Result |
 |---|---|
-| 1. PyInstaller (`python\packaging\mpm_studio.spec`) | `python\distribute\dist\MPM Studio\` |
+| 1. PyInstaller (`python\packaging\mpm_studio.spec`) | `python\distribute\dist\2D MPM\` |
 | 2. Adds the processed demo data, docs and `README.txt` | in the same folder |
 | 3. Headless self-test of the built exe (`--selftest`) | must print `SELFTEST OK` |
 | 4. Zip | `python\distribute\release\MPM_Studio_<version>_win64.zip` |
@@ -209,8 +209,8 @@ during the build. v1.0.0 is ≈ 1.5 GB unpacked and the zip ≈ 520 MB; TensorFl
 
 New method plug-ins are bundled automatically.
 
-You can also run the self-test of a built exe yourself with `"MPM Studio.exe" --selftest report.txt`;
-`"MPM Studio.exe" --version` prints the version.
+You can also run the self-test of a built exe yourself with `"2D MPM.exe" --selftest report.txt`;
+`"2D MPM.exe" --version` prints the version.
 
 Details, including the spec file, the PyInstaller hooks, windowed-mode logging and troubleshooting, are in
 [docs/python/how_to_build_python_app.md](../docs/python/how_to_build_python_app.md).
@@ -257,9 +257,9 @@ Raw-data details, processing notes and the suitability of each dataset for each 
 2d_mpm\
 ├─ .venv\                 Python 3.10 environment (created by install_env.bat, not distributed)
 ├─ demo_data\             Carlin Au and Curnamona REE: raw\ (original) and processed\ (demo projects)
-├─ docs\python\           documentation of MPM Studio (Markdown + per-method Word documents)
-├─ matlab\                separate MATLAB tools (independent of MPM Studio)
-└─ python\                MPM Studio
+├─ docs\python\           documentation of 2D MPM (Markdown + per-method Word documents)
+├─ matlab\                separate MATLAB tools (independent of 2D MPM)
+└─ python\                2D MPM
    ├─ main.py             entry point
    ├─ run_mpm.bat         start from source
    ├─ install_env.bat     offline environment installer
