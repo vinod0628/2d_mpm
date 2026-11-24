@@ -6,7 +6,7 @@ This explains how the Python source in `python/` is turned into a stand-alone Wi
 ## 1. Quick start
 
 ```bat
-pythonuild_release.bat
+python\build_release.bat
 ```
 
 Result:
