@@ -1,0 +1,10 @@
+name,file,group,kind,description
+study_mask,rasters/study_mask.tif,mask,categorical,Study window with mapped bedrock
+geology_host,rasters/geology_host.tif,evidence,categorical,"Host-rock class (1 other, 2 Triassic-Jurassic intrusions, 3 Hazelton/Stuhini/Takla, 4 Toodoggone Volcanics)"
+dist_ej_intrusion,rasters/dist_ej_intrusion.tif,evidence,continuous,Distance to Early Jurassic intrusions (m)
+dist_faults,rasters/dist_faults.tif,evidence,continuous,Distance to the nearest mapped fault (m)
+au_log_idw,rasters/au_log_idw.tif,evidence,continuous,"log10 Au (ppb), RGS stream sediments, IDW (p=2, k=12, r<=15 km)"
+ag_log_idw,rasters/ag_log_idw.tif,evidence,continuous,"log10 Ag (ppm), RGS stream sediments, IDW (p=2, k=12, r<=15 km)"
+as_log_idw,rasters/as_log_idw.tif,evidence,continuous,"log10 As (ppm), RGS stream sediments, IDW (p=2, k=12, r<=15 km)"
+sb_log_idw,rasters/sb_log_idw.tif,evidence,continuous,"log10 Sb (ppm), RGS stream sediments, IDW (p=2, k=12, r<=15 km)"
+hg_log_idw,rasters/hg_log_idw.tif,evidence,continuous,"log10 Hg (ppb), RGS stream sediments, IDW (p=2, k=12, r<=15 km)"

@@ -1,0 +1,8 @@
+name,file,group,kind,description
+study_mask,rasters/study_mask.tif,mask,categorical,Study area (whole grid)
+ne_faults,rasters/ne_faults.tif,evidence,continuous,"Proximity score to NE-trending faults (0-1, 1 = nearest; source classes)"
+nw_faults,rasters/nw_faults.tif,evidence,continuous,"Proximity score to NW-trending faults (0-1, 1 = nearest; source classes)"
+agno_margin,rasters/agno_margin.tif,evidence,continuous,"Proximity score to the Agno batholith margin (0-1, 1 = nearest)"
+porphyry_contacts,rasters/porphyry_contacts.tif,evidence,continuous,"Proximity score to porphyry intrusive contacts (0-1, 1 = nearest)"
+deposits,vectors/deposits.gpkg,deposits,vector,19 gold deposits
+nondeposits,vectors/nondeposits.gpkg,deposits,vector,19 non-deposit locations of the source data

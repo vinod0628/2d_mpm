@@ -1,0 +1,79 @@
+{
+ "deposits": 85,
+ "status": {
+  "Prospect": 75,
+  "Developed Prospect": 6,
+  "Past Producer": 4
+ },
+ "type": {
+  "H05": 60,
+  "H04": 21,
+  "L04": 2,
+  "I05": 1,
+  "I": 1
+ },
+ "showings": 128,
+ "faults": 1156,
+ "rgs_used": 1024,
+ "rgs_inside": 644,
+ "window_km2": 10042,
+ "bedrock_polygons": 57,
+ "named": [
+  [
+   "SHASTA",
+   "Past Producer",
+   "H05"
+  ],
+  [
+   "BAKER",
+   "Past Producer",
+   "H05"
+  ],
+  [
+   "SILVER POND (WEST)",
+   "Developed Prospect",
+   "H04"
+  ],
+  [
+   "LAWYERS",
+   "Past Producer",
+   "H05"
+  ],
+  [
+   "GOLDEN STRANGER",
+   "Developed Prospect",
+   "H05"
+  ],
+  [
+   "METS",
+   "Developed Prospect",
+   "H05"
+  ],
+  [
+   "BV",
+   "Developed Prospect",
+   "H04"
+  ],
+  [
+   "THESIS II",
+   "Developed Prospect",
+   "H04"
+  ],
+  [
+   "AL (THESIS II/III)",
+   "Past Producer",
+   "H05"
+  ],
+  [
+   "BONANZA",
+   "Developed Prospect",
+   "H04"
+  ]
+ ],
+ "host_area_km2": {
+  "1": 4960,
+  "2": 2289,
+  "3": 1815,
+  "4": 978
+ }
+}

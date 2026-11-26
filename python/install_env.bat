@@ -3,13 +3,16 @@ rem ===========================================================================
 rem  2D MPM - offline environment installer (Windows x64)
 rem
 rem  This file lives in the python folder. It creates ..\.venv (repository root, Python 3.10)
-rem  from the local wheels in python\whl\ with NO internet:
-rem    1. Python 3.10.11   - uses an existing install, else installs whl\runtime\python-3.10.11-amd64.exe (per-user)
-rem    2. VC++ runtime     - installs whl\runtime\vc_redist.x64.exe only if msvcp140_1.dll is missing (needs admin)
-rem    3. ..\.venv         - python -m venv, then pip install --no-index from whl\
+rem  from the shared wheel store E:\python_packages\ with NO internet:
+rem    1. Python 3.10.11   - uses an existing install, else installs E:\python_packages\runtime\python-3.10.11-amd64.exe (per-user)
+rem    2. VC++ runtime     - installs E:\python_packages\runtime\vc_redist.x64.exe only if msvcp140_1.dll is missing (needs admin)
+rem    3. ..\.venv         - python -m venv, then pip install --no-index from E:\python_packages\
 rem    4. pip check + smoke test (tools\pip_check.py, tools\smoke_test.py)
 rem
 rem  GDAL is provided by the rasterio / fiona wheels - no separate GDAL install is needed.
+rem
+rem  The wheel store is shared by all projects. To use another location:
+rem           set PYTHON_PACKAGES=D:\other\python_packages
 rem
 rem  Usage:   install_env.bat            install / repair
 rem           install_env.bat /clean     delete ..\.venv first, then install
@@ -20,7 +23,9 @@ cd /d "%~dp0"
 set "ROOT=%~dp0"
 rem the virtual environment stays in the repository root (one level up from this folder)
 for %%I in ("%~dp0..") do set "REPO=%%~fI"
-set "WHL=%ROOT%whl"
+rem shared offline wheel store (common to all projects); override with the PYTHON_PACKAGES variable
+if not defined PYTHON_PACKAGES set "PYTHON_PACKAGES=E:\python_packages"
+set "WHL=%PYTHON_PACKAGES%"
 set "RT=%WHL%\runtime"
 set "VENV=%REPO%\.venv"
 set "VPY=%VENV%\Scripts\python.exe"
@@ -30,7 +35,7 @@ set "PIP_DISABLE_PIP_VERSION_CHECK=1"
 if /i "%~1"=="/test" goto :checks
 
 if not exist "%WHL%\rasterio-*.whl" (
-  echo [ERROR] whl\ folder is missing or incomplete: %WHL%
+  echo [ERROR] shared wheel folder is missing or incomplete: %WHL%
   goto :fail
 )
 if not exist "%REQ%" (
@@ -67,7 +72,7 @@ if exist "%SystemRoot%\System32\msvcp140_1.dll" (
 
 rem ---------------------------------------------------------------- 3. venv + wheels
 echo.
-echo [3/4] virtual environment %VENV% + packages ^(offline, from whl\^)
+echo [3/4] virtual environment %VENV% + packages ^(offline, from %WHL%^)
 if /i "%~1"=="/clean" if exist "%VENV%" (
   echo       /clean: removing existing .venv ...
   rmdir /s /q "%VENV%"

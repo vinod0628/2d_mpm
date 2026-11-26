@@ -1,0 +1,17 @@
+# Suggested journals
+
+Manuscript: *Knowledge-pooled random forest for mineral prospectivity mapping with few known deposits: epithermal Au–Ag in the Toodoggone district, British Columbia, Canada*
+
+Selection: no Elsevier journals; free to publish (subscription/hybrid journals without a charge on the standard route, or open-access journals with a fee of USD 50 or less). Fees and indexing were checked on 24 November 2026; confirm them on the website before submitting.
+
+| # | Journal | Official website | Indexing | Fees | Why it fits |
+|---|---|---|---|---|---|
+| 1 | Natural Resources Research (Springer Nature; journal of the IAMG) | https://link.springer.com/journal/11053 | SCIE, Scopus | Free on the standard (subscription) route; open access optional, with an article processing charge | IAMG journal for quantitative mineral prospectivity mapping; publishes random-forest, hybrid and few-deposit MPM methods with case studies. **This manuscript is formatted for it** (Springer Nature author–year style, Statements and Declarations). |
+| 2 | Mathematical Geosciences (Springer Nature; journal of the IAMG) | https://link.springer.com/journal/11004 | SCIE, Scopus | Free on the standard (subscription) route; open access optional, with an article processing charge | IAMG journal for mathematical geoscience; suits the logarithmic-pooling formulation. |
+| 3 | Geochemistry: Exploration, Environment, Analysis (Geological Society of London / Association of Applied Geochemists) | https://www.geolsoc.org.uk/geea | SCIE, Scopus | Free on the standard (subscription) route; open access optional, with an article processing charge | Exploration-geochemistry journal; suits the stream-sediment (RGS) evidence and the epithermal geochemical footprint. |
+| 4 | Earth Science Informatics (Springer Nature) | https://link.springer.com/journal/12145 | SCIE, Scopus | Free on the standard (subscription) route; open access optional, with an article processing charge | Geo-informatics journal that publishes machine-learning MPM. |
+| 5 | Journal of Mining and Environment (Shahrood University of Technology) | https://jme.shahroodut.ac.ir | Scopus, Web of Science (ESCI) | Open access, no article processing charge and no submission fee | Free open-access journal that regularly publishes mineral prospectivity mapping papers. |
+| 6 | Earth Sciences Research Journal (Universidad Nacional de Colombia) | https://revistas.unal.edu.co/index.php/esrj | Scopus, Web of Science | Open access, no article processing charge and no submission fee | Free open-access earth-science journal with a GIS and mineral-exploration scope. |
+| 7 | Bulletin of the Mineral Research and Exploration (General Directorate of Mineral Research and Exploration, Türkiye) | https://bulletin.mta.gov.tr | Scopus, Web of Science (ESCI) | Open access, no article processing charge and no submission fee | Free open-access journal of a geological survey, devoted to mineral research and exploration. |
+
+The manuscript in this folder is formatted for journal 1. For another journal, reuse the text, figures and references and reformat the reference style, title page and declarations to that journal's guide for authors (linked from its website).

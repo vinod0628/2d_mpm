@@ -1,0 +1,6 @@
+name,file,group,kind,description
+study_mask,rasters/study_mask.tif,mask,categorical,Study area (>= 2 of 4 250-m cells)
+geology_host,rasters/geology_host.tif,geology,categorical,Favourable Carlin host rocks (block mode)
+dist_faults,rasters/dist_faults.tif,evidence,continuous,block mean of the 250-m layer
+as_log_idw,rasters/as_log_idw.tif,evidence,continuous,block mean of the 250-m layer
+sb_log_idw,rasters/sb_log_idw.tif,evidence,continuous,block mean of the 250-m layer
